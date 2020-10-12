@@ -3,6 +3,7 @@ import React,{ useState, useEffect} from 'react';
 import * as Location from 'expo-location';
 import { ActivityIndicator, Text, View, Button, Image, Alert  } from 'react-native';
 import { styles } from './styles.js'
+import { registerUser }  from '../../service/account'
 
 import * as Google from 'expo-google-app-auth';
 import * as AppAuth from 'expo-app-auth';
@@ -35,11 +36,9 @@ export default function Login({ navigation }) {
 			var { latitude, longitude } = location.coords;
 			location.address = await Location.reverseGeocodeAsync({'latitude': latitude, 'longitude': longitude});
 			
-			console.log(location);
 			setLocation(location);
 		})();
 	}, []);
-	
 
 	async function signInWithGoogleAsync() {
 		
@@ -51,10 +50,15 @@ export default function Login({ navigation }) {
 			});
 	
 			if (result.type === 'success') {
-				console.log(result);
 				//Primeiro, bater o email e o token ou algum dado que se repita na api para verificar se ja existe. 
 					// Se existir, devolver o ID junto ao banco e salvar no localstorage
 				// Se não houver, levar para página de endereço, pegar o endereço por gps
+				let { user } = result;
+				let {address, coords} = location;
+
+				let account = await registerUser({ user, address, coords })
+				
+				console.log(account)
 				setIsSigninInProgress(false);
 				navigation.navigate('Register');
 
