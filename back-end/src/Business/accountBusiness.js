@@ -1,12 +1,11 @@
 const Account = require('../models/Account')
 
-const ModelAccount = async (address, coords, user) => {
+const RegisterAccount = async (address, coords, user) => {
     let addressObj;
     let locationObj;
     let account;
 
     try {
-
         addressObj = [{
             street: address[0].street,
             number: address[0].name,
@@ -25,9 +24,10 @@ const ModelAccount = async (address, coords, user) => {
             }
         ];
     } catch (error) {
-        return { 
+        throw { 
             msg: `error: Erro ao tratar os itens da requisição ${error}`,
-            error: true
+            status:true,
+            obj: error
         }
     }
 
@@ -42,14 +42,35 @@ const ModelAccount = async (address, coords, user) => {
             location: locationObj         
         });
     } catch (error) {
-        return { 
+        throw { 
             msg: `error: Erro ao inserir no DB ${error}`,
-            error: true
+            status:true,
+            obj: error
         }
     }
     
     return account;
 }
 
+const LoginAccount = async (googleId) => {
+    try {
+        let account = await Account.findOne({ 'googleId': googleId })
 
-module.exports = { ModelAccount }
+        if (!account) {
+            throw { 
+                msg: `error: Não foram encontrados usuários com esse ID`,
+                status: true
+            }
+        }
+        return account.toJSON()
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao inserir no DB ${error}`,
+            status:true,
+            obj: error
+        }
+    }
+}
+
+
+module.exports = { RegisterAccount, LoginAccount }

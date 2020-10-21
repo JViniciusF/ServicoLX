@@ -1,4 +1,4 @@
-const { ModelAccount } = require('../Business/accountBusiness')
+const { RegisterAccount, LoginAccount } = require('../Business/accountBusiness')
 
 const AccountController = async (req, res) => {
     let { 
@@ -7,12 +7,40 @@ const AccountController = async (req, res) => {
         user
     } = req.body;
 
-    const account = await ModelAccount(address, coords, user);
+    try {
+        const account = await RegisterAccount(address, coords, user);
 
-    if (account.error) {
-        return res.status(500).json({"error": `${account.msg}`})
+        if (account.error.status) {
+            return res.status(500).json({"error": `${account.msg}`})
+        }
+
+        return res.json(account)
+        
+    } catch (error) {
+        try {
+
+            if (error.obj.name == 'MongoError' && error.obj.stack.includes('duplicate')) {
+                account = await LoginAccount(user.id);
+                return res.json(account) 
+            }
+            
+            throw { 
+                msg: `error: Erro ao inserir no DB ${error.obj}`,
+                error: {
+                    status:true,
+                    obj: error.obj
+                }
+            }
+        } catch (error) {
+            return { 
+                msg: `error: Erro ao inserir no DB ${error}`,
+                error: {
+                    status:true,
+                    obj: error
+                }
+            }
+        }
     }
-    return res.json(account)
 };
 
 

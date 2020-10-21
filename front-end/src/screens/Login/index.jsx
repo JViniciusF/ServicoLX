@@ -57,10 +57,21 @@ export default function Login({ navigation }) {
 				let {address, coords} = location;
 
 				let account = await registerUser({ user, address, coords })
+
+				if (account) {
+					navigation.navigate('Register');
+				} else {
+					Alert.alert(
+						"Falha no login",
+						"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
+						[
+							{ text: "OK"}
+						],
+						{ cancelable: false }
+					);
+				}
 				
-				console.log(account)
 				setIsSigninInProgress(false);
-				navigation.navigate('Register');
 
 			} else {
 				// implementar toast bonitin https://docs.expo.io/versions/latest/react-native/toastandroid/

@@ -13,7 +13,7 @@ export async function registerUser(params) {
 
         return response.data;
     } catch(error) {
-        console.log(`Error: ${error}`)
+        console.log(`${error}`)
         return null;
     }
 }
