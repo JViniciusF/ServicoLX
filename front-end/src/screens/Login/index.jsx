@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import { ActivityIndicator, Text, View, Button, Image, Alert  } from 'react-native';
 import { styles } from './styles.js'
 import { registerUser }  from '../../service/account'
+import { storeData, retrieveData } from '../../service/storage'
 
 import * as Google from 'expo-google-app-auth';
 import * as AppAuth from 'expo-app-auth';
@@ -17,6 +18,10 @@ export default function Login({ navigation }) {
 	const [ user, setUser ] = useState(null);
 		 
 	useEffect(() => {
+		if (retrieveData('@user')) {
+			navigation.navigate('Home');
+		}
+
 		(requestLocationPermission = async () => {
 			let { status } = await Location.requestPermissionsAsync();
 
@@ -50,16 +55,18 @@ export default function Login({ navigation }) {
 			});
 	
 			if (result.type === 'success') {
-				//Primeiro, bater o email e o token ou algum dado que se repita na api para verificar se ja existe. 
-					// Se existir, devolver o ID junto ao banco e salvar no localstorage
-				// Se não houver, levar para página de endereço, pegar o endereço por gps
+
 				let { user } = result;
 				let {address, coords} = location;
 
 				let account = await registerUser({ user, address, coords })
 
 				if (account) {
-					navigation.navigate('Register');
+
+					let status = await storeData('@user', JSON.stringify(account))
+					if (status)
+						navigation.navigate('Home');
+
 				} else {
 					Alert.alert(
 						"Falha no login",

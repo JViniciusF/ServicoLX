@@ -23,21 +23,17 @@ const AccountController = async (req, res) => {
                 account = await LoginAccount(user.id);
                 return res.json(account) 
             }
-            
+
             throw { 
                 msg: `error: Erro ao inserir no DB ${error.obj}`,
-                error: {
-                    status:true,
-                    obj: error.obj
-                }
+                status:true,
+                obj: error.obj
             }
         } catch (error) {
             return { 
                 msg: `error: Erro ao inserir no DB ${error}`,
-                error: {
-                    status:true,
-                    obj: error
-                }
+                status:true,
+                obj: error.obj
             }
         }
     }
