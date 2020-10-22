@@ -1,7 +1,7 @@
 
 import React,{ useState, useEffect} from 'react';
 import * as Location from 'expo-location';
-import { ActivityIndicator, Text, View, Button, Image, Alert  } from 'react-native';
+import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
 import { styles } from './styles.js'
 import { registerUser }  from '../../service/account'
 import { storeData, retrieveData } from '../../service/storage'
@@ -18,9 +18,12 @@ export default function Login({ navigation }) {
 	const [ user, setUser ] = useState(null);
 		 
 	useEffect(() => {
-		if (retrieveData('@user')) {
-			navigation.navigate('Home');
-		}
+		(async () => {
+			let value = await retrieveData('@user')
+			if (value) {
+				navigation.navigate('Home');
+			}
+		})();
 
 		(requestLocationPermission = async () => {
 			let { status } = await Location.requestPermissionsAsync();

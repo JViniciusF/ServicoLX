@@ -21,4 +21,14 @@ export async function retrieveData(key) {
     }
 }
 
-export default { storeData, retrieveData }
+export async function removeData(key) {
+    try {
+        await AsyncStorage.removeItem(key)
+        return true
+    } catch (e) {
+        console.log(e)
+        return false
+    }
+}
+
+export default { storeData, retrieveData, removeData }
