@@ -6,8 +6,10 @@ export const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 27,
-        width: "100%"
+        width: "100%",
+        padding: 5,
+        borderRadius: 10,
+        borderWidth: 2
     },
     loading: {
         position: "absolute",
@@ -16,17 +18,17 @@ export const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: "white"
     },
-    flatListRow: {
+    card: {
         flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center",
-        width: "100%",
-        margin: 5,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 120,
+        height: 150,
+        borderRadius: 10,
+        borderWidth: 2
     },
-    flatListColumn: {
-        flex: 1,
-        flexDirection: "column",
-        width: "90%",
+    title: {
+
     }
 });

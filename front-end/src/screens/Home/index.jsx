@@ -1,7 +1,9 @@
 import React,{ useState, useEffect} from 'react';
 import { Text, View, FlatList } from 'react-native';
 import { styles } from './styles.js';
-import { removeData, retrieveData } from '../../service/storage'
+import { removeData, retrieveData } from '../../service/storage';
+
+import AdCard from '../../components/AdCard';
 
 
 export default function Home({ navigation }) {
@@ -18,10 +20,18 @@ export default function Home({ navigation }) {
     return (
         <View style={styles.container}>
             <FlatList 
-                data={[1,2,3,4,5,6,7,8,9,10]}
+                data={[1,2,3,4,5,6]}
                 keyExtractor={data => String(data)}
+                style={styles.flatListColumn}
                 renderItem={() => (
-                    <Text style={{fontSize:50}} title="teste">Teste</Text>
+                    <FlatList 
+                        data={[1,2]}
+                        keyExtractor={data => String(data)}
+                        style={styles.flatListRow}
+                        renderItem={() => (
+                            <AdCard></AdCard>
+                        )}
+                    />
                 )}
             />
         </View>
