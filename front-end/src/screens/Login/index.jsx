@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
 		(async () => {
 			let value = await retrieveData('@user')
 			if (value) {
-				navigation.navigate('Home');
+				navigation.reset({index: 0, routes: [{name:'Root'}]});
 			}
 		})();
 
@@ -68,7 +68,7 @@ export default function Login({ navigation }) {
 
 					let status = await storeData('@user', JSON.stringify(account))
 					if (status)
-						navigation.navigate('Home');
+						navigation.reset({index: 0, routes: [{name:'Root'}]});
 
 				} else {
 					Alert.alert(

@@ -23,7 +23,8 @@
       "favicon": "./assets/favicon.png"
     },
     "androidNavigationBar": {
-      "visible": "immersive"
+      "barStyle": "dark-content",
+      "backgroundColor": "#ffffff"
     }
   }
 }
