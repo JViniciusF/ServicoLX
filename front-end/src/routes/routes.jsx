@@ -14,8 +14,8 @@ import { AntDesign } from '@expo/vector-icons';
 import Login from '../screens/Login';
 
 // Screens - TabNavigation
-import Home from '../screens/Home';
 import Config from '../screens/Config';
+import Home from '../screens/Home';
 import Search from '../screens/Search';
 import Chat from '../screens/Chat';
 import Notify from '../screens/Notify';
@@ -31,7 +31,7 @@ import { retrieveData } from '../service/storage'
 
 const AppStack = createStackNavigator();
 const DrawerStack = createDrawerNavigator();
-const TabStack = createBottomTabNavigator()
+const TabStack = createBottomTabNavigator();
 
 
 function Tab() {
@@ -67,7 +67,7 @@ function Root() {
 export default function Routes() {
     return (
         <NavigationContainer>
-            <AppStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+            <AppStack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
                 <AppStack.Screen name="Login" component={ Login } />
                 <AppStack.Screen name="Root" component={ Root } />
             </AppStack.Navigator>

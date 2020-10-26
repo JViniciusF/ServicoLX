@@ -1,4 +1,4 @@
-const Account = require('../models/Account')
+const { Account } = require('../models/Account')
 
 const RegisterAccount = async (address, coords, user) => {
     let addressObj;

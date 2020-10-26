@@ -3,7 +3,7 @@ import React,{ useState, useEffect} from 'react';
 import * as Location from 'expo-location';
 import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
 import { styles } from './styles.js'
-import { registerUser }  from '../../service/account'
+import { registerUser }  from '../../service/accountService'
 import { storeData, retrieveData } from '../../service/storage'
 
 import * as Google from 'expo-google-app-auth';
@@ -18,14 +18,15 @@ export default function Login({ navigation }) {
 	const [ user, setUser ] = useState(null);
 		 
 	useEffect(() => {
-		(async () => {
-			let value = await retrieveData('@user')
+		async function _init() {
+			let value = await retrieveData('@user');
 			if (value) {
 				navigation.reset({index: 0, routes: [{name:'Root'}]});
 			}
-		})();
+		};
+		_init();
 
-		(requestLocationPermission = async () => {
+		async function requestLocationPermission() {
 			let { status } = await Location.requestPermissionsAsync();
 
 			if (status !== 'granted') {
@@ -45,7 +46,8 @@ export default function Login({ navigation }) {
 			location.address = await Location.reverseGeocodeAsync({'latitude': latitude, 'longitude': longitude});
 			
 			setLocation(location);
-		})();
+		};
+		requestLocationPermission();
 	}, []);
 
 	async function signInWithGoogleAsync() {

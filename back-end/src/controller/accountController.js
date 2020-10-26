@@ -1,6 +1,6 @@
 const { RegisterAccount, LoginAccount } = require('../Business/accountBusiness')
 
-const AccountController = async (req, res) => {
+const LoginController = async (req, res) => {
     let { 
         address,
         coords,
@@ -30,14 +30,10 @@ const AccountController = async (req, res) => {
                 obj: error.obj
             }
         } catch (error) {
-            return { 
-                msg: `error: Erro ao inserir no DB ${error}`,
-                status:true,
-                obj: error.obj
-            }
+            return res.status(500).json({"error": `${error.obj}`})
         }
     }
 };
 
 
-module.exports = AccountController;
+module.exports = { LoginController };

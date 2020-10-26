@@ -17,3 +17,5 @@ export async function registerUser(params) {
         return null;
     }
 }
+
+export default { registerUser }
