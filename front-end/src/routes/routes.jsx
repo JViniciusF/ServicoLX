@@ -36,7 +36,7 @@ const TabStack = createBottomTabNavigator();
 
 function Tab() {
     return (
-        <TabStack.Navigator initialRouteName="Home" tabBarOptions={{ showLabel:false, activeTintColor:'black' }}>
+        <TabStack.Navigator lazy={true} initialRouteName="Home" tabBarOptions={{ showLabel:false, activeTintColor:'black' }}>
             <TabStack.Screen name="Config" component={ Config } options={{ tabBarIcon: ({color}) => (<EvilIcons name="gear" size={40} color={color} />)}} />
             <TabStack.Screen name="Search" component={ Search } options={{ tabBarIcon: ({color}) => (<Fontisto name="zoom" size={35} color={color} />)}} />
             <TabStack.Screen name="Home" component={ Home } options={{ tabBarIcon: ({color}) => (<MaterialCommunityIcons name="home-outline" size={45} color={color} />)}} />
@@ -48,12 +48,7 @@ function Tab() {
 
 function Root() {
     return (
-        <DrawerStack.Navigator initialRouteName="Home" drawerType="slide" lazy={true} 
-            drawerStyle={{
-                width: 240,
-                
-            }}
-        >
+        <DrawerStack.Navigator lazy={true} initialRouteName="Home" drawerType="slide" drawerStyle={{ width: 240 }}>
             <DrawerStack.Screen name="Home" component={ Tab } options={{ title:"Página Inicial", drawerIcon: ({ color }) => (<AntDesign name="export" size={24} color={color} />) }} />
             <DrawerStack.Screen name="MyAds" component={ MyAds } options={{ title:"Meus anúncios", drawerIcon: ({ color }) => (<MaterialCommunityIcons name="file-document-edit-outline" size={24} color={color} />) }} />
             <DrawerStack.Screen name="AddAds" component={ AddAds } options={{ title:"Inserir anúncios", drawerIcon: ({ color }) => (<Entypo name="megaphone" size={24} color={color} />) }} />
@@ -67,7 +62,7 @@ function Root() {
 export default function Routes() {
     return (
         <NavigationContainer>
-            <AppStack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+            <AppStack.Navigator lazy={true} initialRouteName="Login" screenOptions={{ headerShown: false }}>
                 <AppStack.Screen name="Login" component={ Login } />
                 <AppStack.Screen name="Root" component={ Root } />
             </AppStack.Navigator>

@@ -1,17 +1,24 @@
 const mongoose = require('mongoose');
-const { CategorySchema } = require('../models/Categories')
-const { AccountSchema } = require('../models/Account')
-const { ScheduleSchema } = require('../models/Schedule')
 
 
 const ServiceSchema = new mongoose.Schema({
-    owner: AccountSchema,
-    title: String,
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account'
+    },
+    name: String,
     description: String,
-    category: [ CategorySchema ],
-    value: Number,
+    images : [ String ], 
+    category: [ {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category'
+    } ],
+    value: String,
     scheduleDates: {
-        type: [ ScheduleSchema ],
+        type: [ {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Schedule'
+        }],
     },
     created_at: { 
         type: Date,

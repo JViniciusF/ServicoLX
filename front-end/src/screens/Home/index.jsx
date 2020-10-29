@@ -19,20 +19,25 @@ export default function Home({ navigation }) {
         };
         _init();
     }, [])
+
+    const searchByFilter = item => {
+        console.log(item)
+        // navigation.navigate("Search", {filter: item.name})
+    }
     
     return (
         <View style={styles.container}>
             <FlatList 
-                data={[1,2,3,4,5,6]}
+                data={[1]}
                 keyExtractor={data => String(data)}
                 style={styles.flatListColumn}
                 renderItem={({item}) => (
                     <FlatList 
-                        data={[1,2]}
+                        data={[1]}
                         keyExtractor={data => String(data)}
                         style={styles.flatListRow}
                         renderItem={({item}) => (
-                            <AdCard props={item}></AdCard>
+                            <AdCard key={item._id} item={item} searchByFilter={searchByFilter} ></AdCard>
                         )}
                     />
                 )}

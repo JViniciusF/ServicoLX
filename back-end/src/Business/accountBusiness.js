@@ -72,5 +72,17 @@ const LoginAccount = async (googleId) => {
     }
 }
 
+const GetAccountById = async (userId) => {
+    try {
+        return Account.findById(userId)
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao resgatar o usuário no DB ${error}`,
+            status:true,
+            obj: error
+        }
+    }
+}
 
-module.exports = { RegisterAccount, LoginAccount }
+
+module.exports = { RegisterAccount, LoginAccount, GetAccountById }

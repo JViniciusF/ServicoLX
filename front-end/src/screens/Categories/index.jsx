@@ -1,9 +1,9 @@
 import React,{ useState, useEffect} from 'react';
 import { ActivityIndicator, View, FlatList } from 'react-native';
 import { styles } from './styles.js';
-import { getAllCategories } from '../../service/categoriesService'
+import { getAllCategoriesPaginated } from '../../service/categoriesService'
 
-import CategoryCard from '../../components/CategoriesCard';
+import AdCard from '../../components/AdCard/index.jsx';
 
 export default function Categories({ navigation }) {
     const [ categories, setCategories ] = useState([]);
@@ -11,17 +11,17 @@ export default function Categories({ navigation }) {
 
     useEffect(() => {
         async function _init() {
-            const res = await getAllCategories();
+            const res = await getAllCategoriesPaginated();
             if (res) {
                 setCategories(res)
                 setIsLoading(false)
             }
         };
         _init();
-    }, [ isLoading ])
+    }, [])
 
     const searchByFilter = item => {
-        navigation.navigate("Search", {filter: item.name})
+        navigation.navigate("Search", {filter: item})
     }
 
     return (
@@ -42,7 +42,7 @@ export default function Categories({ navigation }) {
                             keyExtractor={item => item._id}
                             style={styles.flatListRow}
                             renderItem={({item}) => (
-                                <CategoryCard key={item._id} item={item} searchByFilter={searchByFilter} ></CategoryCard>
+                                <AdCard key={item._id} item={item} searchByFilter={searchByFilter} ></AdCard>
                             )}
                         />
                     )}

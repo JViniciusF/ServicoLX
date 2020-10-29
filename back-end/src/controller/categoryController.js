@@ -22,7 +22,7 @@ const NewCategoryController = async (req, res) => {
     }
 };
 
-const GetAllCategoriesController = async (res) => {
+const GetAllCategoriesPaginatedController = async (res) => {
     try {
         let categories = await GetAllCategoriesBusiness();
 
@@ -42,4 +42,18 @@ const GetAllCategoriesController = async (res) => {
     }
 };
 
-module.exports = { NewCategoryController, GetAllCategoriesController };
+const GetAllCategoriesController = async (res) => {
+    try {
+        let categories = await GetAllCategoriesBusiness();
+
+        if (!categories) {
+            return res.status(500).json({"error": `Ocorreu um erro ao resgatar as categorias ${error.obj}`})
+        }
+
+        return res.json(categories); 
+    } catch (error) {
+        return res.status(500).json({"error": `Ocorreu um erro ao resgatar as categorias ${error.obj}`})
+    }
+};
+
+module.exports = { NewCategoryController, GetAllCategoriesController, GetAllCategoriesPaginatedController };

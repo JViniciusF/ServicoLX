@@ -17,7 +17,7 @@ const AddCategory = async (name, img) => {
 
 const GetAllCategoriesBusiness = async () => {
     try {
-        return Category.find({})
+        return await Category.find({});
     } catch (error) {
         throw { 
             msg: `error: Erro ao resgatar as categorias do DB ${error}`,
@@ -27,4 +27,16 @@ const GetAllCategoriesBusiness = async () => {
     }
 }
 
-module.exports = { AddCategory, GetAllCategoriesBusiness }
+const GetCategoryById = async (categoryId) => {
+    try {
+        return await Category.findById(categoryId);
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao resgatar a categoria do DB ${error}`,
+            status:true,
+            obj: error
+        }
+    }
+}
+
+module.exports = { AddCategory, GetAllCategoriesBusiness, GetCategoryById }

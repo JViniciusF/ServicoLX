@@ -27,25 +27,29 @@ export default function Login({ navigation }) {
 		_init();
 
 		async function requestLocationPermission() {
-			let { status } = await Location.requestPermissionsAsync();
+			try {
+				let { status } = await Location.requestPermissionsAsync();
+				
+				if (status !== 'granted') {
+					Alert.alert(
+						"Permissão de localização",
+						"Este aplicativo utiliza sua localização atual para trazer a melhor experiência, buscando serviços que estejam mais próximos do conforto do seu toque!",
+						[
+							{ text: "OK", onPress: () => requestLocationPermission() }
+						],
+						{ cancelable: false }
+					  );
+				}
 
-			if (status !== 'granted') {
-				Alert.alert(
-					"Permissão de localização",
-					"Este aplicativo utiliza sua localização atual para trazer a melhor experiência, buscando serviços que estejam mais próximos do conforto do seu toque!",
-					[
-						{ text: "OK", onPress: () => requestLocationPermission() }
-					],
-					{ cancelable: false }
-				  );
+				let location = await Location.getCurrentPositionAsync({});
+
+				var { latitude, longitude } = location.coords;
+				location.address = await Location.reverseGeocodeAsync({'latitude': latitude, 'longitude': longitude});
+				
+				setLocation(location);
+			} catch (error) {
+				requestLocationPermission()
 			}
-
-			let location = await Location.getCurrentPositionAsync({});
-
-			var { latitude, longitude } = location.coords;
-			location.address = await Location.reverseGeocodeAsync({'latitude': latitude, 'longitude': longitude});
-			
-			setLocation(location);
 		};
 		requestLocationPermission();
 	}, []);

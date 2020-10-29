@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { AccountSchema } = require('../models/Account')
 
 
 const ScheduleSchema = new mongoose.Schema({
@@ -7,8 +6,11 @@ const ScheduleSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    clientId: {
-        type: AccountSchema
+    serviceId: {
+        type: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service'
+        }
     }
 })
 
