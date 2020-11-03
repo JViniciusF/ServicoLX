@@ -1,4 +1,5 @@
 const { GetAllServices, GetServicesByFilter, CreateService } = require('../Business/serviceBusiness');
+const { ListingResponse } = require('../controller/utils/Utils')
 
 const GetAllServiceController = async (req, res) => {
     try {
@@ -26,6 +27,23 @@ const GetServicesByFilterController = async (req, res) => {
         };
     };
 };
+
+const GetServicesByFilterPaginatedController = async (req, res) => {
+    let { filter } = req.body;
+    try {
+        let ads = await GetServicesByFilter(filter);
+
+        ads = await ListingResponse(ads, 2)
+
+        return res.json(ads);
+    } catch (error) {
+        return { 
+            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+            status: true,
+            obj: error.obj
+        };
+    };
+}
 
 const GetServicesByCategoryController = async (req, res) => {
     let { filter } = req.body;
@@ -67,5 +85,6 @@ module.exports = {
     GetAllServiceController, 
     GetServicesByFilterController, 
     GetServicesByCategoryController, 
-    CreateServiceController 
+    CreateServiceController,
+    GetServicesByFilterPaginatedController
 };

@@ -1,8 +1,8 @@
 // lib imports
 import React,{ useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { EvilIcons } from '@expo/vector-icons'; 
 import { Fontisto } from '@expo/vector-icons'; 
@@ -12,6 +12,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 // Screens - APPStack
 import Login from '../screens/Login';
+import Ad from '../screens/Ad';
 
 // Screens - TabNavigation
 import Config from '../screens/Config';
@@ -26,13 +27,20 @@ import AddAds from '../screens/AddAds';
 import Favorites from '../screens/Favorites';
 import Categories from '../screens/Categories';
 
-// Services
-import { retrieveData } from '../service/storage'
+// Service
+import { removeData } from '../service/storage'
 
 const AppStack = createStackNavigator();
 const DrawerStack = createDrawerNavigator();
 const TabStack = createBottomTabNavigator();
 
+function LogOut({ navigation }) {
+    return (() => {
+        removeData('@user')
+        navigation.navigate('Login')
+      })
+  }
+  
 
 function Tab() {
     return (
@@ -58,13 +66,13 @@ function Root() {
     )
 }
 
-
 export default function Routes() {
     return (
         <NavigationContainer>
             <AppStack.Navigator lazy={true} initialRouteName="Login" screenOptions={{ headerShown: false }}>
                 <AppStack.Screen name="Login" component={ Login } />
                 <AppStack.Screen name="Root" component={ Root } />
+                <AppStack.Screen name="Ad" component={ Ad } />
             </AppStack.Navigator>
         </NavigationContainer>
     )

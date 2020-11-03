@@ -28,6 +28,7 @@ const GetServicesByFilter = async (filter) => {
                 status: true
             }
         }
+        return ads
     } catch (error) {
         throw { 
             msg: `error: Erro ao executar a query no DB ${error}`,

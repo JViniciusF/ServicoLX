@@ -8,7 +8,7 @@ export default function AdCard(props) {
     return (
         <View style={styles.container}>
             <TouchableHighlight 
-                onPress={() => props.searchByFilter(props.item.name)}
+                onPress={() => props.onPressCard(props.item)}
                 style={styles.card}>
                 <Image style={styles.tinyLogo}
                     source={{

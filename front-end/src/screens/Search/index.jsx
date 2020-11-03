@@ -1,8 +1,9 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, View, FlatList, TextInput, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { Text, View, FlatList, TextInput, TouchableHighlight, ActivityIndicator, ScrollView } from 'react-native';
 import { styles } from './styles.js';
 import { Fontisto } from '@expo/vector-icons';
-import { getAdsByFilter, getAdsByCategory} from '../../service/adService'
+import { getAdsByFilterPaginated, getAdsByCategory} from '../../service/adService'
+import AdCard from '../../components/AdCard'
 
 
 export default function Search({ navigation, route }) {
@@ -15,7 +16,7 @@ export default function Search({ navigation, route }) {
             onChangeText(route.params.filter)
             searchByCategory()
         }
-    }, [])
+    }, [ads])
 
     const searchByCategory = async () => {
         if (value) {
@@ -28,9 +29,14 @@ export default function Search({ navigation, route }) {
     const searchByFilter = async () => {
         if (value) {
             setIsSigninInProgress(true)
-            setAds(await getAdsByFilter(value))
+            let list = await getAdsByFilterPaginated(value)
+            setAds(list)
             setIsSigninInProgress(false)
         }
+    }
+
+    const onPressCard = async (item) => {
+        console.log(item)
     }
 
     return (
@@ -54,28 +60,39 @@ export default function Search({ navigation, route }) {
                     </TouchableHighlight>
                 </View>
             </View>
-            <View style={styles.body}>
-                { !ads &&
-                    <Text style={styles.bodyText}>
-                        Utilize o campo acima e faça uma pesquisa.
-                    </Text>
-                }
-                { (ads && ads.length === 0) ?
-                    <Text style={styles.bodyText}>
-                        Não foram encontrados Serviços, tente usar palavras chaves.
-                    </Text>
-                    :
-                    <></>
-                }
-                { (ads && ads.length > 0) ?
-                    <>
-                        <Text>body1</Text>
-                        <Text>body2</Text>
-                    </>
-                    :
-                    <></>
-                }
-            </View>
+                <View style={styles.body}>
+                    { !ads &&
+                        <Text style={styles.bodyText}>
+                            Utilize o campo acima e faça uma pesquisa.
+                        </Text>
+                    }
+                    { (ads && ads.length === 0) ?
+                        <Text style={styles.bodyText}>
+                            Não foram encontrados Serviços, tente usar palavras chaves.
+                        </Text>
+                        :
+                        <></>
+                    }
+                    { (ads && ads.length > 0) &&
+                        <FlatList
+                            style={styles.flatListColumn}
+                            data={ads}
+                            keyExtractor={item => `${item[0]._id}${Date.now()}`}
+                            renderItem={({item}) => (
+                                <FlatList 
+                                    data={item}
+                                    keyExtractor={item => item._id}
+                                    style={styles.flatListRow}
+                                    renderItem={({item}) => 
+                                        (
+                                            <AdCard key={item._id} item={item} onPressCard={onPressCard} ></AdCard>
+                                        )
+                                    }
+                                />
+                            )}
+                        />
+                    }
+                </View>
         </View>
     )
 }

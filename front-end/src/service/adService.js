@@ -18,13 +18,13 @@ export async function getAllAds() {
     }
 }
 
-export async function getAdsByFilter(filter) {
+export async function getAdsByFilterPaginated(filter) {
     try {
-        let response = await axios.post(`${apiUrl}service/getAdsByFilter`, {filter})
+        let response = await axios.post(`${apiUrl}service/getAdsByFilterPaginated`, {filter})
 
         if (response.status !== 200)
             throw Error(response);
-
+        
         if (response.data)
             return response.data;
         else
@@ -73,4 +73,4 @@ export async function saveNewAd(params) {
     }
 }
 
-export default { getAllAds, getAdsByCategory, saveNewAd}
+export default { getAllAds, getAdsByCategory, saveNewAd, getAdsByFilterPaginated}

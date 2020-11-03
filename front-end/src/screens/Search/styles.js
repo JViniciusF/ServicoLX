@@ -52,5 +52,18 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
+    },
+    flatListRow: {
+        flex: 1,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+        width: "100%",
+        margin: 5,
+    },
+    flatListColumn: {
+        flex: 1,
+        flexDirection: "column",
+        width: "90%",
     }
 });

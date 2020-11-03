@@ -5,7 +5,8 @@ const {
     GetAllServiceController,
     GetServicesByFilterController,
     GetServicesByCategoryController,
-    CreateServiceController 
+    CreateServiceController,
+    GetServicesByFilterPaginatedController
 } = require('./controller/serviceController');
 
 const { 
@@ -31,6 +32,10 @@ routes.post('/service/getAdsByFilter', (req, res) => {
     return GetServicesByFilterController(req, res);
 });
 
+routes.post('/service/getAdsByFilterPaginated', (req, res) => {
+    return GetServicesByFilterPaginatedController(req, res);
+});
+
 routes.post('/service/getAdsByCategory', (req, res) => {
     return GetServicesByCategoryController(req, res);
 });
@@ -38,9 +43,6 @@ routes.post('/service/getAdsByCategory', (req, res) => {
 routes.post('/service/createService', (req, res) => {
     return CreateServiceController(req, res);
 });
-
-
-
 
 
 // CATEGORY CONTROLLERS

@@ -26,8 +26,6 @@ export async function getAllCategoriesPaginated() {
     try {
         let response = await axios.get(`${apiUrl}category/getAllPaginated`)
         
-        console.log('getAllCategoriesPaginated', response)
-
         if (response.status !== 200)
             throw Error(response);
 
