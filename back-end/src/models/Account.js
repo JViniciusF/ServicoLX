@@ -34,8 +34,13 @@ const AccountSchema = new mongoose.Schema({
               }
         }
     ],
+    favoriteList: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service'
+        }
+    ]
 });
 
-const Account = mongoose.model('Account', AccountSchema)
 
-module.exports = { Account, AccountSchema }
+module.exports = mongoose.model('Account', AccountSchema)

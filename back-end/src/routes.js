@@ -4,9 +4,13 @@ const { LoginController } = require('./controller/accountController');
 const { 
     GetAllServiceController,
     GetServicesByFilterController,
-    GetServicesByCategoryController,
+    GetServicesByCategoryPaginatedController,
     CreateServiceController,
-    GetServicesByFilterPaginatedController
+    GetServicesByFilterPaginatedController,
+    GetAllAdsByUserPaginatedController,
+    GetAdsByUserAndFilterPaginatedController,
+    SetFavoriteController,
+    RetrieveFavoriteController
 } = require('./controller/serviceController');
 
 const { 
@@ -36,8 +40,24 @@ routes.post('/service/getAdsByFilterPaginated', (req, res) => {
     return GetServicesByFilterPaginatedController(req, res);
 });
 
-routes.post('/service/getAdsByCategory', (req, res) => {
-    return GetServicesByCategoryController(req, res);
+routes.post('/service/getAdsByCategoryPaginated', (req, res) => {
+    return GetServicesByCategoryPaginatedController(req, res);
+});
+
+routes.post('/service/getAllAdsByUserPaginated', (req, res) => {
+    return GetAllAdsByUserPaginatedController(req, res);
+});
+
+routes.post('/service/getAdsByUserAndFilterPaginated', (req, res) => {
+    return GetAdsByUserAndFilterPaginatedController(req, res);
+});
+
+routes.post('/service/setFavorite', (req, res) => {
+    return SetFavoriteController(req, res);
+});
+
+routes.post('/service/retrieveFavorite', (req, res) => {
+    return RetrieveFavoriteController(req, res);
 });
 
 routes.post('/service/createService', (req, res) => {

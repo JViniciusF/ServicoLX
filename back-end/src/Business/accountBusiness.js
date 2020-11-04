@@ -1,4 +1,4 @@
-const { Account } = require('../models/Account')
+const Account = require('../models/Account')
 
 const RegisterAccount = async (address, coords, user) => {
     let addressObj;
@@ -39,7 +39,8 @@ const RegisterAccount = async (address, coords, user) => {
             avatarUrl: user.photoUrl,
             email: user.email,
             address: addressObj,
-            location: locationObj         
+            location: locationObj,
+            favoriteList: []         
         });
     } catch (error) {
         throw { 

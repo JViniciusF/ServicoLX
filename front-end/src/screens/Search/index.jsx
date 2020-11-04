@@ -1,32 +1,36 @@
 import React,{ useState, useEffect} from 'react';
 import { Text, View, FlatList, TextInput, TouchableHighlight, ActivityIndicator, ScrollView } from 'react-native';
 import { styles } from './styles.js';
-import { Fontisto } from '@expo/vector-icons';
-import { getAdsByFilterPaginated, getAdsByCategory} from '../../service/adService'
+
+import { getAdsByFilterPaginated, getAdsByCategoryPaginated} from '../../service/adService'
 import AdCard from '../../components/AdCard'
+import HeaderSearch from '../../components/HeaderSearch'
 
 
 export default function Search({ navigation, route }) {
-    const [value, onChangeText] = useState('');
     const [ads, setAds] = useState(null);
     const [isSigninInProgress, setIsSigninInProgress] = useState(false)
 
     useEffect(() => {
-        if (route.params) {
-            onChangeText(route.params.filter)
-            searchByCategory()
-        }
+        const category_init = async () => {
+            if (route.params) {
+                await onChangeText(route.params.filter)
+                searchByCategory()
+            };
+
+        };
+        category_init();
     }, [ads])
 
     const searchByCategory = async () => {
         if (value) {
             setIsSigninInProgress(true)
-            setAds(await getAdsByCategory(value))
+            setAds(await getAdsByCategoryPaginated(value))
             setIsSigninInProgress(false)
         }
     }
 
-    const searchByFilter = async () => {
+    const searchByFilter = async (value) => {
         if (value) {
             setIsSigninInProgress(true)
             let list = await getAdsByFilterPaginated(value)
@@ -46,20 +50,7 @@ export default function Search({ navigation, route }) {
                     <ActivityIndicator size='large' color='red' />
                 </View>
 		    }
-            <View style={styles.headerContainer}>
-                <View style={styles.header}>
-                    <TextInput
-                        style={ styles.searchInput }
-                        onChangeText={text => onChangeText(text)}
-                        value={ value }
-                    />
-                    <TouchableHighlight 
-                        onPress={() => searchByFilter()}
-                        style={styles.iconInput}>
-                        <Fontisto name="zoom" size={35} color={'black'} />
-                    </TouchableHighlight>
-                </View>
-            </View>
+            <HeaderSearch searchByFilter={searchByFilter} />
                 <View style={styles.body}>
                     { !ads &&
                         <Text style={styles.bodyText}>

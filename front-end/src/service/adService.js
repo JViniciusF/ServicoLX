@@ -36,9 +36,9 @@ export async function getAdsByFilterPaginated(filter) {
     }
 }
 
-export async function getAdsByCategory(filter) {
+export async function getAdsByCategoryPaginated(filter) {
     try {
-        let response = await axios.post(`${apiUrl}service/getAdsByCategory`, {filter})
+        let response = await axios.post(`${apiUrl}service/getAdsByCategoryPaginated`, {filter})
 
         if (response.status !== 200)
             throw Error(response);
@@ -73,4 +73,86 @@ export async function saveNewAd(params) {
     }
 }
 
-export default { getAllAds, getAdsByCategory, saveNewAd, getAdsByFilterPaginated}
+export async function getAllAdsByUserPaginated(params) {
+    try {
+        let response = await axios.post(`${apiUrl}service/getAllAdsByUserPaginated`, params)
+        
+        if (response.status !== 200)
+            throw Error(response);
+
+        if (response.data)
+            return response.data;
+        else
+            return [];
+
+    } catch(error) {
+        console.log(`${error}`)
+        return [];
+    }
+}
+
+export async function getAdsByUserAndFilterPaginated(params) {
+    try {
+        let response = await axios.post(`${apiUrl}service/getAdsByUserAndFilterPaginated`, params)
+        
+        if (response.status !== 200)
+            throw Error(response);
+
+        if (response.data)
+            return response.data;
+        else
+            return [];
+
+    } catch(error) {
+        console.log(`${error}`)
+        return [];
+    }
+}
+
+export async function favoriteService(params) {
+    try {
+        let response = await axios.post(`${apiUrl}service/setFavorite`, params)
+        
+        if (response.status !== 200)
+            throw Error(response);
+
+        if (response.data)
+            return response.data;
+        else
+            return false;
+
+    } catch(error) {
+        console.log(`${error}`)
+        return false;
+    }
+}
+
+export async function retrieveFavorite(params) {
+    try {
+        let response = await axios.post(`${apiUrl}service/retrieveFavorite`, params)
+        
+        if (response.status !== 200)
+            throw Error(response);
+
+        if (response.data)
+            return response.data;
+        else
+            return false;
+
+    } catch(error) {
+        console.log(`${error}`)
+        return false;
+    }
+}
+
+
+export default { 
+    getAllAds,
+    getAdsByCategoryPaginated,
+    saveNewAd,
+    getAdsByFilterPaginated,
+    getAllAdsByUserPaginated,
+    getAdsByUserAndFilterPaginated,
+    favoriteService,
+    retrieveFavorite
+}

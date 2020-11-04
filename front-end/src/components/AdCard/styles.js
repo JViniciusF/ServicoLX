@@ -28,9 +28,6 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 2
     },
-    title: {
-
-    },
     tinyLogo: {
         width: '100%',
         height: '100%', 

@@ -14,7 +14,8 @@ export default function AddAds({ navigation }) {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [value, setValue] = useState('');
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
+    const [celphone, setCelphone] = useState('');
     
     useEffect(() => {
         async function _init() {
@@ -28,7 +29,7 @@ export default function AddAds({ navigation }) {
     }, [])
 
     const saveAd = async () => {
-        if (name === '' || description === '' || value === '') {
+        if (name === '' || description === '' || value === '' || celphone === '') {
             Alert.alert(
                 "Preenchimento!",
                 "Todos os campos devem ser preenchidos!",
@@ -45,6 +46,7 @@ export default function AddAds({ navigation }) {
                     owner: userId,
                     name,
                     description,
+                    celphone,
                     images: [],
                     category: selectedCategory,
                     value
@@ -106,6 +108,20 @@ export default function AddAds({ navigation }) {
                             style={ styles.searchInputDescription }
                             onChangeText={text => setDescription(text)}
                             value={ description }
+                        />
+                    </View>
+                    <View style={styles.bodyText}>
+                        <Text style={ styles.label }>Telefone:</Text>
+                        <TextInputMask
+                            type={'cel-phone'}
+                            options={{
+                                maskType: 'BRL',
+                                withDDD: true,
+                                dddMask: '(99) '
+                            }}
+                            style={ styles.searchInput }
+                            onChangeText={text => setCelphone(text)}
+                            value={ celphone }
                         />
                     </View>
                     <View style={styles.bodyText}>

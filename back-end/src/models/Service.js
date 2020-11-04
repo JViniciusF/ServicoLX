@@ -8,6 +8,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     name: String,
     description: String,
+    celphone: String,
     images : [ String ], 
     category: [ {
         type: mongoose.Schema.Types.ObjectId,
