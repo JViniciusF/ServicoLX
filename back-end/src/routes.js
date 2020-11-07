@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const { LoginController } = require('./controller/accountController');
+const { LoginController, SetLocationController } = require('./controller/accountController');
 
 const { 
-    GetAllServiceController,
+    GetAllServicePaginatedController,
     GetServicesByFilterController,
     GetServicesByCategoryPaginatedController,
     CreateServiceController,
@@ -26,10 +26,14 @@ routes.post('/account/register', (req, res) => {
     return LoginController(req, res);
 });
 
+routes.post('/account/setNewLocation', (req, res) => {
+    return SetLocationController(req, res);
+});
+
 
 // SERVICE CONTROLLERS
-routes.get('/service/getAllAds', (req, res) => {
-    return GetAllServiceController(req, res);
+routes.get('/service/getAllAdsPaginated', (req, res) => {
+    return GetAllServicePaginatedController(req, res);
 });
 
 routes.post('/service/getAdsByFilter', (req, res) => {

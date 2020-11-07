@@ -8,8 +8,8 @@ import HeaderSearch from '../../components/HeaderSearch'
 
 
 export default function Search({ navigation, route }) {
-    const [ads, setAds] = useState(null);
-    const [isSigninInProgress, setIsSigninInProgress] = useState(false)
+    const [ ads, setAds ] = useState(null);
+    const [ isLoading, setIsLoading ] = useState(false)
 
     useEffect(() => {
         const category_init = async () => {
@@ -24,66 +24,64 @@ export default function Search({ navigation, route }) {
 
     const searchByCategory = async () => {
         if (value) {
-            setIsSigninInProgress(true)
+            setIsLoading(true)
             setAds(await getAdsByCategoryPaginated(value))
-            setIsSigninInProgress(false)
+            setIsLoading(false)
         }
     }
 
     const searchByFilter = async (value) => {
         if (value) {
-            setIsSigninInProgress(true)
+            setIsLoading(true)
             let list = await getAdsByFilterPaginated(value)
             setAds(list)
-            setIsSigninInProgress(false)
+            setIsLoading(false)
         }
     }
 
-    const onPressCard = async (item) => {
-        console.log(item)
+    const onPressCard = async (value) => {
+        navigation.navigate("Ad", { value })
     }
 
     return (
         <View style={styles.container}>
-            { isSigninInProgress && 
+            <HeaderSearch searchByFilter={searchByFilter} />
+            { isLoading && 
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />
                 </View>
 		    }
-            <HeaderSearch searchByFilter={searchByFilter} />
-                <View style={styles.body}>
-                    { !ads &&
-                        <Text style={styles.bodyText}>
-                            Utilize o campo acima e faça uma pesquisa.
-                        </Text>
-                    }
-                    { (ads && ads.length === 0) ?
-                        <Text style={styles.bodyText}>
-                            Não foram encontrados Serviços, tente usar palavras chaves.
-                        </Text>
-                        :
-                        <></>
-                    }
-                    { (ads && ads.length > 0) &&
-                        <FlatList
-                            style={styles.flatListColumn}
-                            data={ads}
-                            keyExtractor={item => `${item[0]._id}${Date.now()}`}
-                            renderItem={({item}) => (
-                                <FlatList 
-                                    data={item}
-                                    keyExtractor={item => item._id}
-                                    style={styles.flatListRow}
-                                    renderItem={({item}) => 
-                                        (
-                                            <AdCard key={item._id} item={item} onPressCard={onPressCard} ></AdCard>
-                                        )
-                                    }
-                                />
-                            )}
-                        />
-                    }
-                </View>
+            <View style={styles.body}>
+                { !isLoading && !ads &&
+                    <Text style={styles.bodyText}>
+                        Utilize o campo acima e faça uma pesquisa.
+                    </Text>
+                }
+                { (!isLoading && ads && ads.length === 0) &&
+                    <Text style={styles.bodyText}>
+                        Não foram encontrados Serviços, tente usar palavras chaves.
+                    </Text>
+                }
+                { (!isLoading && ads && ads.length > 0) &&
+                    <FlatList
+                        style={styles.flatListColumn}
+                        data={ads}
+                        keyExtractor={item => `${item[0]._id}${Date.now()}`}
+                        renderItem={({item}) => (
+                            <FlatList 
+                                data={item}
+                                keyExtractor={item => item._id}
+                                style={styles.flatListRow}
+                                renderItem={({item}) => 
+                                    (
+                                        <AdCard key={item._id} item={item} onPressCard={onPressCard} ></AdCard>
+                                    )
+                                }
+                            />
+                        )}
+                    />
+                }
+            </View>
         </View>
     )
 }

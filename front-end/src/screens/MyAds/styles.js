@@ -9,8 +9,8 @@ export const styles = StyleSheet.create({
         marginTop: 27,
     },
     loading: {
-        position: "absolute",
-        top: "75%",
+        flex: 1,
+        justifyContent: 'center',
         zIndex: 100,
         borderRadius: 50,
         backgroundColor: "white"

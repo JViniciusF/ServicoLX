@@ -4,9 +4,9 @@ import getEnvVars from '../../environment';
 
 const { apiUrl } = getEnvVars();
 
-export async function getAllAds() {
+export async function getAllAdsPaginated() {
     try {
-        let response = await axios.get(`${apiUrl}account/register`)
+        let response = await axios.get(`${apiUrl}service/getAllAdsPaginated`)
 
         if (response.status !== 200)
             throw Error(response);
@@ -94,7 +94,7 @@ export async function getAllAdsByUserPaginated(params) {
 export async function getAdsByUserAndFilterPaginated(params) {
     try {
         let response = await axios.post(`${apiUrl}service/getAdsByUserAndFilterPaginated`, params)
-        
+        console.log('response', response)
         if (response.status !== 200)
             throw Error(response);
 
@@ -147,7 +147,7 @@ export async function retrieveFavorite(params) {
 
 
 export default { 
-    getAllAds,
+    getAllAdsPaginated,
     getAdsByCategoryPaginated,
     saveNewAd,
     getAdsByFilterPaginated,

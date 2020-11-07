@@ -50,12 +50,12 @@ export default function MyAds({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <HeaderSearch searchByFilter={searchByFilter} />
             { isLoading && 
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />
                 </View>
 		    }
-            <HeaderSearch searchByFilter={searchByFilter} />
             { (!isLoading && ads && ads.length === 0) ?
                 <Text style={styles.bodyText}>
                     Não foram encontrados Serviços, tente usar palavras chaves.
@@ -63,7 +63,7 @@ export default function MyAds({ navigation }) {
                 :
                 <></>
             }
-            { (ads && ads.length > 0) &&
+            { (!isLoading && ads && ads.length > 0) &&
                 <FlatList
                     style={styles.flatListColumn}
                     data={ads}

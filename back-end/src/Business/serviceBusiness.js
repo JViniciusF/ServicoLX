@@ -4,7 +4,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 const GetAllServices = async () => {
     try {
-        let ads = await Service.find({});
+        let ads = await Service.find({}).populate('category').populate('owner');
 
         if (!ads) {
             throw { 
@@ -24,7 +24,7 @@ const GetAllServices = async () => {
 
 const GetServicesByFilter = async (filter) => {
     try {
-        let ads = await Service.find({"name": {"$regex": `${filter}`, "$options" : 'i'}});
+        let ads = await Service.find({"name": {"$regex": `${filter}`, "$options" : 'i'}}).populate('category').populate('owner');
         if (!ads) {
             throw { 
                 msg: `error: Não foram encontrados Ads com o filtro ${filter}`,
@@ -43,7 +43,7 @@ const GetServicesByFilter = async (filter) => {
 
 const GetServicesByCategoryPaginated = async (filter) => {
     try {
-        let ads = await Service.find({"category": {"$in": `${filter}`}});
+        let ads = await Service.find({"category": {"$in": `${filter}`}}).populate('category').populate('owner');
         if (!ads) {
             throw { 
                 msg: `error: Não foram encontrados Ads com o filtro ${filter}`,

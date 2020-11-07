@@ -1,8 +1,8 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, ActivityIndicator } from 'react-native';
 import { styles } from './styles.js';
 import { removeData, retrieveData } from '../../service/storage';
-import { getAllAds } from '../../service/adService';
+import { getAllAdsPaginated } from '../../service/adService'
 
 import AdCard from '../../components/AdCard';
 
@@ -15,33 +15,43 @@ export default function Home({ navigation }) {
             let res = await retrieveData('@user');
             if (!res) {
                 navigation.navigate('Login');
+            } else {
+                setAds(await getAllAdsPaginated())
             }
         };
         _init();
     }, [])
 
-    const searchByFilter = item => {
-        console.log(item)
-        // navigation.navigate("Search", {filter: item.name})
+    const searchByFilter = value => {
+        navigation.navigate("Ad", { value })
     }
     
     return (
         <View style={styles.container}>
-            <FlatList 
-                data={[1]}
-                keyExtractor={data => String(data)}
-                style={styles.flatListColumn}
-                renderItem={({item}) => (
-                    <FlatList 
-                        data={[1]}
-                        keyExtractor={data => String(data)}
-                        style={styles.flatListRow}
-                        renderItem={({item}) => (
-                            <AdCard key={item._id} item={item} onPressCard={searchByFilter} ></AdCard>
-                        )}
-                    />
-                )}
-            />
+            { !ads &&
+                <View style={styles.loading}>
+                    <ActivityIndicator size='large' color='red' />
+                </View>
+            }
+            { (ads && ads.length > 0) &&
+                <FlatList
+                    style={styles.flatListColumn}
+                    data={ads}
+                    keyExtractor={item => `${item[0]._id}${Date.now()}`}
+                    renderItem={({item}) => (
+                        <FlatList 
+                            data={item}
+                            keyExtractor={item => item._id}
+                            style={styles.flatListRow}
+                            renderItem={({item}) => 
+                                (
+                                    <AdCard key={item._id} item={item} onPressCard={searchByFilter} ></AdCard>
+                                )
+                            }
+                        />
+                    )}
+                />
+            }
         </View>
     );
 }

@@ -85,5 +85,37 @@ const GetAccountById = async (userId) => {
     }
 }
 
+const SetNewLocation = async (address, coords, userId) => {
+    try {
+        let addressObj = [{
+            street: address[0].street,
+            number: address[0].name,
+            district: address[0].district,
+            city: address[0].city ? address[0].city : address[0].subregion,
+            state: address[0].region,
+            country: address[0].country,
+            postalCode: address[0].postalCode, 
+        }];
+    
+        let locationObj = [
+            {
+                name: "Localidade inicial",
+                type: "Point",
+                coordinates: [coords.latitude, coords.longitude]
+            }
+        ];
 
-module.exports = { RegisterAccount, LoginAccount, GetAccountById }
+        let user = await Account.findOneAndUpdate({ _id: userId }, {'$set': {address: addressObj, location: locationObj}});
+
+        return user;
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao registrar nova localização ao usuário ${error}`,
+            status:true,
+            obj: error
+        }
+    }
+}
+
+
+module.exports = { RegisterAccount, LoginAccount, GetAccountById, SetNewLocation }

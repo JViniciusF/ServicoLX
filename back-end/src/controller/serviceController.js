@@ -10,9 +10,12 @@ const { GetAllServices,
 const { ListingResponse } = require('../controller/utils/Utils')
 
 
-const GetAllServiceController = async (req, res) => {
+const GetAllServicePaginatedController = async (req, res) => {
     try {
-        const ads = await GetAllServices();
+        let ads = await GetAllServices();
+
+        ads = await ListingResponse(ads, 2)
+
         return res.json(ads);
     } catch (error) {
         return { 
@@ -165,7 +168,7 @@ const RetrieveFavoriteController = async (req, res) => {
 
 
 module.exports = { 
-    GetAllServiceController, 
+    GetAllServicePaginatedController, 
     GetServicesByFilterController, 
     GetServicesByCategoryPaginatedController, 
     CreateServiceController,

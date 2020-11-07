@@ -1,4 +1,4 @@
-const { RegisterAccount, LoginAccount } = require('../Business/accountBusiness')
+const { RegisterAccount, LoginAccount, SetNewLocation } = require('../Business/accountBusiness')
 
 const LoginController = async (req, res) => {
     let { 
@@ -10,7 +10,7 @@ const LoginController = async (req, res) => {
     try {
         const account = await RegisterAccount(address, coords, user);
 
-        if (account.error.status) {
+        if (account.error) {
             return res.status(500).json({"error": `${account.msg}`})
         }
 
@@ -35,5 +35,22 @@ const LoginController = async (req, res) => {
     }
 };
 
+const SetLocationController = async (req, res) => {
+    let { 
+        address,
+        coords,
+        userId
+    } = req.body;
 
-module.exports = { LoginController };
+    try {
+        const account = await SetNewLocation(address, coords, userId);
+
+        return res.json(account)
+    } catch (error) {
+        return res.status(500).json({"error": `${error.obj}`})
+    }
+}
+
+
+
+module.exports = { LoginController, SetLocationController };

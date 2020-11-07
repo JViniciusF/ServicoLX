@@ -12,6 +12,7 @@ mongoose.connect(
 });
 
 mongoose.set('useCreateIndex', true)
+mongoose.set('useFindAndModify', false)
 
 app.use(express.json());
 app.use(routes);

@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
         marginTop: 27,
     },
     loading: {
-        position: "absolute",
-        top: "75%",
-        zIndex: 100,
+        position: 'absolute',
+        top: "100%",
+        zIndex: 101,
         borderRadius: 50,
         backgroundColor: "white"
     },
@@ -27,6 +27,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 20
+    },
+    back_btn: {
+        padding: 7,
+    }, 
+    scroll: {
+        marginTop: 10
     },
     body: {
         flex: 1,

@@ -1,5 +1,5 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, View, ScrollView, TouchableHighlight } from 'react-native';
+import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { styles } from './styles.js';
 import { favoriteService, retrieveFavorite } from '../../service/adService'
 import { AntDesign } from '@expo/vector-icons';
@@ -9,21 +9,27 @@ import { retrieveData } from '../../service/storage'
 
 export default function Ad({ navigation, route }) {
     const [ isFavorite, setIsFavorite ] = useState(false)
+    const [ isLoading, setIsLoading ] = useState(false)
 
     useEffect(()=>{
+        console.log(route)
         async function _init() {
+            setIsLoading(true)
             let userId = JSON.parse(await retrieveData('@user'))._id
             let status = await retrieveFavorite({ userId, id: route.params.value._id })
             setIsFavorite(status.msg)
+            setIsLoading(false)
         };
         _init();
     }, [route.params])
 
     const setFavorite = async (status) => {
+        setIsLoading(true)
         let userId = JSON.parse(await retrieveData('@user'))._id
         let newStatus = await favoriteService({ status, id: route.params.value._id, userId})
         console.log(newStatus)
         setIsFavorite(newStatus.msg)
+        setIsLoading(false)
     } 
 
     return (
@@ -34,21 +40,30 @@ export default function Ad({ navigation, route }) {
                         onPress={() => navigation.goBack()}
                         underlayColor="#DDDDDD"
                     >
-                        <Ionicons name="ios-arrow-back" size={30} color="black" />
+                        <View style={styles.back_btn}>
+                            <Ionicons name="ios-arrow-back" size={30} color="black" />
+                        </View>
                     </TouchableHighlight>
                     <TouchableHighlight 
                         onPress={() => setFavorite(!isFavorite) }
                         underlayColor="#DDDDDD"
                     >
+                        <View style={styles.back_btn}>
                         { isFavorite ?
                            <AntDesign name="star" size={24} color="yellow" />   
                            :
                            <AntDesign name="staro" size={24} color="black" />
                         }
+                        </View>
                     </TouchableHighlight>
                 </View>
             </View>
-            <ScrollView>
+            { isLoading &&
+                <View style={styles.loading}>
+                    <ActivityIndicator size='large' color='red' />
+                </View>
+            }
+            <ScrollView style={styles.scroll}>
                 <View style={styles.body}>
                     <View style={styles.bodyItem}>
                         <Text style={ styles.bodyText }>Imagem aqui</Text>
