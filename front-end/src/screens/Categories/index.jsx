@@ -42,7 +42,7 @@ export default function Categories({ navigation }) {
                             keyExtractor={item => item._id}
                             style={styles.flatListRow}
                             renderItem={({item}) => (
-                                <AdCard key={item._id} item={item} searchByFilter={searchByFilter} ></AdCard>
+                                <AdCard key={item._id} item={item} onPressCard={searchByFilter} ></AdCard>
                             )}
                         />
                     )}
