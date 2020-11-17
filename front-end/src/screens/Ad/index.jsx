@@ -1,7 +1,8 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator, Modal, Alert } from 'react-native';
+import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator, Modal } from 'react-native';
 import { styles } from './styles.js';
 import { favoriteService, retrieveFavorite, incrementHiredService, incrementRatingService } from '../../service/adService'
+import { TextMask  } from 'react-native-masked-text';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Rating } from 'react-native-ratings';
@@ -15,7 +16,7 @@ export default function Ad({ navigation, route }) {
     const [ rateModalVisible, setRateModalVisible ] = useState(false);
     const [ rate, setRate ] = useState(3);
 
-    useEffect(()=>{
+    useEffect(() => {
         async function _init() {
             setIsLoading(true)
             let userId = JSON.parse(await retrieveData('@user'))._id
@@ -165,8 +166,11 @@ export default function Ad({ navigation, route }) {
                 </View>
                 <View style={styles.body}>
                     <Text style={ styles.label }>Valor:</Text>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{route.params.value.value}</Text>
+                    <View style={styles.bodyItemTextInput}>
+                        <TextMask  
+                            type={'money'}
+                            style={ styles.bodyText }
+                            value={ route.params.value.value } />
                     </View>
                 </View>
                 <View style={styles.body}>

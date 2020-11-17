@@ -20,7 +20,7 @@ export default function Home({ navigation }) {
             }
         };
         _init();
-    }, [])
+    }, [ navigation ])
 
     const searchByFilter = value => {
         navigation.navigate("Ad", { value })

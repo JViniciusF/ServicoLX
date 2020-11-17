@@ -52,6 +52,18 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 7
     },  
+    bodyItemTextInput: {
+        
+        flex: 1,
+        flexDirection: 'row',
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '95%',
+        borderColor: 'gray', 
+        borderWidth: 1,
+        borderRadius: 7
+    },
     bodyText: {
         width: '100%',
         height: 40,
