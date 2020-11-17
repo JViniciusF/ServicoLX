@@ -17,12 +17,12 @@ const GetAllServices = async (filtroPreco, filtroReputacao, filtroCotado) => {
                 }
             }
 
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
 
