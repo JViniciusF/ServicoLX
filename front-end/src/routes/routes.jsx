@@ -13,6 +13,7 @@ import { AntDesign } from '@expo/vector-icons';
 // Screens - APPStack
 import Login from '../screens/Login';
 import Ad from '../screens/Ad';
+import SearchCategory from '../screens/SearchCategory'
 
 // Screens - TabNavigation
 import Config from '../screens/Config';
@@ -27,20 +28,10 @@ import AddAds from '../screens/AddAds';
 import Favorites from '../screens/Favorites';
 import Categories from '../screens/Categories';
 
-// Service
-import { removeData } from '../service/storage'
-
 const AppStack = createStackNavigator();
 const DrawerStack = createDrawerNavigator();
 const TabStack = createBottomTabNavigator();
 
-function LogOut({ navigation }) {
-    return (() => {
-        removeData('@user')
-        navigation.navigate('Login')
-      })
-  }
-  
 
 function Tab() {
     return (
@@ -73,6 +64,7 @@ export default function Routes() {
                 <AppStack.Screen name="Login" component={ Login } />
                 <AppStack.Screen name="Root" component={ Root } />
                 <AppStack.Screen name="Ad" component={ Ad } />
+                <AppStack.Screen name="SearchCategory" component={ SearchCategory } />
             </AppStack.Navigator>
         </NavigationContainer>
     )

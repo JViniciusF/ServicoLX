@@ -5,12 +5,15 @@ const {
     GetAllServicePaginatedController,
     GetServicesByFilterController,
     GetServicesByCategoryPaginatedController,
+    GetServicesByCategoryAndFilterPaginatedController,
     CreateServiceController,
     GetServicesByFilterPaginatedController,
     GetAllAdsByUserPaginatedController,
     GetAdsByUserAndFilterPaginatedController,
     SetFavoriteController,
-    RetrieveFavoriteController
+    RetrieveFavoriteController,
+    IncrementServiceController,
+    IncrementRatingController
 } = require('./controller/serviceController');
 
 const { 
@@ -32,7 +35,7 @@ routes.post('/account/setNewLocation', (req, res) => {
 
 
 // SERVICE CONTROLLERS
-routes.get('/service/getAllAdsPaginated', (req, res) => {
+routes.post('/service/getAllAdsPaginated', (req, res) => {
     return GetAllServicePaginatedController(req, res);
 });
 
@@ -46,6 +49,10 @@ routes.post('/service/getAdsByFilterPaginated', (req, res) => {
 
 routes.post('/service/getAdsByCategoryPaginated', (req, res) => {
     return GetServicesByCategoryPaginatedController(req, res);
+});
+
+routes.post('/service/getAdsByCategoryAndFilterPaginated', (req, res) => {
+    return GetServicesByCategoryAndFilterPaginatedController(req, res);
 });
 
 routes.post('/service/getAllAdsByUserPaginated', (req, res) => {
@@ -68,6 +75,13 @@ routes.post('/service/createService', (req, res) => {
     return CreateServiceController(req, res);
 });
 
+routes.post('/service/incrementHiredService', (req, res) => {
+    return IncrementServiceController(req, res);
+});
+
+routes.post('/service/incrementRatingService', (req, res) => {
+    return IncrementRatingController(req, res);
+});
 
 // CATEGORY CONTROLLERS
 routes.get('/category/getAll', (req, res) => {

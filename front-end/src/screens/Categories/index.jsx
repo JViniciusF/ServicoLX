@@ -21,7 +21,7 @@ export default function Categories({ navigation }) {
     }, [])
 
     const searchByFilter = item => {
-        navigation.navigate("Search", {filter: item})
+        navigation.navigate("SearchCategory", {filter: item})
     }
 
     return (

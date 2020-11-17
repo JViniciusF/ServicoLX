@@ -1,10 +1,40 @@
 const Account = require('../models/Account');
 const Service = require('../models/Service')
+const Category = require('../models/Categories');
 var ObjectId = require('mongoose').Types.ObjectId;
 
-const GetAllServices = async () => {
+const GetAllServices = async (filtroPreco, filtroReputacao, filtroCotado) => {
     try {
         let ads = await Service.find({}).populate('category').populate('owner');
+
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
 
         if (!ads) {
             throw { 
@@ -22,9 +52,39 @@ const GetAllServices = async () => {
     }
 }
 
-const GetServicesByFilter = async (filter) => {
+const GetServicesByFilter = async (filter, filtroPreco, filtroReputacao, filtroCotado) => {
     try {
         let ads = await Service.find({"name": {"$regex": `${filter}`, "$options" : 'i'}}).populate('category').populate('owner');
+
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+    
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+    
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
+
         if (!ads) {
             throw { 
                 msg: `error: Não foram encontrados Ads com o filtro ${filter}`,
@@ -41,9 +101,91 @@ const GetServicesByFilter = async (filter) => {
     }
 }
 
-const GetServicesByCategoryPaginated = async (filter) => {
+const GetServicesByCategoryPaginated = async (filter, filtroPreco, filtroReputacao, filtroCotado) => {
     try {
-        let ads = await Service.find({"category": {"$in": `${filter}`}}).populate('category').populate('owner');
+        let category = await Category.findOne({"name": `${filter}`});
+        let ads = await Service.find({"category": {"$all": [ObjectId(category.id)]}}).populate('category').populate('owner');
+
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+    
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+    
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
+
+        if (!ads) {
+            throw { 
+                msg: `error: Não foram encontrados Ads com o filtro ${filter}`,
+                status: true
+            }
+        }
+
+        return ads;
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao executar a query no DB ${error}`,
+            status: true,
+            obj: error
+        }
+    }
+}
+
+const GetServicesByCategoryAndFilterPaginated = async (filter, value, filtroPreco, filtroReputacao, filtroCotado) => {
+    try {
+        let category = await Category.findOne({"name": `${filter}`});
+        let ads = await Service.find({"$and": [{"category": {"$all": [ObjectId(category.id)]}}, { "name": {"$regex": `${value}`, "$options" : 'i'}}]}).populate('category').populate('owner');
+
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+    
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+    
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
+
         if (!ads) {
             throw { 
                 msg: `error: Não foram encontrados Ads com o filtro ${filter}`,
@@ -82,9 +224,38 @@ const CreateService = async (userObj, name, celphone, description, images, categ
     }
 }
 
-const GetServicesByUserPaginated = async (userId) => {
+const GetServicesByUserPaginated = async (userId, filtroPreco, filtroReputacao, filtroCotado) => {
     try {
         let ads = await Service.find({"owner": ObjectId(userId) }).populate('category').populate('owner');
+
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+    
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+    
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
 
         if (!ads) {
             throw { 
@@ -103,9 +274,38 @@ const GetServicesByUserPaginated = async (userId) => {
     }
 }
 
-const GetAdsByUserAndFilterPaginated = async (userId, filter) => {
+const GetAdsByUserAndFilterPaginated = async (userId, filter, filtroPreco, filtroReputacao, filtroCotado) => {
     try {
         let ads = await Service.find({"owner": ObjectId(userId), "name": {"$regex": `${filter}`, "$options" : 'i'} }).populate('category').populate('owner');
+
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+    
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+    
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
 
         if (!ads) {
             throw { 
@@ -171,16 +371,53 @@ const RetrieveFavorite = async (id, userId) => {
     }
 }
 
+const IncrementService = async (id) => {
+    try {
+        
+        let service = await Service.findOneAndUpdate({ "_id": id }, {'$inc': {"quotedTimes": 1}});
+            
+        return { msg: service.quotedTimes }
 
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao executar a query no DB ${error}`,
+            status: true,
+            obj: error
+        }
+    }
+}
+
+const IncrementRating = async (id, rate) => {
+    try {
+        let dbRatings = await Service.findOne({ "_id": id }, {"_id": -1, "totalRating": 1, "countRating": 1 })
+        dbRatings.totalRating += rate
+        dbRatings.countRating += 1
+        let updatedRating =  (dbRatings.totalRating / dbRatings.countRating)
+        let service = await Service.findOneAndUpdate({ "_id": id }, {'$inc': {"countRating": 1, "totalRating": rate}} );
+        service = await Service.findOneAndUpdate({ "_id": id }, {"$set" : {"rating" : updatedRating}});
+
+        return { msg: service.quotedTimes }
+
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao executar a query no DB ${error}`,
+            status: true,
+            obj: error
+        }
+    }
+}
 
 
 module.exports = { 
     GetAllServices,
     GetServicesByFilter,
     GetServicesByCategoryPaginated,
+    GetServicesByCategoryAndFilterPaginated,
     CreateService,
     GetServicesByUserPaginated,
     GetAdsByUserAndFilterPaginated,
     SetFavorite,
-    RetrieveFavorite
+    RetrieveFavorite,
+    IncrementService,
+    IncrementRating
 }

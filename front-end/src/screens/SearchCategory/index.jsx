@@ -2,25 +2,43 @@ import React,{ useState, useEffect} from 'react';
 import { Text, View, FlatList, TextInput, TouchableHighlight, ActivityIndicator, ScrollView } from 'react-native';
 import { styles } from './styles.js';
 
-import { getAdsByFilterPaginated, getAdsByCategoryPaginated, getAllAdsPaginated} from '../../service/adService'
+import { getAllAdsByCategoryPaginated, getAdsByCategoryAndFilterPaginated} from '../../service/adService'
 import AdCard from '../../components/AdCard'
 import HeaderSearch from '../../components/HeaderSearch'
 
 
-export default function Search({ navigation }) {
+export default function SearchCategory({ navigation, route }) {
     const [ ads, setAds ] = useState(null);
     const [ isLoading, setIsLoading ] = useState(false)
 
+    useEffect(() => {
+        const category_init = async () => {
+            if (route.params) {
+                await searchByCategory(route.params.filter)
+                searchByCategory()
+            };
+
+        };
+        category_init();
+    }, [route.params])
+
+    const searchByCategory = async (filter) => {
+        if (filter) {
+            setIsLoading(true)
+            setAds(await getAllAdsByCategoryPaginated(filter.name))
+            setIsLoading(false)
+        }
+    }
 
     const searchByFilter = async (value, filtroPreco, filtroReputacao, filtroCotado) => {
         if (value) {
             setIsLoading(true)
-            let list = await getAdsByFilterPaginated(value, filtroPreco, filtroReputacao, filtroCotado)
+            let list = await getAdsByCategoryAndFilterPaginated(route.params.filter.name, value, filtroPreco, filtroReputacao, filtroCotado)
             setAds(list)
             setIsLoading(false)
         } else {
             setIsLoading(true)
-            let list = await getAllAdsPaginated(filtroPreco, filtroReputacao, filtroCotado)
+            let list = await getAllAdsByCategoryPaginated(route.params.filter.name, filtroPreco, filtroReputacao, filtroCotado)
             setAds(list)
             setIsLoading(false)
         }

@@ -14,7 +14,23 @@ const ServiceSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     } ],
-    value: String,
+    value: Number,
+    quotedTimes: {
+        type: Number,
+        default: 0
+    },
+    totalRating: {
+        type: Number,
+        default: 0
+    },
+    countRating: {
+        type: Number,
+        default: 0
+    },
+    rating: {
+        type: Number,
+        default: 0
+    },
     scheduleDates: {
         type: [ {
             type: mongoose.Schema.Types.ObjectId,

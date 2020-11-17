@@ -7,7 +7,7 @@ import { retrieveData } from '../../service/storage';
 import { getAllAdsByUserPaginated, getAdsByUserAndFilterPaginated } from '../../service/adService';
 
 
-export default function MyAds({ navigation }) {
+export default function MyAds({ navigation, route }) {
     const [ ads, setAds ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
     const [ userId, setUserId ] = useState(null);
@@ -27,9 +27,9 @@ export default function MyAds({ navigation }) {
         _init();
     }, [])
 
-    const searchByFilter = async (value) => {
+    const searchByFilter = async (value, filtroPreco='Preço', filtroReputacao='Reputação', filtroCotado='Cotado') => {
         setIsLoading(true)
-        let list = await getAdsByUserAndFilterPaginated({ userId, filter: value })
+        let list = await getAdsByUserAndFilterPaginated({ userId, filter: value, filtroPreco, filtroReputacao, filtroCotado })
         if (!list) {
             Alert.alert(
                 "Pesquisa falhou...",

@@ -1,18 +1,21 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator, Modal, Alert } from 'react-native';
 import { styles } from './styles.js';
-import { favoriteService, retrieveFavorite } from '../../service/adService'
+import { favoriteService, retrieveFavorite, incrementHiredService, incrementRatingService } from '../../service/adService'
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { Rating } from 'react-native-ratings';
 import { retrieveData } from '../../service/storage'
 
 
 export default function Ad({ navigation, route }) {
-    const [ isFavorite, setIsFavorite ] = useState(false)
-    const [ isLoading, setIsLoading ] = useState(false)
+    const [ isFavorite, setIsFavorite ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
+    const [ confirmModalVisible, setConfirmModalVisible ] = useState(false);
+    const [ rateModalVisible, setRateModalVisible ] = useState(false);
+    const [ rate, setRate ] = useState(3);
 
     useEffect(()=>{
-        console.log(route)
         async function _init() {
             setIsLoading(true)
             let userId = JSON.parse(await retrieveData('@user'))._id
@@ -21,19 +24,92 @@ export default function Ad({ navigation, route }) {
             setIsLoading(false)
         };
         _init();
-    }, [route.params])
+    }, [route.params]);
 
     const setFavorite = async (status) => {
         setIsLoading(true)
         let userId = JSON.parse(await retrieveData('@user'))._id
         let newStatus = await favoriteService({ status, id: route.params.value._id, userId})
-        console.log(newStatus)
         setIsFavorite(newStatus.msg)
         setIsLoading(false)
-    } 
+    };
+
+    const hireService = async () => {
+        await incrementHiredService({id:route.params.value._id})
+        setConfirmModalVisible(false)
+        setRateModalVisible(true)
+    };
+
+    const incrementRating = async () => {
+        console.log(rate)
+        await incrementRatingService({id:route.params.value._id, rate})
+        setRateModalVisible(false)
+    }
 
     return (
         <View style={styles.container}>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={confirmModalVisible}
+                onRequestClose={() => {
+                    setConfirmModalVisible(!confirmModalVisible)
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Deseja contratar o Serviço?</Text>
+                        <View style={styles.modalBtns}>
+                            <View style={styles.modalBtns2}>
+                                <TouchableHighlight
+                                style={{ ...styles.openButton, backgroundColor: '#f54b42' }}
+                                onPress={() => {
+                                    setConfirmModalVisible(!confirmModalVisible);
+                                }}>
+                                    <Text style={styles.textStyle}>Cancelar</Text>
+                                </TouchableHighlight>
+                                <TouchableHighlight
+                                style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                                onPress={() => {
+                                    hireService();
+                                }}>
+                                    <Text style={styles.textStyle}>Contratar</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={rateModalVisible}
+                onRequestClose={() => {
+                    setRateModalVisible(!rateModalVisible)
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>{'Gostou do Serviço? \n Ajude avaliando o serviço abaixo:'}</Text>
+                        <Rating
+                            type='star'
+                            ratingCount={5}
+                            defaultRating={3}
+                            imageSize={60}
+                            showRating
+                            onFinishRating={(rating) => setRate(rating)}
+                        />
+                        <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                            onPress={() => {
+                                incrementRating();
+                            }}>
+                                <Text style={styles.textStyle}>Ok</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
+
             <View style={styles.headerContainer}>
                 <View style={styles.header}>
                     <TouchableHighlight 
@@ -105,6 +181,16 @@ export default function Ad({ navigation, route }) {
                         <Text style={ styles.bodyText }>{`${route.params.value.owner.address[0].city} - ${route.params.value.owner.address[0].district}`}</Text>
                     </View>
                 </View>
+                <View style={styles.body}>
+                        <TouchableHighlight 
+                            onPress={() => setConfirmModalVisible(true)}
+                            underlayColor="#DDDDDD"
+                        >
+                            <View style={styles.saveButton}>
+                                <Text style={styles.saveButtonText}>Contratar</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>
             </ScrollView>
         </View>
     )

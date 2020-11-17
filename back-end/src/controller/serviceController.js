@@ -3,26 +3,32 @@ const { GetAllServices,
         CreateService,
         GetServicesByUserPaginated,
         GetAdsByUserAndFilterPaginated,
+        GetServicesByCategoryPaginated,
+        GetServicesByCategoryAndFilterPaginated,
         SetFavorite,
-        RetrieveFavorite
+        RetrieveFavorite,
+        IncrementService,
+        IncrementRating
     } = require('../Business/serviceBusiness');
 
 const { ListingResponse } = require('../controller/utils/Utils')
 
 
 const GetAllServicePaginatedController = async (req, res) => {
+    let { filtroPreco, filtroReputacao, filtroCotado } = req.body;
     try {
-        let ads = await GetAllServices();
+
+        let ads = await GetAllServices(filtroPreco, filtroReputacao, filtroCotado);
 
         ads = await ListingResponse(ads, 2)
 
         return res.json(ads);
     } catch (error) {
-        return { 
+        return res.status(500).json({ 
             msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 };
 
@@ -32,45 +38,68 @@ const GetServicesByFilterController = async (req, res) => {
         const ads = await GetServicesByFilter(filter);
         return res.json(ads);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 };
 
 const GetServicesByFilterPaginatedController = async (req, res) => {
-    let { filter } = req.body;
+    let { filter, filtroPreco, filtroReputacao, filtroCotado } = req.body;
     try {
-        let ads = await GetServicesByFilter(filter);
+        let ads = []
+
+        if (!filter) {
+            ads = await GetAllServices(filtroPreco, filtroReputacao, filtroCotado)
+        } else {
+            ads = await GetServicesByFilter(filter, filtroPreco, filtroReputacao, filtroCotado);
+        }
 
         ads = await ListingResponse(ads, 2)
 
         return res.json(ads);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 }
 
 const GetServicesByCategoryPaginatedController = async (req, res) => {
-    let { filter } = req.body;
+    let { filter, filtroPreco, filtroReputacao, filtroCotado } = req.body;
     try {
-        const ads = await GetServicesByCategoryPaginated(filter);
+        let ads = await GetServicesByCategoryPaginated(filter, filtroPreco, filtroReputacao, filtroCotado);
 
         ads = await ListingResponse(ads, 2)
 
         return res.json(ads);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
+    };
+};
+
+const GetServicesByCategoryAndFilterPaginatedController = async (req, res) => {
+    let { filter, value, filtroPreco, filtroReputacao, filtroCotado } = req.body;
+    try {
+        let ads = await GetServicesByCategoryAndFilterPaginated(filter, value, filtroPreco, filtroReputacao, filtroCotado);
+
+        ads = await ListingResponse(ads, 2)
+
+        return res.json(ads);
+    } catch (error) {
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
+            status: true,
+            obj: error.obj
+        });
     };
 };
 
@@ -84,15 +113,19 @@ const CreateServiceController = async (req, res) => {
         category,
         value } = req.body
     try {
+        value = value.split(",")
+        value = value[0].replace(".", "")
+        value = value[0].replace("R$", "")
+        value = parseFloat(`${value[0]}.${value[1]}`)
         const service = await CreateService(owner, name, celphone, description, images, category, value);
             
         return res.json({msg: "Serviço criado"});
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     }
 }
 
@@ -105,33 +138,33 @@ const GetAllAdsByUserPaginatedController = async (req, res) => {
 
         return res.json(ads);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 };
 
 const GetAdsByUserAndFilterPaginatedController = async (req, res) => {
-    let { userId, filter } = req.body;
+    let { userId, filter, filtroPreco, filtroReputacao, filtroCotado} = req.body;
     try {
         let ads;
 
         if (filter)
-            ads = await GetAdsByUserAndFilterPaginated(userId, filter);
+            ads = await GetAdsByUserAndFilterPaginated(userId, filter, filtroPreco, filtroReputacao, filtroCotado);
         else
-            ads = await GetServicesByUserPaginated(userId);
+            ads = await GetServicesByUserPaginated(userId, filtroPreco, filtroReputacao, filtroCotado);
 
         ads = await ListingResponse(ads, 2);
 
         return res.json(ads);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 };
 
@@ -142,11 +175,11 @@ const SetFavoriteController = async (req, res) => {
 
         return res.json(newStatus);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 };
 
@@ -157,24 +190,56 @@ const RetrieveFavoriteController = async (req, res) => {
 
         return res.json(newStatus);
     } catch (error) {
-        return { 
-            msg: `error: Erro ao realizar 'GetServicesByFilterController' ${error}`,
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
             status: true,
             obj: error.obj
-        };
+        });
     };
 };
 
+const IncrementServiceController = async (req, res) => {
+    let { id } = req.body;
+    try {
+        let newCounting = await IncrementService(id);
+
+        return res.json(newCounting);
+    } catch (error) {
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
+            status: true,
+            obj: error.obj
+        });
+    };
+};
+
+const IncrementRatingController = async (req, res) => {
+    let { id, rate } = req.body;
+    try {
+        let newRating = await IncrementRating(id, rate);
+
+        return res.json(newRating);
+    } catch (error) {
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
+            status: true,
+            obj: error.obj
+        });
+    };
+};
 
 
 module.exports = { 
     GetAllServicePaginatedController, 
     GetServicesByFilterController, 
     GetServicesByCategoryPaginatedController, 
+    GetServicesByCategoryAndFilterPaginatedController,
     CreateServiceController,
     GetServicesByFilterPaginatedController,
     GetAllAdsByUserPaginatedController,
     GetAdsByUserAndFilterPaginatedController,
     SetFavoriteController,
-    RetrieveFavoriteController
+    RetrieveFavoriteController,
+    IncrementServiceController,
+    IncrementRatingController
 };
