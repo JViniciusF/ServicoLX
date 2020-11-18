@@ -131,7 +131,7 @@ export default function AddAds({ navigation }) {
                 <View style={styles.body}>
                     <View style={styles.bodyText}> 
                         {!image && 
-                            <Text title='AddAds' style={{ width: 100, height: 100 }}>Quadrado pra por a imagem</Text>
+                            <Image source={{ uri: `https://www.fotoefeitos.com/efectos/grandes/coloca-tu-foto-en-un-fotograma.jpg` }} style={{ width: "90%", height: 200 }} />
                         }
                         {image &&
                             <Image source={{ uri: `data:image/png;base64,${image}` }} style={{ width: "90%", height: 200 }} />
