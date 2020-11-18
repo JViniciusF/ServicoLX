@@ -8,7 +8,7 @@ export default function CategoryCard(props) {
     return (
         <View style={styles.container}>
             <TouchableHighlight 
-                onPress={() => props.searchByFilter(props.item.name)}
+                onPress={() => props.searchByFilter(props.item)}
                 style={styles.card}>
                 <Image style={styles.tinyLogo}
                     source={{
