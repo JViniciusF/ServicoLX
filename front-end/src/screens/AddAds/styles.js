@@ -84,5 +84,14 @@ export const styles = StyleSheet.create({
     },
     saveButtonText: {
         color: '#ffffff'
-    }
+    },
+    pickButton: {
+        padding: 10,
+        marginTop: 10,
+        borderRadius: 10,
+        width: 150,
+        alignItems: 'center',
+        backgroundColor: '#2196F3',
+        elevation: 2
+    },
 });

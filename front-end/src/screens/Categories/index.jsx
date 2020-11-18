@@ -3,7 +3,7 @@ import { ActivityIndicator, View, FlatList } from 'react-native';
 import { styles } from './styles.js';
 import { getAllCategoriesPaginated } from '../../service/categoriesService'
 
-import AdCard from '../../components/AdCard/index.jsx';
+import AdCard from '../../components/CategoriesCard/';
 
 export default function Categories({ navigation }) {
     const [ categories, setCategories ] = useState([]);

@@ -114,8 +114,8 @@ const CreateServiceController = async (req, res) => {
         value } = req.body
     try {
         value = value.split(",")
-        value = value[0].replace(".", "")
-        value = value[0].replace("R$", "")
+        value[0] = value[0].replace(".", "")
+        value[0] = value[0].replace("R$", "")
         value = parseFloat(`${value[0]}.${value[1]}`)
         const service = await CreateService(owner, name, celphone, description, images, category, value);
             

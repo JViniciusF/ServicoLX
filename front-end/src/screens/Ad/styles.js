@@ -87,7 +87,6 @@ export const styles = StyleSheet.create({
     saveButtonText: {
         color: '#ffffff'
     },
-
     centeredView: {
         flex: 1,
         justifyContent: 'center',

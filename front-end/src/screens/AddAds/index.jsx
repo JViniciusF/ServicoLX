@@ -1,6 +1,7 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, ScrollView, View,  TouchableHighlight, TextInput, ActivityIndicator, Alert } from 'react-native';
+import { Text, ScrollView, View,  TouchableHighlight, TextInput, ActivityIndicator, Alert, Image  } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
+import * as ImagePicker from 'expo-image-picker';
 import { styles } from './styles.js';
 import { Picker } from '@react-native-picker/picker';
 import { getAllCategories } from '../../service/categoriesService';
@@ -16,6 +17,8 @@ export default function AddAds({ navigation }) {
     const [value, setValue] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [celphone, setCelphone] = useState('');
+    const [ image, setImage ] = useState(null);
+
     
     useEffect(() => {
         async function _init() {
@@ -26,10 +29,47 @@ export default function AddAds({ navigation }) {
             setIsLoading(false)
         };
         _init();
+
+        async function requestMediaPermission() {
+            try {
+                let { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+                    
+                if (status !== 'granted') {
+                    Alert.alert(
+                        "Permissão de acesso à mídia",
+                        "Este aplicativo utiliza de acesso às fotos para trazer a melhor experiência, criando serviços com fotos a partir do seu dispositivo móvel!",
+                        [
+                            { text: "OK", onPress: () => requestMediaPermission() }
+                        ],
+                        { cancelable: false }
+                        );
+                }
+            } catch (error) {
+                requestMediaPermission();
+            }
+        }
+
+        requestMediaPermission();
+
     }, [])
 
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+            base64: true
+        });
+    
+        if (!result.cancelled) {
+            setImage(result.base64);
+        }   
+    };
+    
+
     const saveAd = async () => {
-        if (name === '' || description === '' || value === '' || celphone === '') {
+        if (name === '' || description === '' || value === '' || celphone === '' || image === '') {
             Alert.alert(
                 "Preenchimento!",
                 "Todos os campos devem ser preenchidos!",
@@ -47,7 +87,7 @@ export default function AddAds({ navigation }) {
                     name,
                     description,
                     celphone,
-                    images: [],
+                    images: image,
                     category: selectedCategory,
                     value
                 });
@@ -90,7 +130,22 @@ export default function AddAds({ navigation }) {
                 }
                 <View style={styles.body}>
                     <View style={styles.bodyText}> 
-                        <Text title='AddAds'>Quadrado pra por a imagem</Text>
+                        {!image && 
+                            <Text title='AddAds' style={{ width: 100, height: 100 }}>Quadrado pra por a imagem</Text>
+                        }
+                        {image &&
+                            <Image source={{ uri: `data:image/png;base64,${image}` }} style={{ width: "90%", height: 200 }} />
+                        }
+                    </View>
+                    <View style={styles.bodyText}> 
+                        <TouchableHighlight 
+                            onPress={() => pickImage()}
+                            underlayColor="#DDDDDD"
+                        >
+                            <View style={styles.pickButton}>
+                                <Text style={styles.saveButtonText}>{!image ? 'Selecionar Imagem' : 'Alterar Imagem'}</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
                     <View style={styles.bodyText}>
                         <Text style={ styles.label }>Título:</Text>

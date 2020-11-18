@@ -2,7 +2,7 @@ import React,{ useState, useEffect} from 'react';
 import { Text, View, FlatList, TextInput, TouchableHighlight, ActivityIndicator, ScrollView } from 'react-native';
 import { styles } from './styles.js';
 
-import { getAdsByFilterPaginated, getAdsByCategoryPaginated, getAllAdsPaginated} from '../../service/adService'
+import { getAdsByFilterPaginated, getAllAdsPaginated} from '../../service/adService'
 import AdCard from '../../components/AdCard'
 import HeaderSearch from '../../components/HeaderSearch'
 

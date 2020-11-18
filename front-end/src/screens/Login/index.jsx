@@ -1,6 +1,7 @@
 
 import React,{ useState, useEffect} from 'react';
 import * as Location from 'expo-location';
+import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
 import { styles } from './styles.js'
 import { registerUser }  from '../../service/accountService'
@@ -25,6 +26,26 @@ export default function Login({ navigation }) {
 			}
 		};
 		_init();
+		
+		async function requestMediaPermission(){
+			try {
+				let { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+				
+				if (status !== 'granted') {
+					Alert.alert(
+						"Permissão de acesso à mídia",
+						"Este aplicativo utiliza de acesso às fotos para trazer a melhor experiência, criando serviços com fotos a partir do seu dispositivo móvel!",
+						[
+							{ text: "OK", onPress: () => requestMediaPermission() }
+						],
+						{ cancelable: false }
+					  );
+				}
+				
+			} catch (error) {
+				requestMediaPermission()
+			}
+		}
 
 		async function requestLocationPermission() {
 			try {
@@ -52,6 +73,7 @@ export default function Login({ navigation }) {
 			}
 		};
 		requestLocationPermission();
+		requestMediaPermission();
 	}, []);
 
 	async function signInWithGoogleAsync() {

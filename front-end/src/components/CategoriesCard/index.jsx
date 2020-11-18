@@ -12,7 +12,7 @@ export default function CategoryCard(props) {
                 style={styles.card}>
                 <Image style={styles.tinyLogo}
                     source={{
-                        uri: props.item.img,
+                        uri: props.item.images,
                     }}
                 />
             </TouchableHighlight>

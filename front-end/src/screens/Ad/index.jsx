@@ -1,5 +1,5 @@
 import React,{ useState, useEffect} from 'react';
-import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator, Modal } from 'react-native';
+import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator, Modal, Image } from 'react-native';
 import { styles } from './styles.js';
 import { favoriteService, retrieveFavorite, incrementHiredService, incrementRatingService } from '../../service/adService'
 import { TextMask  } from 'react-native-masked-text';
@@ -143,7 +143,14 @@ export default function Ad({ navigation, route }) {
             <ScrollView style={styles.scroll}>
                 <View style={styles.body}>
                     <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>Imagem aqui</Text>
+                        {!route.params.value.images &&
+                            <View style={styles.loading}>
+                                <ActivityIndicator size='large' color='red' />
+                            </View>
+                        }
+                        {route.params.value.images &&
+                            <Image source={{ uri: `data:image/png;base64,${route.params.value.images}` }} style={{ width: "90%", height: 200 }} />
+                        }
                     </View>
                 </View>
                 <View style={styles.body}>

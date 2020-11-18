@@ -12,7 +12,7 @@ export default function AdCard(props) {
                 style={styles.card}>
                 <Image style={styles.tinyLogo}
                     source={{
-                        uri: props.item.img,
+                        uri: `data:image/png;base64,${props.item.images}`
                     }}
                 />
             </TouchableHighlight>
