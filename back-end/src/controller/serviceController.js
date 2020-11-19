@@ -5,6 +5,8 @@ const { GetAllServices,
         GetAdsByUserAndFilterPaginated,
         GetServicesByCategoryPaginated,
         GetServicesByCategoryAndFilterPaginated,
+        GetAllServicesByUsersFavorites,
+        GetServicesByUsersFavoritesAndFilter,
         SetFavorite,
         RetrieveFavorite,
         IncrementService,
@@ -168,6 +170,24 @@ const GetAdsByUserAndFilterPaginatedController = async (req, res) => {
     };
 };
 
+const GetAllAdsByUsersFavoritesPaginatedController = async (req, res) => {
+    let { userId, filtroPreco, filtroReputacao, filtroCotado } = req.body;
+    try {
+
+        let ads = await GetAllServicesByUsersFavorites(userId, filtroPreco, filtroReputacao, filtroCotado);
+
+        ads = await ListingResponse(ads, 2)
+
+        return res.json(ads);
+    } catch (error) {
+        return res.status(500).json({ 
+            msg: `error: Erro ao realizar 'GetAllServiceController' ${error}`,
+            status: true,
+            obj: error.obj
+        });
+    };
+};
+
 const SetFavoriteController = async (req, res) => {
     let { status, id, userId } = req.body;
     try {
@@ -238,6 +258,7 @@ module.exports = {
     GetServicesByFilterPaginatedController,
     GetAllAdsByUserPaginatedController,
     GetAdsByUserAndFilterPaginatedController,
+    GetAllAdsByUsersFavoritesPaginatedController,
     SetFavoriteController,
     RetrieveFavoriteController,
     IncrementServiceController,

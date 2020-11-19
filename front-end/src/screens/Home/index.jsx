@@ -9,15 +9,18 @@ import AdCard from '../../components/AdCard';
 
 export default function Home({ navigation }) {
     const [ads, setAds] = useState([])
+    const [ loading, setLoading ] = useState(false)
 
     useEffect(() => {
         async function _init () {
+            setLoading(true)
             let res = await retrieveData('@user');
             if (!res) {
                 navigation.navigate('Login');
             } else {
                 setAds(await getAllAdsPaginated())
             }
+            setLoading(false)
         };
         _init();
     }, [ navigation ])
@@ -28,7 +31,7 @@ export default function Home({ navigation }) {
     
     return (
         <View style={styles.container}>
-            { !ads &&
+            { loading &&
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />
                 </View>

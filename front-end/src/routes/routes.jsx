@@ -38,7 +38,7 @@ function Tab() {
         <TabStack.Navigator lazy={true} initialRouteName="Home" tabBarOptions={{ showLabel:false, activeTintColor:'black' }}>
             <TabStack.Screen name="Config" component={ Config } options={{ tabBarIcon: ({color}) => (<EvilIcons name="gear" size={40} color={color} />)}} />
             <TabStack.Screen name="Search" component={ Search } options={{ tabBarIcon: ({color}) => (<Fontisto name="zoom" size={35} color={color} />)}} />
-            <TabStack.Screen name="Home" component={ Home } options={{ tabBarIcon: ({color}) => (<MaterialCommunityIcons name="home-outline" size={45} color={color} />)}} />
+            <TabStack.Screen name="Home" component={ Home } options={{ unmountOnBlur:true, tabBarIcon: ({color}) => (<MaterialCommunityIcons name="home-outline" size={45} color={color} />)}} />
             <TabStack.Screen name="Chat" component={ Chat } options={{ tabBarIcon: ({color}) => (<MaterialCommunityIcons name="chat-outline" size={40} color={color} />)}} />
             <TabStack.Screen name="Notify" component={ Notify } options={{ tabBarIcon: ({color}) => (<Fontisto name="bell" size={40} color={color} />)}} />
         </TabStack.Navigator>
@@ -48,11 +48,11 @@ function Tab() {
 function Root() {
     return (
         <DrawerStack.Navigator lazy={true} initialRouteName="Home" drawerType="slide" drawerStyle={{ width: 240 }}>
-            <DrawerStack.Screen name="Home" component={ Tab } options={{ title:"Página Inicial", drawerIcon: ({ color }) => (<AntDesign name="export" size={24} color={color} />) }} />
-            <DrawerStack.Screen name="MyAds" component={ MyAds } options={{ title:"Meus anúncios", drawerIcon: ({ color }) => (<MaterialCommunityIcons name="file-document-edit-outline" size={24} color={color} />) }} />
-            <DrawerStack.Screen name="AddAds" component={ AddAds } options={{ title:"Inserir anúncios", drawerIcon: ({ color }) => (<Entypo name="megaphone" size={24} color={color} />) }} />
-            <DrawerStack.Screen name="Favorites" component={ Favorites } options={{ title:"Favoritos", drawerIcon: ({ color }) => (<AntDesign name="staro" size={24} color={color} />) }} />
-            <DrawerStack.Screen name="Categories" component={ Categories } options={{ title:"Categorias", drawerIcon: ({ color }) => (<AntDesign name="bars" size={24} color={color} />) }} />
+            <DrawerStack.Screen name="Home" component={ Tab } options={{ unmountOnBlur:true, title:"Página Inicial", drawerIcon: ({ color }) => (<AntDesign name="export" size={24} color={color} />) }} />
+            <DrawerStack.Screen name="MyAds" component={ MyAds } options={{ unmountOnBlur:true, title:"Meus anúncios", drawerIcon: ({ color }) => (<MaterialCommunityIcons name="file-document-edit-outline" size={24} color={color} />) }} />
+            <DrawerStack.Screen name="AddAds" component={ AddAds } options={{ unmountOnBlur:true, title:"Inserir anúncios", drawerIcon: ({ color }) => (<Entypo name="megaphone" size={24} color={color} />) }} />
+            <DrawerStack.Screen name="Favorites" component={ Favorites } options={{ unmountOnBlur:true, title:"Favoritos", drawerIcon: ({ color }) => (<AntDesign name="staro" size={24} color={color} />) }} />
+            <DrawerStack.Screen name="Categories" component={ Categories } options={{ unmountOnBlur:true, title:"Categorias", drawerIcon: ({ color }) => (<AntDesign name="bars" size={24} color={color} />) }} />
         </DrawerStack.Navigator>
     )
 }

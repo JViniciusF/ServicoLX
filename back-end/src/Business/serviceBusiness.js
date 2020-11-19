@@ -324,6 +324,68 @@ const GetAdsByUserAndFilterPaginated = async (userId, filter, filtroPreco, filtr
     }
 }
 
+const GetAllServicesByUsersFavorites = async (userId, filtroPreco, filtroReputacao, filtroCotado) => {
+    try {
+        let user = await Account.findOne({ "_id": userId }, { "_id": -1, "favoriteList": 1 })
+
+        let lista = []
+        let ads = []
+        
+        if (user.favoriteList.length > 0) {
+            lista = user.favoriteList.map(( favorite ) => favorite.toString())
+
+            for (let index = 0; index < lista.length; index++) {
+                let tmp = await Service.findOne({"_id" : lista[index]}).populate('category').populate('owner')
+                ads.push(tmp)
+            }
+        }
+
+    
+        if (ads.length > 1) {
+            // Filter by quotation
+            if (filtroCotado && filtroCotado !== "" && filtroCotado !== 'Cotado') {
+                if (filtroCotado === 'Cotado ^') {
+                    ads.sort((a,b) => a.quotedTimes > b.quotedTimes ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.quotedTimes < b.quotedTimes ? 1 : -1)
+                }
+            }
+    
+            // Filter by reputation
+            if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
+                if (filtroReputacao === 'Reputação ^') {
+                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                }
+            }
+    
+            // Filter by price
+            if (filtroPreco && filtroPreco !== "" && filtroPreco !== 'Preço') {
+                if (filtroPreco === 'Preço ^') {
+                    ads.sort((a,b) => a.value > b.value ? 1 : -1)
+                } else {
+                    ads.sort((a,b) => a.value < b.value ? 1 : -1)
+                }
+            }
+        }
+
+        if (!ads) {
+            throw { 
+                msg: `error: Não foram encontrados Ads com o userId ${filter}`,
+                status: true
+            }
+        }
+
+        return ads;
+    } catch (error) {
+        throw { 
+            msg: `error: Erro ao executar a query no DB ${error}`,
+            status: true,
+            obj: error
+        }
+    }
+}
 
 const SetFavorite = async (status, id, userId) => {
     try {
@@ -416,6 +478,7 @@ module.exports = {
     CreateService,
     GetServicesByUserPaginated,
     GetAdsByUserAndFilterPaginated,
+    GetAllServicesByUsersFavorites,
     SetFavorite,
     RetrieveFavorite,
     IncrementService,

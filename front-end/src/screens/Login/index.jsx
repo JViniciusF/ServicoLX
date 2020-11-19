@@ -1,6 +1,7 @@
 
 import React,{ useState, useEffect} from 'react';
 import * as Location from 'expo-location';
+import getEnvVars from '../../../environment';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
 import { styles } from './styles.js'
@@ -10,8 +11,7 @@ import { storeData, retrieveData } from '../../service/storage'
 import * as Google from 'expo-google-app-auth';
 import * as AppAuth from 'expo-app-auth';
 
-const ANDROID_CLIENT_ID = 
-	'485194664644-5p5npuj3r3pk1jcv6b9918qbbuetqjn7.apps.googleusercontent.com'
+const { ANDROID_CLIENT_ID } = getEnvVars(); 
 
 export default function Login({ navigation }) {
 	const [ isSigninInProgress, setIsSigninInProgress ] = useState(false);

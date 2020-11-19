@@ -128,6 +128,25 @@ export async function getAdsByUserAndFilterPaginated(params) {
     }
 }
 
+export async function getAllAdsByUsersFavoritesPaginated(userId, filtroPreco='Preço', filtroReputacao='Reputação', filtroCotado='Cotado') {
+    try {
+        let response = await axios.post(`${apiUrl}service/getAllAdsByUsersFavoritesPaginated`, {userId, filtroPreco, filtroReputacao, filtroCotado})
+
+        if (response.status !== 200)
+            throw Error(response);
+
+        if (response.data)
+            return response.data;
+        else
+            return [];
+
+    } catch(error) {
+        console.log(`${error}`)
+        return [];
+    }
+}
+
+
 export async function favoriteService(params) {
     try {
         let response = await axios.post(`${apiUrl}service/setFavorite`, params)
@@ -209,6 +228,7 @@ export default {
     getAdsByFilterPaginated,
     getAllAdsByUserPaginated,
     getAdsByUserAndFilterPaginated,
+    getAllAdsByUsersFavoritesPaginated,
     favoriteService,
     retrieveFavorite,
     incrementHiredService,

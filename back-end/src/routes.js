@@ -10,6 +10,7 @@ const {
     GetServicesByFilterPaginatedController,
     GetAllAdsByUserPaginatedController,
     GetAdsByUserAndFilterPaginatedController,
+    GetAllAdsByUsersFavoritesPaginatedController,
     SetFavoriteController,
     RetrieveFavoriteController,
     IncrementServiceController,
@@ -61,6 +62,10 @@ routes.post('/service/getAllAdsByUserPaginated', (req, res) => {
 
 routes.post('/service/getAdsByUserAndFilterPaginated', (req, res) => {
     return GetAdsByUserAndFilterPaginatedController(req, res);
+});
+
+routes.post('/service/getAllAdsByUsersFavoritesPaginated', (req, res) => {
+    return GetAllAdsByUsersFavoritesPaginatedController(req, res);
 });
 
 routes.post('/service/setFavorite', (req, res) => {
