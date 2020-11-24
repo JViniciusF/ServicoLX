@@ -66,12 +66,12 @@ const GetServicesByFilter = async (filter, filtroPreco, filtroReputacao, filtroC
                 }
             }
     
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
     
@@ -116,12 +116,12 @@ const GetServicesByCategoryPaginated = async (filter, filtroPreco, filtroReputac
                 }
             }
     
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
     
@@ -167,12 +167,12 @@ const GetServicesByCategoryAndFilterPaginated = async (filter, value, filtroPrec
                 }
             }
     
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
     
@@ -238,12 +238,12 @@ const GetServicesByUserPaginated = async (userId, filtroPreco, filtroReputacao, 
                 }
             }
     
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
     
@@ -288,12 +288,12 @@ const GetAdsByUserAndFilterPaginated = async (userId, filter, filtroPreco, filtr
                 }
             }
     
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
     
@@ -351,12 +351,12 @@ const GetAllServicesByUsersFavorites = async (userId, filtroPreco, filtroReputac
                 }
             }
     
-            // Filter by reputation
+            // Filter by rating
             if (filtroReputacao && filtroReputacao !== "" && filtroReputacao !== 'Reputação') {
                 if (filtroReputacao === 'Reputação ^') {
-                    ads.sort((a,b) => a.reputation > b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating > b.rating ? 1 : -1)
                 } else {
-                    ads.sort((a,b) => a.reputation < b.reputation ? 1 : -1)
+                    ads.sort((a,b) => a.rating < b.rating ? 1 : -1)
                 }
             }
     

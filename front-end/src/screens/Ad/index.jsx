@@ -42,7 +42,6 @@ export default function Ad({ navigation, route }) {
     };
 
     const incrementRating = async () => {
-        console.log(rate)
         await incrementRatingService({id:route.params.value._id, rate})
         setRateModalVisible(false)
     }
