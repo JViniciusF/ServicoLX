@@ -1,10 +1,81 @@
+# ServiceLX :iphone: :heavy_check_mark:
 
-### Requerimentos do projeto
+## Devs :bust_in_silhouette:
+
+- Arthur Barbero [LinkedIn](https://www.linkedin.com/in/arthur-barbero/) / [Github](https://github.com/arthurbarbero);
+- Felippe Alves [LinkedIn](https://www.linkedin.com/in/felippe-alves-de-paula/) / [Github](https://github.com/FelippeAlves);
+- José Vinícius [LinkedIn](https://www.linkedin.com/in/jose-vinicius-ferreira-santana-903239181/) / [Github](https://github.com/JViniciusF).
+
+
+## Objetivo :dart:
+
+Este repositório tem como objetivo apresentar os conhecimentos adquiridos, de forma autodidática no que tange as ferramentas utilizadas abaixo, em uma simples aplicação mobile.
+
+## Introdução :memo:
+
+Nos dias atuais, a procura de produtos e serviços via online se intensificou de maneira exponencial, principalmente devido aos acontecimentos decorrentes da pandemia. O cenário atual pede por soluções mais específicas em todos os ramos de negócio, sejam eles a compra e venda de produtos, entrega de produtos alimentícios entre outros. Dentro deste cenário podemos perceber que existe uma adaptação de plataformas de compra e venda para o ramo de serviços, porém, não existe tal aplicação específica ou na qual angariou seu espaço de forma significante no mercado.
+Pensando desta forma, criou-se o ServiceLX, uma aplicação mobile que se concentra na oferta e demanda de serviços de seus usuários de forma simples.
+
+## Tecnologias utilizadas :computer:
+
+- [React Native](https://reactnative.dev/);
+- [Expo](expo.io);
+- [Node.JS](https://nodejs.org/en/);
+- [Express](https://expressjs.com/pt-br/);
+- [Mongoose](https://mongoosejs.com/).
+
+## Features 
+
+### Login :lock:
+
+Utilizamos a própria conta google do usuário para realizar o Login no aplicativo. Utilizando as ferramentas Expo conseguimos acesso as aplicações nativas do Android e assim conseguimos informações da conta do usuário como foto, e-mail e nome completo. Também utilizando as ferramentas Expo, podemos utilizar a geolocalização do usuário para definir seu endereço completo.
+
+![Login](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Login.jpeg) ![user](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/user1.jpeg)
+
+### Home :house:
+
+Ao logar, o usuário já pode realizar a visualização dos últimos serviços disponibilizados por outros usuários.
+
+![Home](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Login.jpeg)
+
+### Pesquisar :mag:
+
+Quando pesquisar, o usuário poderá colocar palavras chaves e também pesquisar por filtro de preço, reputação ou quantidade de vezes que o serviço foi cotado.
+
+![Search](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Pesquisa.jpeg)![Search_filter](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Pesquisa_filtro_pre%C3%A7o.jpeg)
+
+
+### Menu lateral :page_with_curl:
+
+O usuário poderá, ao arrastar da esquerda para a direita, ter mais opções para ver, criar e separar seus serviços favoritos.
+
+![Menu_lateral](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Menu_lateral.jpeg)
+
+### Categorias :books:
+
+Ao acessar as categorias, o usuário poderá filtrar os serviços por sua categoria cadastrada.
+
+![Category](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Categorias.jpeg)
+
+### Inserir Anúncio :inbox_tray:
+
+Utilizando a seção de "inserir anúncio" qualquer usuário poderá cadastrar seu serviço.
+
+![Insert](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Cadastro.jpeg)
+
+### Detalhes do Serviço :book:
+
+Ao clicar em qualquer serviço, seja proveniente de pesquisa, home ou categorias, é demonstrado os detalhes do serviço e opções de contratação do mesmo. Ao contratar, o usuário também pode realizar a avaliação do serviço prestado.
+
+![details](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Detalhes.jpeg)![Rating](https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Rating.jpeg)
+
+
+## Requerimentos do projeto
 
 - Node versão 12.19.0 LTS ou última estável - [Node Download](https://nodejs.org/en/);
 - React-Native - Expo CLI [Expo](https://expo.io/learn)
 
-### Como iniciar o projeto
+## Como iniciar o projeto
 
 - Baixe e instale [NodeJS](https://nodejs.org/en/) em seu SO de preferência;
 - Instale o Expo-CLI
@@ -43,7 +114,7 @@
     MONGO_USERNAME=serviceLX
     MONGO_PASSWORD=1hN5aLAU3Ksgit6I
   ```
-    Obs.: Utilize as credênciais acima para utilizar o banco de testes.
+    Obs.: Utilize as credenciais acima para utilizar o banco de testes.
 
     - Rode a aplicação
     ```
@@ -94,7 +165,7 @@
    
     export default getEnvVars;
   ```
-    Obs.: Utilize as credênciais acima para utilizar a API local.
+    Obs.: Utilize as credenciais acima para utilizar a API local.
 
   - Após instalar as dependências e criar o arquivo ``environment.js``, inicie a aplicação Expo:
   ```
