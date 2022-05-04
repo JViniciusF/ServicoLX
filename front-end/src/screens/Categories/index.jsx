@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { ActivityIndicator, View, FlatList } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import { getAllCategoriesPaginated } from '../../service/categoriesService'
 
 import AdCard from '../../components/CategoriesCard/';

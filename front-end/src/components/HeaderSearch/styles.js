@@ -16,15 +16,17 @@ export const styles = StyleSheet.create({
         width: '80%',
         height: 40,
         padding: 10,
-        borderColor: 'gray', 
+        borderColor: '#000', 
         borderWidth: 1,
-        borderRadius: 7
+        borderRadius: 7,
+        
     },
     headerFilter: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        marginTop:30
         
     },
     filterText: {

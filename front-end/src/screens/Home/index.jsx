@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { Text, View, FlatList, ActivityIndicator } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import { removeData, retrieveData } from '../../service/storage';
 import { getAllAdsPaginated } from '../../service/adService'
 
@@ -14,15 +14,20 @@ export default function Home({ navigation }) {
     useEffect(() => {
         async function _init () {
             setLoading(true)
+            
             let res = await retrieveData('@user');
             if (!res) {
                 navigation.navigate('Login');
             } else {
                 setAds(await getAllAdsPaginated())
             }
+        
             setLoading(false)
         };
+               
         _init();
+        
+        
     }, [ navigation ])
 
     const searchByFilter = value => {

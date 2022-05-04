@@ -1,7 +1,7 @@
 import React,{ useState, useEffect} from 'react';
 import * as Location from 'expo-location';
 import { Text, View, ScrollView, ActivityIndicator, Image, TouchableHighlight, Alert  } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import { retrieveData, removeData } from '../../service/storage';
 import { setNewLocation } from '../../service/accountService';
 
@@ -25,7 +25,7 @@ export default function Config({ navigation }) {
 
     async function locationHandle() {
         try {
-            let { status } = await Location.requestPermissionsAsync();
+            let { status } = await Location.requestForegroundPermissionsAsync();
             
             if (status !== 'granted') {
                 Alert.alert(
@@ -116,13 +116,18 @@ export default function Config({ navigation }) {
                 </View>
                 :
                 <ScrollView style={styles.scroll}>
-                    <View style={styles.bodyTitle}>
-                        <Text style={ styles.title }>Meus Dados</Text>
-                    </View>
                     <View style={styles.body}>
-                        <Text style={ styles.label }>Dados Pessoais:</Text>
+                        <View style={styles.bodyItem}>
+                            <View style={styles.bodyTitle}>
+                                <Text style={ styles.title }>Meus Dados</Text>
+                            </View>
+                        </View>
+                    </View>
+                    
+                    <View style={styles.body}>
                         <View style={styles.bodyItem}>
                             <View style={styles.bodySubItem}>
+                                <Text style={ styles.label }>Dados Pessoais</Text>
                                 <Text style={ styles.insideLabel }>Nome:</Text>
                                 <Text style={ styles.bodyText }>{user.name} {user.lastName}</Text>
 
@@ -132,7 +137,6 @@ export default function Config({ navigation }) {
                         </View>
                     </View>
                     <View style={styles.body}>
-                        <Text style={ styles.label }>Endereço Cadastrado:</Text>
                         { !user.address ?
                             <View style={styles.loading}>
                                 <ActivityIndicator size='large' color='red' />
@@ -140,17 +144,16 @@ export default function Config({ navigation }) {
                             :
                             <View style={styles.bodyItem}>
                                 <View style={styles.bodySubItem}>
-                                    <Text style={ styles.insideLabel }>Rua:</Text>
-                                    <Text style={ styles.bodyText }>{user.address[0].street}, {user.address[0].number}</Text>
+                                <Text style={ styles.label }>Endereço</Text>
+                                    <Text style={ styles.bodyText }>CEP:  {user.address[0].postalCode}</Text>
+                                    <Text style={ styles.bodyText }>Logradouro:   {user.address[0].street}, {user.address[0].number}</Text>
+                                    <Text style={ styles.bodyText }>Bairro:   {user.address[0].district}</Text>
+                                    
+                                    <Text style={ styles.bodyText }>Cidade:  {user.address[0].city} - {user.address[0].state}</Text>
+                                    
 
-                                    <Text style={ styles.insideLabel }>Bairro:</Text>
-                                    <Text style={ styles.bodyText }>{user.address[0].district}</Text>
 
-                                    <Text style={ styles.insideLabel }>Cidade:</Text>
-                                    <Text style={ styles.bodyText }>{user.address[0].city} - {user.address[0].state}</Text>
 
-                                    <Text style={ styles.insideLabel }>CEP:</Text>
-                                    <Text style={ styles.bodyText }>{user.address[0].postalCode}</Text>
                                 </View>
                             </View>
                         }

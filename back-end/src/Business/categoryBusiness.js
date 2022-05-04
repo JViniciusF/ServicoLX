@@ -4,7 +4,7 @@ const AddCategory = async (name, img) => {
     try {
         return await Category.create({
             name: name,
-            img: img
+            images: img
         });
     } catch (error) {
         throw { 

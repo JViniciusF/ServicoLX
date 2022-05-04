@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { FlatList, View, ActivityIndicator, Alert, Text } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import HeaderSearch from '../../components/HeaderSearch';
 import AdCard from '../../components/AdCard';
 import { retrieveData } from '../../service/storage';

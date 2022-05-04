@@ -2,7 +2,7 @@ import React,{ useState, useEffect} from 'react';
 import { Text, ScrollView, View,  TouchableHighlight, TextInput, ActivityIndicator, Alert, Image  } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import * as ImagePicker from 'expo-image-picker';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import { Picker } from '@react-native-picker/picker';
 import { getAllCategories } from '../../service/categoriesService';
 import { saveNewAd } from '../../service/adService';
@@ -32,7 +32,7 @@ export default function AddAds({ navigation }) {
 
         async function requestMediaPermission() {
             try {
-                let { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+                let { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
                     
                 if (status !== 'granted') {
                     Alert.alert(
@@ -91,7 +91,7 @@ export default function AddAds({ navigation }) {
                     category: selectedCategory,
                     value
                 });
-    
+                
                 if (!res) {
                     throw "Falha ao salvar o serviço, tente novamente";
                 } 

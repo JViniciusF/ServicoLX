@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { Text, View, FlatList, TextInput, TouchableHighlight, ActivityIndicator, ScrollView } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 
 import { getAdsByFilterPaginated, getAllAdsPaginated} from '../../service/adService'
 import AdCard from '../../components/AdCard'
@@ -32,12 +32,14 @@ export default function Search({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <HeaderSearch searchByFilter={searchByFilter} />
-            { isLoading && 
-                <View style={styles.loading}>
-                    <ActivityIndicator size='large' color='red' />
-                </View>
-		    }
+            <View style = {styles.headerBody}>
+                <HeaderSearch searchByFilter={searchByFilter} />
+                { isLoading && 
+                    <View style={styles.loading}>
+                        <ActivityIndicator size='large' color='red' />
+                    </View>
+                }
+            </View>
             <View style={styles.body}>
                 { !isLoading && !ads &&
                     <Text style={styles.bodyText}>

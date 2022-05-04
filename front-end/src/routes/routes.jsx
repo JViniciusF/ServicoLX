@@ -14,12 +14,13 @@ import { AntDesign } from '@expo/vector-icons';
 import Login from '../screens/Login';
 import Ad from '../screens/Ad';
 import SearchCategory from '../screens/SearchCategory'
+import Register from '../screens/Register'
 
 // Screens - TabNavigation
 import Config from '../screens/Config';
 import Home from '../screens/Home';
 import Search from '../screens/Search';
-import Chat from '../screens/Chat';
+import Conversations from '../screens/Conversations' 
 import Notify from '../screens/Notify';
 
 // Screens - DrawerNavigation
@@ -27,6 +28,7 @@ import MyAds from '../screens/MyAds';
 import AddAds from '../screens/AddAds';
 import Favorites from '../screens/Favorites';
 import Categories from '../screens/Categories';
+
 
 const AppStack = createStackNavigator();
 const DrawerStack = createDrawerNavigator();
@@ -39,7 +41,7 @@ function Tab() {
             <TabStack.Screen name="Config" component={ Config } options={{ tabBarIcon: ({color}) => (<EvilIcons name="gear" size={40} color={color} />)}} />
             <TabStack.Screen name="Search" component={ Search } options={{ tabBarIcon: ({color}) => (<Fontisto name="zoom" size={35} color={color} />)}} />
             <TabStack.Screen name="Home" component={ Home } options={{ unmountOnBlur:true, tabBarIcon: ({color}) => (<MaterialCommunityIcons name="home-outline" size={45} color={color} />)}} />
-            <TabStack.Screen name="Chat" component={ Chat } options={{ tabBarIcon: ({color}) => (<MaterialCommunityIcons name="chat-outline" size={40} color={color} />)}} />
+            <TabStack.Screen name="Chat" component={ Conversations } options={{ tabBarIcon: ({color}) => (<MaterialCommunityIcons name="chat-outline" size={40} color={color} />)}} />
             <TabStack.Screen name="Notify" component={ Notify } options={{ tabBarIcon: ({color}) => (<Fontisto name="bell" size={40} color={color} />)}} />
         </TabStack.Navigator>
     )
@@ -62,6 +64,7 @@ export default function Routes() {
         <NavigationContainer>
             <AppStack.Navigator lazy={true} initialRouteName="Login" screenOptions={{ headerShown: false }}>
                 <AppStack.Screen name="Login" component={ Login } />
+                <AppStack.Screen name="Register" component={ Register } />
                 <AppStack.Screen name="Root" component={ Root } />
                 <AppStack.Screen name="Ad" component={ Ad } />
                 <AppStack.Screen name="SearchCategory" component={ SearchCategory } />

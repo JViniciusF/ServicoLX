@@ -5,7 +5,7 @@ import getEnvVars from '../../../environment';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
 import { styles } from './styles.js'
-import { registerUser,loginUser, registerUserByGoogle }  from '../../service/accountService'
+import { registerUser,loginUser }  from '../../service/accountService'
 import { storeData, retrieveData } from '../../service/storage'
 
 // import { loginCall } from "../../apiCalls";
@@ -24,6 +24,8 @@ export default function Login({ navigation }) {
 	const [user,setUser ] = useState(null);
 	const [email,setEmail] = useState(null)
 	const [password,setPassword] = useState(null)
+    const [name, setName] = useState(null)
+    const [lastName, setLastName] = useState(null)
 
 		 
 	useEffect(() => {
@@ -33,7 +35,7 @@ export default function Login({ navigation }) {
 				navigation.reset({index: 0, routes: [{name:'Root'}]});
 			}
 		};
-		
+		_init();
 		
 		async function requestMediaPermission(){
 			try {
@@ -80,80 +82,27 @@ export default function Login({ navigation }) {
 				requestLocationPermission()
 			}
 		};
-		_init();
 		requestLocationPermission();
 		requestMediaPermission();
-        
-
 	}, []);
 
-	async function signInWithGoogleAsync() {
+	async function registerCall() {
 		
 		try {
 			setIsSigninInProgress(true)
 
-			const result = await Google.logInAsync({
-				androidClientId: ANDROID_CLIENT_ID,
-			});
-			
-			if (result.type === 'success') {
-				let { user } = result;
-				let {address, coords} = location;
-				
-				let account = await registerUserByGoogle({ user, address, coords })
-				if (account) {
-					let status = await storeData('@user', JSON.stringify(account))
-					if (status)
-						navigation.reset({index: 0, routes: [{name:'Root'}]});
-				} else {
-					Alert.alert(
-						"Falha no login",
-						"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
-						[
-							{ text: "OK"}
-						],
-						{ cancelable: false }
-					);
-				}
-				setIsSigninInProgress(false);
-			} else {
-				// implementar toast bonitin https://docs.expo.io/versions/latest/react-native/toastandroid/
-				setIsSigninInProgress(false)
-				return { cancelled: true };
+            let user = {'name':name,'email':email,'password':password,'lastName':lastName};
+            let {address, coords} = location;
+            let account = await registerUser({ user, address, coords })
+            if (account){
+				navigation.navigate('Login')
 			}
+            setIsSigninInProgress(false);
+        
 		} catch (e) {
 			return { error: true };
 		}
 	}
-	
-	async function loginCall(){
-		try {
-			setIsSigninInProgress(true)
-			let user= { 'email': email, 'password': password};
-			console.log(user);
-			let account = await loginUser(user);
-			if (account) {
-				let status = await storeData('@user', JSON.stringify(account))
-				if (status)
-					navigation.reset({index: 0, routes: [{name:'Root'}]});
-			} else {
-				Alert.alert(
-					"Falha no login",
-					"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
-					[
-						{ text: "OK"}
-					],
-					{ cancelable: false }
-				);
-			}
-			setIsSigninInProgress(false);
-
-		} catch (e) {
-			return { error: true };
-		}
-		
-	}
-
 
   return (
     <View style={styles.container}>
@@ -163,10 +112,17 @@ export default function Login({ navigation }) {
 			</View>
 		}
 
-		<View style={styles.containerLogo}>
-			<Text title='Teste'>LOGO</Text>
-		</View>
 		<View style= {styles.loginOptions}>
+            <TextInput
+                placeholder='Nome'
+                style={styles.loginInput}
+                onChangeText={(text)=>{setName(text)}}
+            />
+            <TextInput
+                placeholder='Sobrenome'
+                style={styles.loginInput}
+                onChangeText={(text)=>{setLastName(text)}}
+            />
 			<TextInput
 				placeholder="Email"
 				style={styles.loginInput}
@@ -179,27 +135,11 @@ export default function Login({ navigation }) {
 				style={styles.loginInput}
 				onChangeText={(text)=>{setPassword(text)}}
 			/>
-			<Button title = "Entrar" color="green" onPress={()=>{loginCall()}} disabled={isSigninInProgress}>
+			<Button title = "Registrar" color="green" onPress={()=>{registerCall()}} disabled={isSigninInProgress}>
             </Button>
-            <Button title = "Registrar" onPress={() => navigation.navigate('Register')}>
-            </Button>
+
 		</View>
-		<View style={styles.loginOptions}>
-			<View style={styles.googleBackground}>
-				<View style={styles.googleSet}>
-					<Image 
-						style={styles.tinyLogo}
-						source={{
-							uri:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/471px-Google_%22G%22_Logo.svg.png"
-						}}
-					></Image>
-					<Button style={styles.googleBtn} title='Sign in with google' onPress={() => { signInWithGoogleAsync() }}></Button>
-				</View>
-			</View>
-			<View style={styles.disclaimer}>
-				<Text style={{fontSize: 12}} title="teste">ServiceLX - Todos os direitos reservados</Text>
-			</View>
-		</View>
+		
     </View>
   )
 }

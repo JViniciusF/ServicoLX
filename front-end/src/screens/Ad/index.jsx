@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { Text, View, ScrollView, TouchableHighlight, ActivityIndicator, Modal, Image } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import { favoriteService, retrieveFavorite, incrementHiredService, incrementRatingService } from '../../service/adService'
 import { TextMask  } from 'react-native-masked-text';
 import { AntDesign } from '@expo/vector-icons';
@@ -141,6 +141,8 @@ export default function Ad({ navigation, route }) {
             }
             <ScrollView style={styles.scroll}>
                 <View style={styles.body}>
+                <Text style={ styles.title }>{route.params.value.name}</Text>
+ 
                     <View style={styles.bodyItem}>
                         {!route.params.value.images &&
                             <View style={styles.loading}>
@@ -151,56 +153,53 @@ export default function Ad({ navigation, route }) {
                             <Image source={{ uri: `data:image/png;base64,${route.params.value.images}` }} style={{ width: "90%", height: 200 }} />
                         }
                     </View>
-                </View>
-                <View style={styles.body}>
-                    <Text style={ styles.label }>Título:</Text>
                     <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{route.params.value.name}</Text>
+                        <Text style={ styles.bodyItemTextInput }>Valor:</Text>
+                        <TextMask  
+                            type={'money'}
+                            style={ styles.bodyItemTextInputValor }
+                            value={ route.params.value.value } />
                     </View>
-                </View>
-                <View style={styles.body}>
-                    <Text style={ styles.label }>Descrição:</Text>
+
                     <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{route.params.value.description}</Text>
+                        <Text style={ styles.bodyItemTextInput}>{route.params.value.description}</Text>
                     </View>
-                </View>
-                <View style={styles.body}>
+
+                    <Text style={ styles.label }>Anunciante:</Text>
+                    <View style={styles.bodyItem}>
+                        <Text style={ styles.bodyText }>{`${route.params.value.owner.name} ${route.params.value.owner.lastName}`}</Text>
+                    </View>
+
+                    <Text style={ styles.label }>Localização:</Text>
+                    <View style={styles.bodyItem}>
+                        <Text style={ styles.bodyText }>{`${route.params.value.owner.address[0].district},${route.params.value.owner.address[0].city}`}</Text>
+                    </View>
                     <Text style={ styles.label }>Categoria:</Text>
                     <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{route.params.value.category.map(category=>(` ${category.name}`))}</Text>
+                        <Text style={ styles.bodyText}>{route.params.value.category.map(category=>(` ${category.name}`))}</Text>
                     </View>
-                </View>
-                <View style={styles.body}>
+
                     <Text style={ styles.label }>Valor:</Text>
-                    <View style={styles.bodyItemTextInput}>
+                    <View style={styles.bodyItem}>
                         <TextMask  
                             type={'money'}
                             style={ styles.bodyText }
                             value={ route.params.value.value } />
                     </View>
+
+
                 </View>
-                <View style={styles.body}>
-                    <Text style={ styles.label }>Anunciante:</Text>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{`${route.params.value.owner.name} ${route.params.value.owner.lastName}`}</Text>
-                    </View>
+                <View style = {styles.body}>
+                    <TouchableHighlight 
+                        onPress={() => setConfirmModalVisible(true)}
+                        underlayColor="#DDDDDD"
+                    >
+                        <View style={styles.saveButton}>
+                            <Text style={styles.saveButtonText}>Contratar</Text>
+                        </View>
+                    </TouchableHighlight>
+
                 </View>
-                <View style={styles.body}>
-                    <Text style={ styles.label }>Localização:</Text>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{`${route.params.value.owner.address[0].city} - ${route.params.value.owner.address[0].district}`}</Text>
-                    </View>
-                </View>
-                <View style={styles.body}>
-                        <TouchableHighlight 
-                            onPress={() => setConfirmModalVisible(true)}
-                            underlayColor="#DDDDDD"
-                        >
-                            <View style={styles.saveButton}>
-                                <Text style={styles.saveButtonText}>Contratar</Text>
-                            </View>
-                        </TouchableHighlight>
-                    </View>
             </ScrollView>
         </View>
     )

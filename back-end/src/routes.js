@@ -1,5 +1,5 @@
-const { Router } = require('express');
-const { LoginController, SetLocationController } = require('./controller/accountController');
+const { Router, response } = require('express');
+const { LoginController, SetLocationController,RegisterController,LoginControllerByGoogle,GetAccountController} = require('./controller/accountController');
 
 const { 
     GetAllServicePaginatedController,
@@ -23,17 +23,39 @@ const {
     GetAllCategoriesPaginatedController 
 } = require('./controller/categoryController');
 
+const {
+    AddMessageController,
+    GetAllMessagesByConversationController
+} = require ('./controller/messageController');
+
+const {
+    AddConversationController,
+    GetAllConversationByAllUsersController,
+    GetAllConversationByUserController
+} = require ('./controller/conversationController');
+
 const routes = Router();
 
 // ACCOUNT CONTROLLERS
-routes.post('/account/register', (req, res) => {
+routes.post('/account/login', (req, res) => {
     return LoginController(req, res);
+});
+
+routes.post('/account/register', (req, res) => {
+    return RegisterController(req, res);
+});
+
+routes.post('/account/loginByGoogle', (req, res) => {
+    return LoginControllerByGoogle(req, res);
 });
 
 routes.post('/account/setNewLocation', (req, res) => {
     return SetLocationController(req, res);
 });
 
+routes.post('/account/getUserAccount', (req,res)=>{
+    return GetAccountController(req,res)
+})
 
 // SERVICE CONTROLLERS
 routes.post('/service/getAllAdsPaginated', (req, res) => {
@@ -99,6 +121,32 @@ routes.get('/category/getAllPaginated', (req, res) => {
 
 routes.post('/category/new', (req, res) => {
     return NewCategoryController(req, res);
+});
+
+// Conversation Controller
+routes.post('/conversation/new',(req,res)=>{
+    return AddConversationController(req,res);
+
+});
+
+routes.post('/conversation/getAllConversationByUser',(req,res)=>{
+    return GetAllConversationByUserController(req,res)
+    
+});
+
+routes.get('/conversation/getAllConversationByAllUsers',(req,res)=>{
+    return GetAllConversationByAllUsersController(req,res)
+});
+
+// Message Controller
+routes.post('/message/new',(req,res)=>{
+    return AddMessageController (req,res)
+
+});
+
+routes.get('/message/getAllMessageByConversation',(req,res)=>{
+    return GetAllMessagesByConversationController(req,res)
+
 });
 
 module.exports = routes;
