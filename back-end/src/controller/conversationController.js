@@ -1,4 +1,4 @@
-const {AddConversation,GetAllConversationByAllUsers,GetAllConversationByUser} = require('../Business/conversationBusiness');
+const {AddConversation,GetAllConversationByAllUsers,GetAllConversationByUser,GetConversationById} = require('../Business/conversationBusiness');
 
 const AddConversationController = async (req, res) => {
     let { 
@@ -20,9 +20,7 @@ const AddConversationController = async (req, res) => {
 };
 
 const GetAllConversationByUserController = async (req, res) => {
-    let { 
-        userId
-    } = req.body;
+    let {userId} = req.body;
 
     try {
         const conversation = await GetAllConversationByUser(userId);
@@ -57,4 +55,22 @@ const GetAllConversationByAllUsersController = async (req, res) => {
     }
 };
 
-module.exports= {AddConversationController,GetAllConversationByAllUsersController,GetAllConversationByUserController}
+const GetConversationByIdController = async (req, res) => {
+    let { 
+        id,
+    } = req.body;
+    try {
+        const conversation = await GetConversationById(id);
+        if (!conversation) {
+            return res.status(500).json({"error": `Ocorreu um erro ao resgatar as conversas ${error}`})
+        }
+
+        return res.json(conversation); 
+
+    } catch (error) {
+        return res.status(500).json({"error": `Ocorreu um erro ao resgatar as conversas ${error.obj}`})
+    }
+};
+
+
+module.exports= {AddConversationController,GetAllConversationByAllUsersController,GetAllConversationByUserController,GetConversationByIdController}

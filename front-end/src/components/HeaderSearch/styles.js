@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
         borderColor: '#000', 
         borderWidth: 1,
         borderRadius: 7,
+        backgroundColor:'white'
         
     },
     headerFilter: {
@@ -37,6 +38,7 @@ export const styles = StyleSheet.create({
         paddingRight: 10,
         paddingBottom: 5,
         paddingTop: 5,
+        backgroundColor:'white'
     },
     filterTextMajor: {
         borderColor: 'black',
@@ -57,5 +59,16 @@ export const styles = StyleSheet.create({
         paddingRight: 10,
         paddingBottom: 5,
         paddingTop: 5,
+    },
+
+    iconInput:{
+        backgroundColor:'white',
+        borderRadius:7,
+        borderWidth:1,
+        width:50,
+        height:40,
+        alignContent:'center',
+        alignItems:'center',
+        justifyContent:'center'
     }
 });

@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Rating } from 'react-native-ratings';
 import { retrieveData } from '../../service/storage'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default function Ad({ navigation, route }) {
@@ -28,11 +29,9 @@ export default function Ad({ navigation, route }) {
     }, [route.params]);
 
     const setFavorite = async (status) => {
-        setIsLoading(true)
         let userId = JSON.parse(await retrieveData('@user'))._id
         let newStatus = await favoriteService({ status, id: route.params.value._id, userId})
         setIsFavorite(newStatus.msg)
-        setIsLoading(false)
     };
 
     const hireService = async () => {
@@ -47,7 +46,7 @@ export default function Ad({ navigation, route }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.body}>
 
             <Modal
                 animationType="slide"
@@ -112,17 +111,17 @@ export default function Ad({ navigation, route }) {
 
             <View style={styles.headerContainer}>
                 <View style={styles.header}>
-                    <TouchableHighlight 
+                    <TouchableOpacity 
                         onPress={() => navigation.goBack()}
-                        underlayColor="#DDDDDD"
+                        activeOpacity={1}
                     >
                         <View style={styles.back_btn}>
                             <Ionicons name="ios-arrow-back" size={30} color="black" />
                         </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight 
+                    </TouchableOpacity>
+                    <TouchableOpacity 
                         onPress={() => setFavorite(!isFavorite) }
-                        underlayColor="#DDDDDD"
+                        activeOpacity={1}
                     >
                         <View style={styles.back_btn}>
                         { isFavorite ?
@@ -131,7 +130,7 @@ export default function Ad({ navigation, route }) {
                            <AntDesign name="staro" size={24} color="black" />
                         }
                         </View>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
             </View>
             { isLoading &&
@@ -140,65 +139,64 @@ export default function Ad({ navigation, route }) {
                 </View>
             }
             <ScrollView style={styles.scroll}>
-                <View style={styles.body}>
-                <Text style={ styles.title }>{route.params.value.name}</Text>
- 
-                    <View style={styles.bodyItem}>
-                        {!route.params.value.images &&
-                            <View style={styles.loading}>
-                                <ActivityIndicator size='large' color='red' />
-                            </View>
-                        }
-                        {route.params.value.images &&
-                            <Image source={{ uri: `data:image/png;base64,${route.params.value.images}` }} style={{ width: "90%", height: 200 }} />
-                        }
-                    </View>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyItemTextInput }>Valor:</Text>
-                        <TextMask  
-                            type={'money'}
-                            style={ styles.bodyItemTextInputValor }
-                            value={ route.params.value.value } />
-                    </View>
-
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyItemTextInput}>{route.params.value.description}</Text>
-                    </View>
-
-                    <Text style={ styles.label }>Anunciante:</Text>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{`${route.params.value.owner.name} ${route.params.value.owner.lastName}`}</Text>
-                    </View>
-
-                    <Text style={ styles.label }>Localização:</Text>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText }>{`${route.params.value.owner.address[0].district},${route.params.value.owner.address[0].city}`}</Text>
-                    </View>
-                    <Text style={ styles.label }>Categoria:</Text>
-                    <View style={styles.bodyItem}>
-                        <Text style={ styles.bodyText}>{route.params.value.category.map(category=>(` ${category.name}`))}</Text>
-                    </View>
-
-                    <Text style={ styles.label }>Valor:</Text>
-                    <View style={styles.bodyItem}>
-                        <TextMask  
-                            type={'money'}
-                            style={ styles.bodyText }
-                            value={ route.params.value.value } />
-                    </View>
-
-
-                </View>
-                <View style = {styles.body}>
-                    <TouchableHighlight 
-                        onPress={() => setConfirmModalVisible(true)}
-                        underlayColor="#DDDDDD"
-                    >
-                        <View style={styles.saveButton}>
-                            <Text style={styles.saveButtonText}>Contratar</Text>
+                <View style={styles.card}>
+                    <View style = {styles.containerRow}>
+                        <View style={styles.containerCenter}>
+                            {!route.params.value.images &&
+                                <View style={styles.loading}>
+                                    <ActivityIndicator size='large' color='red' />
+                                </View>
+                            }
+                            {route.params.value.images &&
+                                <Image source={{ uri: `data:image/png;base64,${route.params.value.images}` }} style={{ width: "90%", height: 200 }} />
+                            }
                         </View>
-                    </TouchableHighlight>
+                    </View>
+                </View>
+                <View style={styles.card}>
+                    <Text style={ styles.title }>{route.params.value.name}</Text>
+ 
+                    <View style={styles.containerRow}>
+                        
+                        <View style = {styles.containerLeft}>
+                            <Text style={ styles.label }>Valor:</Text>
+                            <TextMask  
+                                type={'money'}
+                                style={ styles.input }
+                                value={ route.params.value.value } />
 
+
+
+                            <Text style={ styles.bodyItemTextInput}>{route.params.value.description}</Text>
+
+
+                            <Text style={ styles.label }>Anunciante:</Text>
+
+                            <Text style={ styles.input }>{`${route.params.value.owner.name} ${route.params.value.owner.lastName}`}</Text>
+
+
+                            <Text style={ styles.label }>Localização:</Text>
+
+                            <Text style={ styles.input }>{`${route.params.value.owner.address[0].district},${route.params.value.owner.address[0].city}`}</Text>
+
+                            <Text style={ styles.label }>Categoria:</Text>
+
+                            <Text style={ styles.input}>{route.params.value.category.map(category=>(` ${category.name}`))}</Text>
+                        </View>
+
+                    </View>
+                </View>
+                <View style = {styles.card}>
+                        <View style = {styles.containerCenter}>
+                            <TouchableHighlight 
+                                onPress={() => setConfirmModalVisible(true)}
+                                underlayColor="#DDDDDD"
+                            >
+                                <View style={styles.saveButton}>
+                                    <Text style={styles.saveButtonText}>Contratar</Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
                 </View>
             </ScrollView>
         </View>

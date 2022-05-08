@@ -6,6 +6,7 @@ const LoginControllerByGoogle = async (req, res) => {
         coords,
         user
     } = req.body;
+
     try {
         const account = await RegisterAccountByGoogle(address, coords, user);
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React,{ useEffect, useState } from "react";
-import { Text, View, FlatList, TouchableHighlight, Image } from 'react-native';
+import { Text, View, FlatList, TouchableHighlight, Image, } from 'react-native';
 import {getUserAccount} from '../../service/accountService'
 import { styles } from './styles.js';
 
@@ -25,21 +25,12 @@ export default function Conversation (props) {
   }, [secundId]);
 
   return (
-    <TouchableHighlight 
-          onPress={() => {console.log('teste de click');}}
-          style={styles.card}>
-          <View style = {styles.conversation}>
-          <Image
-          style={styles.conversationImg}
-          source={{
-          uri: secundUser ? secundUser.avatarUrl : 'https://reactnative.dev/img/tiny_logo.png',
-        }}
-        />
-          <View style={styles.title}>
-          <Text style = {styles.conversationName}>{secundUser?.name}</Text>
-          </View>
-          </View>
-      </TouchableHighlight>
+    <TouchableHighlight onPress={() => props.onPressCard(props.conversation._id)} style={styles.conversation}>
+      <View style = {styles.card}>
+        <Image style={styles.conversationImg} source={{uri: secundUser ? secundUser.avatarUrl : 'https://reactnative.dev/img/tiny_logo.png'}}/>
+        <Text style = {styles.conversationName}>{secundUser?.name}</Text>
+      </View>
+    </TouchableHighlight>
 
   );
 }

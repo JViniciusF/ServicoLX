@@ -49,7 +49,7 @@ export default function MyAds({ navigation, route }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.body}>
             <HeaderSearch searchByFilter={searchByFilter} />
             { isLoading && 
                 <View style={styles.loading}>

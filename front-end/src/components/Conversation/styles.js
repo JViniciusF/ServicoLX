@@ -2,24 +2,33 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 
-conversation:{
-    display: 'flex',
-    alignItems: 'center',
-    width:200,
-    height:50,
-    padding: 10,
-    marginTop: 20,
-    backgroundColor:'white'
+  conversation:{
+    backgroundColor:'white',
+    height:75,
+    width:'100%',
+    marginTop:10,
+    marginBottom:10,
+    justifyContent:'center',
   },
+
   conversationImg:{
-    width: 40,
-    height: 40,
+    width: 65,
+    height: 65,
+    maxWidth:65,
     borderRadius: 50,
-    marginRight: 20,
+    alignSelf:'flex-start',
+    justifyContent:'center'
   },
 
   conversationName: {
+    marginLeft:15,
     fontSize: 20,
+  },
+  
+  card:{
+    margin:15,
+    flexDirection:"row"
+    
   }
 
 })

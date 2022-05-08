@@ -6,7 +6,7 @@ const { apiUrl } = getEnvVars();
 
 export async function GetAllMessagesByConversationService(conversationId) {
     try {
-        let response = await axios.post(`${apiUrl}message/getAllByConversation`, {conversationId})
+        let response = await axios.post(`${apiUrl}message/getAllMessageByConversation`, conversationId)
 
         if (response.status !== 200)
             throw Error(response);

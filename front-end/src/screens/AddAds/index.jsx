@@ -122,13 +122,13 @@ export default function AddAds({ navigation }) {
 
     return (
         <ScrollView style={styles.scrollBackground}>
-            <View style={styles.container}>
+            <View style={styles.body}>
                 { isLoading && 
                     <View style={styles.loading}>
                         <ActivityIndicator size='large' color='red' />
                     </View>
                 }
-                <View style={styles.body}>
+                <View style={styles.card}>
                     <View style={styles.bodyText}> 
                         {!image && 
                             <Image source={{ uri: `https://www.fotoefeitos.com/efectos/grandes/coloca-tu-foto-en-un-fotograma.jpg` }} style={{ width: "90%", height: 200 }} />

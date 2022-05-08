@@ -4,7 +4,7 @@ import * as Location from 'expo-location';
 import getEnvVars from '../../../environment';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
-import { styles } from './styles.js'
+import { styles } from '../../utils/styles.js'
 import { registerUser,loginUser, registerUserByGoogle }  from '../../service/accountService'
 import { storeData, retrieveData } from '../../service/storage'
 
@@ -156,7 +156,7 @@ export default function Login({ navigation }) {
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.body}>
 		{ isSigninInProgress && 
 			<View style={styles.loading}>
 				<ActivityIndicator size='large' color='red' />

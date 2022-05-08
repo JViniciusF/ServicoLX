@@ -31,8 +31,8 @@ export default function Search({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
-            <View style = {styles.headerBody}>
+        <View style={styles.body}>
+            <View style = {styles.searchHeader}>
                 <HeaderSearch searchByFilter={searchByFilter} />
                 { isLoading && 
                     <View style={styles.loading}>
@@ -40,7 +40,7 @@ export default function Search({ navigation }) {
                     </View>
                 }
             </View>
-            <View style={styles.body}>
+            <View style = {styles.searchBody}>
                 { !isLoading && !ads &&
                     <Text style={styles.bodyText}>
                         Utilize o campo acima e faça uma pesquisa.

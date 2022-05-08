@@ -31,7 +31,8 @@ const {
 const {
     AddConversationController,
     GetAllConversationByAllUsersController,
-    GetAllConversationByUserController
+    GetAllConversationByUserController,
+    GetConversationByIdController
 } = require ('./controller/conversationController');
 
 const routes = Router();
@@ -129,6 +130,11 @@ routes.post('/conversation/new',(req,res)=>{
 
 });
 
+routes.post('/conversation/getById',(req,res)=>{
+    return GetConversationByIdController(req,res);
+
+});
+
 routes.post('/conversation/getAllConversationByUser',(req,res)=>{
     return GetAllConversationByUserController(req,res)
     
@@ -144,7 +150,7 @@ routes.post('/message/new',(req,res)=>{
 
 });
 
-routes.get('/message/getAllMessageByConversation',(req,res)=>{
+routes.post('/message/getAllMessageByConversation',(req,res)=>{
     return GetAllMessagesByConversationController(req,res)
 
 });

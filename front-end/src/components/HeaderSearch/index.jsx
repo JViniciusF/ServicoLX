@@ -46,6 +46,7 @@ export default function HeaderSearch(props) {
                 <TextInput
                     style={ styles.searchInput }
                     onChangeText={text => onChangeText(text)}
+                    placeholder = "Pesquisar"
                     value={ value }
                 />
                 <TouchableHighlight 

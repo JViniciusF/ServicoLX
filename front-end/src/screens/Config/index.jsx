@@ -20,7 +20,7 @@ export default function Config({ navigation }) {
     useEffect(() => {
 
         _init();
-
+        
     }, []);
 
     async function locationHandle() {
@@ -99,64 +99,71 @@ export default function Config({ navigation }) {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.headerContainer}>
+        <View style={styles.body}>
+            <View style={styles.configHeaderContainer}>
                 <View style={styles.header}>
                     <Image
-                        style={styles.tinyLogo}
+                        style={styles.tinyPhoto}
                         source={{
                         uri: user ? user.avatarUrl : 'https://reactnative.dev/img/tiny_logo.png',
                         }}
                     />
                 </View>
             </View>
-            { isLoading ?
+            { isLoading &&
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />
                 </View>
-                :
+            }{
                 <ScrollView style={styles.scroll}>
-                    <View style={styles.body}>
-                        <View style={styles.bodyItem}>
-                            <View style={styles.bodyTitle}>
-                                <Text style={ styles.title }>Meus Dados</Text>
-                            </View>
-                        </View>
-                    </View>
-                    
-                    <View style={styles.body}>
-                        <View style={styles.bodyItem}>
-                            <View style={styles.bodySubItem}>
-                                <Text style={ styles.label }>Dados Pessoais</Text>
-                                <Text style={ styles.insideLabel }>Nome:</Text>
-                                <Text style={ styles.bodyText }>{user.name} {user.lastName}</Text>
 
-                                <Text style={ styles.insideLabel }>E-mail:</Text>
-                                <Text style={ styles.bodyText }>{user.email}</Text>
+                    <View style={styles.card}>
+                        <View style = {styles.cardHeader}>
+                            <Text style={ styles.label }>Meus Dados</Text>
+                        </View>
+                        <View style = {styles.containerRow}>
+
+                            <View style = {styles.containerLeft}>
+
+                                <Text style={ styles.label }>Nome</Text>
+                                <Text style={ styles.input }>{user.name} {user.lastName}</Text>
+
+                                <Text style={ styles.label }>E-mail</Text>
+                                <Text style={ styles.input }>{user.email}</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={styles.body}>
-                        { !user.address ?
+                    { !user.address ?
                             <View style={styles.loading}>
                                 <ActivityIndicator size='large' color='red' />
                             </View>
-                            :
-                            <View style={styles.bodyItem}>
-                                <View style={styles.bodySubItem}>
-                                <Text style={ styles.label }>Endereço</Text>
-                                    <Text style={ styles.bodyText }>CEP:  {user.address[0].postalCode}</Text>
-                                    <Text style={ styles.bodyText }>Logradouro:   {user.address[0].street}, {user.address[0].number}</Text>
-                                    <Text style={ styles.bodyText }>Bairro:   {user.address[0].district}</Text>
-                                    
-                                    <Text style={ styles.bodyText }>Cidade:  {user.address[0].city} - {user.address[0].state}</Text>
-                                    
-
-
-
+                            :                 
+                            <View style={styles.card}>
+                                <View style = {styles.cardHeader}>
+                                    <Text style={ styles.label }>Endereço</Text>
                                 </View>
+                                    <View style={styles.containerRow}>
+                                        <View style={styles.containerLeft}>
+                                            
+                                            <Text style={ styles.label }>CEP</Text>
+                                            <Text style={ styles.input }>{user.address[0].postalCode}</Text>
+
+                                            <Text style={ styles.label }>Logradouro</Text>
+                                            <Text style={ styles.input }>{user.address[0].street}, {user.address[0].number}</Text>
+
+                                            <Text style={ styles.label }>Bairro</Text>
+                                            <Text style={ styles.input }>{user.address[0].district}</Text>
+
+                                            <Text style={ styles.label }>Cidade</Text>
+                                            <Text style={ styles.input }>{user.address[0].city} - {user.address[0].state}</Text>
+                                        </View>
+                                    </View>
                             </View>
-                        }
+                    }
+                    <View style = {styles.card}>
+                        <View style = {styles.containerCenter}>
+
+                        
                             <TouchableHighlight 
                                 onPress={() => changeCurrentLocation()}
                                 underlayColor="#DDDDDD"
@@ -173,6 +180,7 @@ export default function Config({ navigation }) {
                                     <Text style={styles.logoutButtonText}>{`Sair`}</Text>
                                 </View>
                             </TouchableHighlight>
+                        </View>
                     </View>
                 </ScrollView>
             }

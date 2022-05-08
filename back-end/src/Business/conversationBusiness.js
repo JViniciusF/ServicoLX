@@ -49,4 +49,19 @@ const GetAllConversationByAllUsers = async (firstUserId,secondUserId)=>{
   }
 };
 
-module.exports = {AddConversation,GetAllConversationByUser,GetAllConversationByAllUsers};
+const GetConversationById = async (conversationId)=>{
+  try {
+    const conversation = await Conversation.findOne({
+      id: conversationId,
+    });
+    return conversation
+  } catch (error) {
+    throw { 
+        msg: `error: Erro ao inserir no DB ${error}`,
+        status:true,
+        obj: error
+    }
+  }
+} 
+
+module.exports = {AddConversation,GetAllConversationByUser,GetAllConversationByAllUsers,GetConversationById};

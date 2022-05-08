@@ -32,7 +32,7 @@ export default function Favorites({ navigation, route }) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.body}>
             { isLoading && 
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />

@@ -1,5 +1,4 @@
 import {styles } from './styles.js';
-import { format } from "timeago.js";
 import React,{ useEffect, useState } from "react";
 import { Text, View, FlatList, TouchableHighlight, Image } from 'react-native';
 

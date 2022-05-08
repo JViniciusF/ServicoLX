@@ -1,24 +1,25 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-    container: {
+    body: {
         flex: 1,
         backgroundColor: '#389bd1',
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 27,
-        height:100
+        paddingTop:30,
+        height:'100%'
     },
 
     loading: {
         position: 'absolute',
-        top: "100%",
+        top: "80%",
         zIndex: 100,
         borderRadius: 50,
-        backgroundColor: "white"
+        backgroundColor:"white"
+        
     },
 
-    headerContainer: {
+    configHeaderContainer:{
         height: 50,
         width: '100%',
         borderBottomColor: 'black',
@@ -26,12 +27,24 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
 
+    headerContainer: {
+        height: 40,
+        width: '100%',
+    },
+
+    bottomContainer: {
+        height: 80,
+        width: '100%',
+        marginTop: 5
+    },
+
     header: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 20,
+        padding: 15,
+        paddingBottom:5
     },
 
     back_btn: {
@@ -39,16 +52,12 @@ export const styles = StyleSheet.create({
     }, 
 
     scroll: {
-        marginTop: 10
+        marginTop: 10,
+        width:'98%'
     },
 
-    body: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
+    card: {
         width: '98%',
-        alignItems:'center',
-        alignSelf:'center',
         borderColor: 'black', 
         borderRadius: 7,
         backgroundColor:'white',
@@ -61,6 +70,61 @@ export const styles = StyleSheet.create({
         shadowOpacity:0.25,
         shadowRadius:3.84,
         elevation:5
+    },
+
+    cardHeader:{
+        fontSize:15,
+        flex: 1,
+        paddingLeft: 15,
+        paddingTop:15,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        height: '100%',
+        
+
+    },
+
+    searchHeader:{
+        // fontSize:15,
+        // paddingLeft: 15,
+        // paddingTop:15,
+        // justifyContent: 'flex-start',
+        alignItems: 'center',
+        width:'100%',
+        justifyContent: 'center',
+        paddingTop: 20,
+        paddingBottom:20
+        
+    },
+
+    searchBody: {  
+        flexDirection:'column',
+        height:'80%',
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+
+    containerRow: {
+        flex: 1,
+        flexDirection: 'row',
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '95%',
+        borderColor: '#000', 
+        borderRadius: 7,
+        backgroundColor:"#fff",
+        margin:10,
+        shadowColor:"black",
+        shadowOffset:{
+            width:2,
+            height:2
+        },
+        shadowOpacity:0.25,
+        shadowRadius:3.84,
+        elevation:5
+
     },
 
     bodyItemTextInput: {
@@ -82,8 +146,9 @@ export const styles = StyleSheet.create({
     },
 
     label: {
-        marginTop: 10,
-        fontSize: 13,
+        marginLeft:10,
+        marginBottom:2,
+        fontSize: 15,
         width: '80%',
         textAlign: "left",
     },
@@ -178,7 +243,8 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderColor: 'gray', 
         borderWidth: 1,
-        borderRadius: 7
+        borderRadius: 7,
+        backgroundColor:'white'
     },
 
     formPicker: {
@@ -232,16 +298,7 @@ export const styles = StyleSheet.create({
     flatListColumn: {
         flex: 1,
         flexDirection: "column",
-        width: "90%",
-    },
-
-    headerBody:{
-        backgroundColor:"#fff",
-        width:"100%",
-        height:120,
-        alignContent:"center",
-        alignItems:"center",
-        justifyContent:"center"
+        width: "100%",
     },
 
     containerLogo: {
@@ -275,11 +332,16 @@ export const styles = StyleSheet.create({
     },
 
     tinyLogo: {
-        width: 45,
-        height: 45,
-        marginRight: 10,
-        backgroundColor: '#FFF',
-        borderRadius: 7,
+        width: 40,
+        height: 40,
+        borderRadius: 100
+        
+    },
+
+    tinyPhoto:{
+        width: 40,
+        height: 40,
+        borderRadius: 100
     },
 
     googleBtn: {
@@ -302,25 +364,47 @@ export const styles = StyleSheet.create({
         backgroundColor:"white",
         marginBottom:'5%'
     },
+    
+    input: {
+        width:'100%',
+        height: 38,
+        padding: 10,
+        borderColor: '#ced4da', 
+        borderWidth: 1,
+        borderRadius: 7,
+        backgroundColor:"white",
+        marginBottom:'5%'
+    },
       
 
     messenger :{
         height:' 80%',
-        display: 'flex',
+        // display: 'flex',
     },
 
-    chatMenu :{
-        flex: 3.5,
-    },
 
     chatMenuInput :{
-        width: '90%',
+        width: '80%',
+        height: 40,
         padding: 10,
-        borderBottomWidth: 1,
+        borderColor: '#ced4da', 
+        borderWidth: 1,
+        borderRadius: 7,
+        backgroundColor:"white",
+        marginBottom:'5%'
     },
 
     chatBox :{
-        flex: 5.5,
+        width: '100%',
+        borderColor: 'black', 
+        borderRadius: 7,
+        height: 38,
+        position: 'absolute',
+        bottom: 10,
+        left: 5,
+        flex:1,
+        flexDirection:'row',
+        
     },
 
     chatBoxWrapper1:{
@@ -337,7 +421,6 @@ export const styles = StyleSheet.create({
 
     chatBoxBottom :{
         marginTop: 5,
-        display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
@@ -354,6 +437,8 @@ export const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: 'teal',
         color: 'white',
+        alignContent:'center',
+        justifyContent:'space-around'
     },
 
     chatOnline :{
@@ -367,7 +452,7 @@ export const styles = StyleSheet.create({
 
     chatBoxWrapper2:{
         padding: 10,
-        height: '100%',
+        height: '80%',
     },
 
     chatOnlineWrapper :{
@@ -382,54 +467,36 @@ export const styles = StyleSheet.create({
         color: '#e0dcdc',
     },
 
-    bodyText: {
+    containerCenter: {
         flex: 1,
         padding: 10,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems:'center',
+        height:'100%'
+
+    },
+
+    containerLeft: {
+        flex: 1,
+        padding: 10,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
         height: '100%',
     },
 
-    tinyLogo2: {
-        width: 40,
-        height: 40,
-        borderRadius: 100
-    },
+    
 
     bodyTitle: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
         width: '100%',
+        height:100,
     },
 
-    bodyItem: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '95%',
-        borderColor: '#000', 
-        
-        borderRadius: 7,
-        backgroundColor:"#fff",
-        marginBottom:20,
-        shadowColor:"black",
-        shadowOffset:{
-            width:0,
-            height:2
-        },
-        shadowOpacity:0.25,
-        shadowRadius:3.84,
-        elevation:5
-    },
-    bodySubItem: {
-        flex: 1,
+    
+
+    containerSubItem: {
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        
     },
 
     insideLabel: {
@@ -465,7 +532,12 @@ export const styles = StyleSheet.create({
     },
     logoutButtonText: {
         textAlign: 'center',
+        textAlignVertical:'center',
         color: '#ffffff'
     },
+
+    backgroundWhite:{
+        backgroundColor:"white"
+    }
     
 });

@@ -14,14 +14,14 @@ message: {
     width: 32,
     height: 32,
     borderRadius: 50,
-    marginTight: 10,
+    marginRight: 10,
   },
   
   messageText:{
       padding: 10,
       borderRadius: 20,
       backgroundColor: '#1877f2',
-      color: white,
+      color: 'white',
       maxWidth: 300,
   },
   

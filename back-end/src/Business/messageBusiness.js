@@ -20,10 +20,10 @@ const AddMessage = async(message) =>{
   }
 }
 
-const GetAllMessagesByConversation = async (id) =>{
+const GetAllMessagesByConversation = async (conversation) =>{
   try {
     const messages = await Message.find({
-      conversationId: id,
+      conversationId: conversation.id,
     });
     return messages;
   }catch (error) {

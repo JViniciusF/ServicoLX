@@ -18,6 +18,7 @@ const AddMessageController = async (req, res) => {
 
 const GetAllMessagesByConversationController = async (req, res) => {
     let {conversationId} = req.body;
+    console.log(req.body);
     try {
         const message = await GetAllMessagesByConversation(conversationId);
 

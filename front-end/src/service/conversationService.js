@@ -44,6 +44,20 @@ export async function GetAllConversationByAllUsersService(userId,secondId) {
     }
 }
 
+export async function GetConversationByIdService(id) {
+    try {
+        let response = await axios.post(`${apiUrl}conversation/getById`, id)
+
+        if (response.status !== 200)
+            throw Error(response);
+
+        return response.data;
+    } catch(error) {
+        console.log(`${error}`)
+        return null;
+    }
+}
+
 export default { 
-    getAllConversationsByUserService,AddConversationService,GetAllConversationByAllUsersService
+    getAllConversationsByUserService,AddConversationService,GetAllConversationByAllUsersService,GetConversationByIdService
 }

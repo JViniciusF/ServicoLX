@@ -15,6 +15,7 @@ import Login from '../screens/Login';
 import Ad from '../screens/Ad';
 import SearchCategory from '../screens/SearchCategory'
 import Register from '../screens/Register'
+import Messenger from '../screens/Messenger';
 
 // Screens - TabNavigation
 import Config from '../screens/Config';
@@ -68,6 +69,7 @@ export default function Routes() {
                 <AppStack.Screen name="Root" component={ Root } />
                 <AppStack.Screen name="Ad" component={ Ad } />
                 <AppStack.Screen name="SearchCategory" component={ SearchCategory } />
+                <AppStack.Screen name="Messenger" component={Messenger}/>
             </AppStack.Navigator>
         </NavigationContainer>
     )
