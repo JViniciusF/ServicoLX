@@ -30,9 +30,9 @@ export async function AddConversationService(senderId,receiverId) {
     }
 }
 
-export async function GetAllConversationByAllUsersService(userId,secondId) {
+export async function GetAllConversationByAllUsersService(params) {
     try {
-        let response = await axios.get(`${apiUrl}conversation/getAllByAllUsers`, {userId,secondId})
+        let response = await axios.post(`${apiUrl}conversation/getAllConversationByAllUsers`, params)
 
         if (response.status !== 200)
             throw Error(response);

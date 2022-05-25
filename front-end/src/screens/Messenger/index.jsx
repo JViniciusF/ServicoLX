@@ -1,61 +1,57 @@
 import { styles } from '../../utils/styles.js'
 import Message from "../../components/Message";
-import React,{ useContext, useEffect, useRef, useState,Fla } from "react";
+import React,{ useContext, useEffect, useRef, useState,} from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
-import { TextInput,View ,Text,TouchableHighlight} from "react-native";
+import io from "socket.io-client";
+import { TextInput,View ,Text,TouchableHighlight,Image,KeyboardAvoidingView} from "react-native";
 import { removeData, retrieveData } from '../../service/storage';
-import { GetAllMessagesByConversationService } from '../../service/messageService';
-import { GetConversationByIdService } from '../../service/conversationService'
+import { GetAllMessagesByConversationService,AddMessageService } from '../../service/messageService';
+import { GetAllConversationByAllUsersService } from '../../service/conversationService'
 import { FlatList } from 'react-native-gesture-handler';
+import {GiftedChat} from 'react-native-gifted-chat'
+import getEnvVars from '../../../environment';
+const { ws } = getEnvVars();
+
 
 export default function Messenger({ navigation, route }) {
-  const [ user, setUser ] = useState(false);
-  const [idCurrentChat, setIdCurrentChat] = useState(null);
+  const [ user, setUser ] = useState(null);
+  const [secundUser,setSecundUser] = useState(null);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const socket = useRef();
+  
+  const socket = useRef(io(`${ws}`));
   const scrollRef = useRef();
-
-  useEffect(() => {
-    socket.current = io("ws://192.168.0.15:8900");
-    socket.current.on("getMessage", (data) => {
-      setArrivalMessage({
-        sender: data.senderId,
-        text: data.text,
-        createdAt: Date.now(),
-      });
-    });
-  }, []);
-
+  
   useEffect(()=>{
-    const _init =async()=>{
+    async function _init(){
       setUser(JSON.parse( await retrieveData('@user')));
     };
-    setIdCurrentChat(route.params.value);
-    _init()
-  },[[navigation], route]);
+    _init();
+  },[navigation]);
 
   useEffect(() => {
-    const getConversations = async () => {
+    async function getConversations (){
       try {
-        let conversations = await GetConversationByIdService({id:idCurrentChat})
-        setCurrentChat(conversations);
-              
+        if (user && route.params.value){
+          let conversa = await GetAllConversationByAllUsersService({userId:user?._id,secondId:route.params.value._id});
+          if (conversa){
+            setCurrentChat(conversa)
+          }else{
+            setCurrentChat({userId:user?._id,secondId:route.params.value._id})
+          }
+        }
       } catch (err) {
-          console.log(err);
+        console.log(err);
       }
     };
-      getConversations();
-  },[idCurrentChat]);
-
-
-  
+    getConversations();
+    
+  },[user]);
 
   useEffect(() => {
-    const getMessages = async () => {
+    async function getMessages(){
       try {
         const res = await GetAllMessagesByConversationService({id:currentChat?._id});
         setMessages(res);
@@ -67,80 +63,103 @@ export default function Messenger({ navigation, route }) {
 
   }, [currentChat]);
 
-  useEffect(() => {
-    arrivalMessage &&
-      currentChat?.members.includes(arrivalMessage.sender) &&
-      setMessages((prev) => [...prev, arrivalMessage]);
-  }, [arrivalMessage, currentChat]);
 
+  useEffect(() => {
+    if (user && currentChat){
+      socket.current.emit("addUser", currentChat?._id);
+    }
+  }, [currentChat]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const message = {
-      sender: user._id,
-      text: newMessage,
-      conversationId: currentChat._id,
-    };
+    if (newMessage ){
+      const messageObj = {
+        user: user,
+        text: newMessage,
+        conversationId: currentChat?._id,
+        secondId: route.params.value._id
 
-    const receiverId = currentChat.members.find(
-      (member) => member !== user._id
-    );
+      };
 
-    socket.current.emit("sendMessage", {
-      senderId: user._id,
-      receiverId,
-      text: newMessage,
-    });
-
-    try {
-      const res =AddMessageService(message);
-      setMessages([...messages, res.data]);
-      setNewMessage("");
-    } catch (err) {
-      console.log(err);
+      try {
+        const res = await AddMessageService(messageObj);
+        if (res){
+          setMessages([...messages, res]);
+          
+          socket.current.emit("sendMessage", {
+            message: res,
+            conversationId:currentChat?._id
+          });
+        }
+        setNewMessage("");
+        
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollToBottom({ animated: true });
   }, [messages]);
 
-  return (
-    <View style = {styles.body}>
-      <View style ={styles.chatBoxWrapper2}>
-        {currentChat ? (
-            <View style ={styles.chatBoxTop}>
-              <FlatList 
-                data={messages}
-                keyExtractor={item => item._id}
-                style={styles.flatListColumn}
-                renderItem={({item}) => 
-                    (
-                      <Message message={m} own={m.sender === user._id} />
-                    )
-                }
-            />
-            </View>
-        ) : (
-          <Text style ={styles.noConversationText}>
-            Open a conversation to start a chat.
-          </Text>
-        )}
-      </View>
+  useEffect(() => {
+    socket.current.on("getMessage", (data) => {
+      setMessages([...messages, data.message]);
+    });
+  },);
 
-      <View style={styles.chatBox}>
-        <TextInput
-          style ={styles.chatMenuInput}
-          placeholder="Digite sua mensagem..."
-          onChange={(e) => setNewMessage(e.target.value)}
-          value={newMessage}
-        ></TextInput>
-        <TouchableHighlight onPress={handleSubmit} underlayColor="#DDDDDD">
-          <View style={styles.chatSubmitButton} >
-            <Text style={styles.logoutButtonText}>{`Enviar`}</Text>
+
+  const renderItem = ({ item }) => (
+    <Message message={item} own={item.sender === user?._id} />          
+  )
+
+  return (
+    <View style = {[styles.body,{backgroundColor:"white"}]}>
+        <View style={styles.chatHeader}> 
+              <Image
+                  style={styles.tinyPhoto}
+                  source={{
+                  uri: route.params.value ? route.params.value.avatarUrl : 'https://reactnative.dev/img/tiny_logo.png',
+                  }}
+              />
+            <Text style = {styles.chatTitle}>{route.params.value.name} {route.params.value.lastName}</Text>
+        </View>
+        <KeyboardAvoidingView  behavior="height" style ={styles.flexContainer}>
+          <View style ={styles.chatBox}>
+          {messages ? (
+              <GiftedChat
+                messages={messages}
+                renderInputToolbar={() => null}
+                renderComposer={() => null}
+                minInputToolbarHeight={0}
+                inverted={false}
+                ref={scrollRef}
+                user={{
+                    _id: user?._id,
+                }}
+              />
+            ) : (
+              <Text style ={styles.noConversationText}>
+                Open a conversation to start a chat.  
+              </Text>
+            )}
           </View>
-        </TouchableHighlight>
-      </View>
+
+          <View style={styles.chatBoxBottom}>
+            <TextInput
+              style ={styles.chatMenuInput}
+              placeholder="Digite sua mensagem..."
+              onChangeText={setNewMessage}
+              value={newMessage}
+            ></TextInput>
+            <TouchableHighlight onPress={handleSubmit} underlayColor="#DDDDDD">
+              <View style={styles.chatSubmitButton} >
+                <Text style={styles.logoutButtonText}>{`Enviar`}</Text>
+              </View>
+            </TouchableHighlight>
+          </View>
+        </KeyboardAvoidingView>
     </View>
   );
 }

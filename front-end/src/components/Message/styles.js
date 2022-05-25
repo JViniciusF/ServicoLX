@@ -1,9 +1,17 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-message: {
+  
+  message: {
     display: 'flex',
     marginTop: 20,
+    alignItems: 'flex-start',
+  },
+
+  messageOwn:{
+    alignItems: 'flex-end',
+    marginTop: 20,
+    display: 'flex',
   },
   
   messageTop:{
@@ -20,22 +28,26 @@ message: {
   messageText:{
       padding: 10,
       borderRadius: 20,
-      backgroundColor: '#1877f2',
-      color: 'white',
+      backgroundColor: '#e6e6e6',
+      color: 'black',
       maxWidth: 300,
   },
   
+  messageTextOwn:{
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: '#1877f2',
+    alignSelf: 'flex-end',
+    color: 'white',
+    maxWidth: 300,
+  },  
+
   messageBottom:{
       fontSize: 12,
       marginTop: 10,
   },
   
-  messageOwn:{
-      alignItems: 'flex-end',
-  },
-  messageText:{
-      backgroundColor: '#f5f1f1',
-      color: 'black',
-  },
-
+  card:{
+    width:"100%"
+  }
 })

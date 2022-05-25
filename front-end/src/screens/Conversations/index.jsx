@@ -7,7 +7,7 @@ import axios from "axios";
 import { TextInput,View,Text, ActivityIndicator  } from "react-native";
 import { FlatList } from 'react-native-gesture-handler';
 
-export default function Conversations({ navigation }) {
+export default function Conversations({ navigation,routes}) {
 
     const [conversations, setConversations] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
@@ -18,28 +18,27 @@ export default function Conversations({ navigation }) {
     const scrollRef = useRef();
     
     useEffect(()=>{
-        const _init =async()=>{
+        async function _init(){
             setUser(JSON.parse(await retrieveData('@user')))
         };
 
         _init()
-    },[[ navigation ]])
+    },[navigation])
 
     useEffect(() => {
-        const getConversations = async () => {
-        try {
-            setLoading(true)
-            let conversations = await getAllConversationsByUserService({userId:user._id})
-            setConversations(conversations);
-            setLoading(false)
-                
-        } catch (err) {
-            console.log(err);
-        }
-    };
+        async function getConversations(){
+            try {
+                setLoading(true)
+                let conversations = await getAllConversationsByUserService({userId:user._id})
+                setConversations(conversations);
+                setLoading(false)
+                    
+            } catch (err) {
+                console.log(err);
+            }
+        };
         getConversations();
-        console.log({conversations});
-    },[user._id]);
+    },[user]);
 
     const OpenMessenger = (value) => {
         navigation.navigate("Messenger", { value })

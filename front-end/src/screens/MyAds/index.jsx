@@ -50,7 +50,6 @@ export default function MyAds({ navigation, route }) {
 
     return (
         <View style={styles.body}>
-            <HeaderSearch searchByFilter={searchByFilter} />
             { isLoading && 
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />
@@ -58,7 +57,7 @@ export default function MyAds({ navigation, route }) {
 		    }
             { (!isLoading && ads && ads.length === 0) ?
                 <Text style={styles.bodyText}>
-                    Não foram encontrados Serviços, tente usar palavras chaves.
+                    Você não ainda não possui nenhum anuncio !
                 </Text>
                 :
                 <></>

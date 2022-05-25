@@ -90,7 +90,6 @@ export default function Login({ navigation }) {
 		
 		try {
 			setIsSigninInProgress(true)
-
             let user = {'name':name,'email':email,'password':password,'lastName':lastName};
             let {address, coords} = location;
             let account = await registerUser({ user, address, coords })
@@ -100,7 +99,7 @@ export default function Login({ navigation }) {
             setIsSigninInProgress(false);
         
 		} catch (e) {
-			return { error: true };
+			console.log(e)
 		}
 	}
 

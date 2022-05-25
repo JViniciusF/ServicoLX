@@ -90,4 +90,20 @@ export async function getUserAccount(params){
     
   };
 
-export default { registerUser, setNewLocation,loginUser,registerUserByGoogle,getUserAccount}
+export async function getGoogleAccountInfo(accessToken){
+    if (accessToken){
+        const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo`,{
+            method:'GET',
+            headers:{
+                Accept:'application/json',
+                Authorization:`Bearer ${accessToken}`,
+                'Content-Type':'application/json',
+                Connection:'keep-alive'
+            },
+        })
+
+        return await response.json();
+    }
+}
+
+export default { registerUser, setNewLocation,loginUser,registerUserByGoogle,getUserAccount,getGoogleAccountInfo}

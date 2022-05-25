@@ -40,7 +40,6 @@ const GetAllConversationByAllUsersController = async (req, res) => {
         userId,
         secondId
     } = req.body;
-
     try {
         const conversation = await GetAllConversationByAllUsers(userId,secondId);
 

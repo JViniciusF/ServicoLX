@@ -6,7 +6,6 @@ const LoginControllerByGoogle = async (req, res) => {
         coords,
         user
     } = req.body;
-
     try {
         const account = await RegisterAccountByGoogle(address, coords, user);
 
@@ -19,7 +18,7 @@ const LoginControllerByGoogle = async (req, res) => {
         try {
 
             if (error.obj.name == 'MongoError' && error.obj.stack.includes('duplicate')) {
-                account = await LoginAccountByGoogle(user.id);
+                account = await LoginAccountByGoogle(user.sub);
                 return res.json(account) 
             }
 

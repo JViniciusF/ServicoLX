@@ -140,7 +140,7 @@ routes.post('/conversation/getAllConversationByUser',(req,res)=>{
     
 });
 
-routes.get('/conversation/getAllConversationByAllUsers',(req,res)=>{
+routes.post('/conversation/getAllConversationByAllUsers',(req,res)=>{
     return GetAllConversationByAllUsersController(req,res)
 });
 

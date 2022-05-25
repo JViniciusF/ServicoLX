@@ -21,7 +21,6 @@ export async function GetAllMessagesByConversationService(conversationId) {
 export async function AddMessageService(message) {
     try {
         let response = await axios.post(`${apiUrl}message/new`, {message})
-
         if (response.status !== 200)
             throw Error(response);
 

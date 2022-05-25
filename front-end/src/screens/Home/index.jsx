@@ -36,30 +36,37 @@ export default function Home({ navigation }) {
     
     return (
         <View style={styles.body}>
-            { loading &&
-                <View style={styles.loading}>
-                    <ActivityIndicator size='large' color='red' />
+            <View style={styles.headerContainer}>
+                <View style={styles.headerWorkers}>
+                    <Text style = {styles.titleWorkers}>WORKER'S</Text>
                 </View>
-            }
-            { (ads && ads.length > 0) &&
-                <FlatList
-                    style={styles.flatListColumn}
-                    data={ads}
-                    keyExtractor={item => `${item[0]._id}${Date.now()}`}
-                    renderItem={({item}) => (
-                        <FlatList 
-                            data={item}
-                            keyExtractor={item => item._id}
-                            style={styles.flatListRow}
-                            renderItem={({item}) => 
-                                (
-                                    <AdCard key={item._id} item={item} onPressCard={searchByFilter} ></AdCard>
-                                )
-                            }
-                        />
-                    )}
-                />
-            }
+            </View>
+            <View style = {[styles.chatBox]}>
+                { loading &&
+                    <View style={styles.loading}>
+                        <ActivityIndicator size='large' color='red' />
+                    </View>
+                }
+                { (ads && ads.length > 0) &&
+                    <FlatList
+                        style={styles.flatListColumn}
+                        data={ads}
+                        keyExtractor={item => `${item[0]._id}${Date.now()}`}
+                        renderItem={({item}) => (
+                            <FlatList 
+                                data={item}
+                                keyExtractor={item => item._id}
+                                style={styles.flatListRow}
+                                renderItem={({item}) => 
+                                    (
+                                        <AdCard key={item._id} item={item} onPressCard={searchByFilter} ></AdCard>
+                                    )
+                                }
+                            />
+                        )}
+                    />
+                }
+            </View>
         </View>
     );
 }

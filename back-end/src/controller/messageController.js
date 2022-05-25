@@ -1,15 +1,15 @@
 const {GetAllMessagesByConversation,AddMessage} = require('../Business/messageBusiness');
 
 const AddMessageController = async (req, res) => {
-    let messageObj= req.body;
+    let {message}= req.body;
     try {
-        const message = await AddMessage(messageObj);
+        const newMessage = await AddMessage(message);
 
-        if (!message) {
+        if (!newMessage) {
             return res.status(500).json({"error": `Não foi possível salvar a nova mensagem ${error}`})
         }
 
-        return res.json(message); 
+        return res.json(newMessage); 
 
     } catch (error) {
         return res.status(500).json({"error": `Não foi possível salvar a nova mensagem ${error.obj}`})
@@ -17,11 +17,9 @@ const AddMessageController = async (req, res) => {
 };
 
 const GetAllMessagesByConversationController = async (req, res) => {
-    let {conversationId} = req.body;
-    console.log(req.body);
+    let conversation = req.body;
     try {
-        const message = await GetAllMessagesByConversation(conversationId);
-
+        const message = await GetAllMessagesByConversation(conversation);
         if (!message) {
             return res.status(500).json({"error": `Ocorreu um erro ao resgatar as mensagens ${error}`})
         }

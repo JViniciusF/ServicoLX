@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     body: {
         flex: 1,
-        backgroundColor: '#389bd1',
+        backgroundColor: '#f5f5f5',
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop:30,
@@ -11,24 +11,22 @@ export const styles = StyleSheet.create({
     },
 
     loading: {
-        position: 'absolute',
+        position: 'relative',
         top: "80%",
         zIndex: 100,
-        borderRadius: 50,
-        backgroundColor:"white"
+        borderRadius: 50
         
     },
 
     configHeaderContainer:{
         height: 50,
         width: '100%',
-        borderBottomColor: 'black',
         backgroundColor:"white",
-        borderBottomWidth: 1,
+        paddingBottom:10
     },
 
     headerContainer: {
-        height: 40,
+        height: '8%',
         width: '100%',
     },
 
@@ -36,6 +34,14 @@ export const styles = StyleSheet.create({
         height: 80,
         width: '100%',
         marginTop: 5
+    },
+
+    chatHeader: {
+        width: '100%',
+        flexDirection:"row",
+        paddingLeft:20,
+        height:50,
+        
     },
 
     header: {
@@ -47,17 +53,32 @@ export const styles = StyleSheet.create({
         paddingBottom:5
     },
 
+    headerWorkers: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 15 ,
+        backgroundColor:"#1877f2",
+    },
+
+    titleWorkers:{
+        fontSize:25,
+        color:'white',
+        fontWeight:'bold',
+        
+    },
+
     back_btn: {
         padding: 7,
     }, 
 
     scroll: {
         marginTop: 10,
-        width:'98%'
+        width:'100%'
     },
 
     card: {
-        width: '98%',
+        width: '100%',
         borderColor: 'black', 
         borderRadius: 7,
         backgroundColor:'white',
@@ -153,6 +174,13 @@ export const styles = StyleSheet.create({
         textAlign: "left",
     },
 
+    moneyLabel: {
+        marginBottom:2,
+        fontSize: 15,
+        width: '95%',
+        textAlign: 'right',
+    },
+
     saveButton: {
         padding: 10,
         marginTop: 10,
@@ -161,6 +189,19 @@ export const styles = StyleSheet.create({
         width: 100,
         alignItems: 'center',
         backgroundColor: '#28a745',
+        elevation: 2,
+        borderWidth:1,
+        borderColor:"black"
+    },
+
+    chatButton: {
+        padding: 10,
+        marginTop: 10,
+        marginBottom: 10,
+        borderRadius: 10,
+        width: 100,
+        alignItems: 'center',
+        backgroundColor: '#1877f2',
         elevation: 2,
         borderWidth:1,
         borderColor:"black"
@@ -258,23 +299,17 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '90%',
-        borderColor: 'gray', 
-        borderWidth: 1,
-        borderRadius: 7
-    },
-
-    searchInputDescription: {
-        textAlign: "left",
-        textAlignVertical: "top",
-        width: '90%',
-        height: 150,
+        width:'100%',
+        height: 38,
         padding: 10,
-        borderColor: 'gray', 
+        borderColor: '#ced4da', 
         borderWidth: 1,
-        borderRadius: 7
+        borderRadius: 7,
+        backgroundColor:"white",
+        marginBottom:'5%'
     },
 
+    
     pickButton: {
         padding: 10,
         marginTop: 10,
@@ -289,16 +324,23 @@ export const styles = StyleSheet.create({
     flatListRow: {
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-evenly",
         alignItems: "center",
         width: "100%",
-        margin: 5,
+        marginTop:20
     },
 
     flatListColumn: {
         flex: 1,
         flexDirection: "column",
         width: "100%",
+        height:"100%"
+    },
+
+    flatChatColumn: {
+        flexDirection: "column",
+        width: "100%",
+        height: "100%"
     },
 
     containerLogo: {
@@ -366,16 +408,37 @@ export const styles = StyleSheet.create({
     },
     
     input: {
-        width:'100%',
+        width:'95%',
         height: 38,
         padding: 10,
         borderColor: '#ced4da', 
         borderWidth: 1,
         borderRadius: 7,
         backgroundColor:"white",
-        marginBottom:'5%'
+        marginBottom:'5%',
+        alignSelf:'center'
     },
       
+    moneyInput: {
+        marginRight:20,
+        fontSize:16,
+        fontWeight:'bold'
+    },
+      
+    searchInputDescription: {
+        textAlign: "left",
+        textAlignVertical: "top",
+        width: '95%',
+        maxHeight: 150,
+        minHeight:100,
+        padding: 10,
+        borderColor: '#ced4da', 
+        borderWidth: 1,
+        borderRadius: 7,
+        backgroundColor:"white",
+        marginBottom:'5%',
+        alignSelf:'center'
+    },
 
     messenger :{
         height:' 80%',
@@ -396,16 +459,21 @@ export const styles = StyleSheet.create({
 
     chatBox :{
         width: '100%',
-        borderColor: 'black', 
-        borderRadius: 7,
-        height: 38,
-        position: 'absolute',
-        bottom: 10,
-        left: 5,
-        flex:1,
-        flexDirection:'row',
+        height:'90%',
+        borderBottomWidth:1,
+        borderTopWidth:1,
+        borderColor:'#ced4da',
+        paddingTop:0,
         
+    
     },
+
+    Box :{
+        width: '100%',
+        height:'90%',        
+        flex:1
+    },
+
 
     chatBoxWrapper1:{
         display: 'flex',
@@ -420,9 +488,18 @@ export const styles = StyleSheet.create({
     },
 
     chatBoxBottom :{
-        marginTop: 5,
-        alignItems: 'center',
+        flex:1,
         justifyContent: 'space-between',
+        height: 40,
+        marginBottom: 50,
+        left: 5,
+        flexDirection:'row',
+        paddingTop:5
+    },
+
+    chatTitle:{
+        marginLeft:25,
+        fontSize:19,
     },
 
     chatMessageInput :{
@@ -435,7 +512,7 @@ export const styles = StyleSheet.create({
         width: 70,
         height: 40,
         borderRadius: 5,
-        backgroundColor: 'teal',
+        backgroundColor: '#1877f2',
         color: 'white',
         alignContent:'center',
         justifyContent:'space-around'
@@ -538,6 +615,11 @@ export const styles = StyleSheet.create({
 
     backgroundWhite:{
         backgroundColor:"white"
+    },
+
+    flexContainer:{
+        flex:1,
+        width:"100%"
     }
     
 });

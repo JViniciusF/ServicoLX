@@ -1,13 +1,19 @@
 const router = require("express").Router();
 const Message = require("../models/Message");
+const {AddConversation} = require("./conversationBusiness");
 
 //add
 
 const AddMessage = async(message) =>{
   try {
+    let conversationId = message.conversationId
+    if (message.conversationId === undefined){
+        let conversation = AddConversation(message.user._id,message.secondId)
+        conversationId = conversation._id
+    }
     const newMessage = await Message.create({
-      conversationId: message.conversationId,
-      sender: message.sender,
+      conversationId: conversationId,
+      user: message.user,
       text: message.text,
     });
     return newMessage;

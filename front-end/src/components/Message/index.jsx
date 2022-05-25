@@ -1,19 +1,20 @@
 import {styles } from './styles.js';
 import React,{ useEffect, useState } from "react";
+import { format } from "date-fns";
 import { Text, View, FlatList, TouchableHighlight, Image } from 'react-native';
+import { memo } from 'react/cjs/react.production.min.js';
 
-export default function Message({ message, own }) {
+function Message({ message, own }) {
   return (
-    <View style ={own ? styles.messageOwn: styles.message}>
-      <View style ={styles.messageTop}>
-        {/* <img
-          style ={styles.messageImg}
-          src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-          alt=""
-        /> */}
-        <Text style ={styles.messageText}>{message.text}</Text>
+    <View style = {styles.card}>
+      <View style ={own ? styles.messageOwn:styles.message}>
+        <View style ={styles.messageTop}>
+          <Text style ={own ? styles.messageTextOwn: styles.messageText}>{message?.text}</Text>
+          <Text style = {[{color:'#c4c3c0'}]} >{format(new Date(message?.createdAt),"HH:MM")}</Text>
+        </View>
       </View>
-      <View style ={styles.messageBottom}>{format(message.createdAt)}</View>
     </View>
   );
 }
+
+export default memo(Message)

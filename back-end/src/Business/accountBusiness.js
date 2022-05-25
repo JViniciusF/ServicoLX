@@ -5,7 +5,7 @@ const RegisterAccountByGoogle = async (address, coords, user) => {
     let addressObj;
     let locationObj;
     let account;
-
+    
     try {
         addressObj = [{
             street: address[0].street,
@@ -34,10 +34,10 @@ const RegisterAccountByGoogle = async (address, coords, user) => {
 
     try {
         account = await Account.create({
-            googleId: user.id,
-            name: user.givenName,
-            lastName: user.familyName,
-            avatarUrl: user.photoUrl,
+            googleId: user.sub,
+            name: user.given_name,
+            lastName: user.family_name,
+            avatarUrl: user.picture,
             email: user.email,
             address: addressObj,
             location: locationObj,
