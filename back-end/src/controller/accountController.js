@@ -55,6 +55,7 @@ const RegisterController = async (req, res) => {
         coords,
         user
     } = req.body;
+    console.log(req.body);
     try {
         const account = await RegisterAccount(address, coords, user);
 

@@ -292,14 +292,16 @@ export const styles = StyleSheet.create({
         width: '90%',
         borderColor: 'gray', 
         borderWidth: 1,
-        borderRadius: 7
+        borderRadius: 7,
+        padding:10
     },
 
     bodyPicker: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width:'100%',
+        alignSelf:'center',
+        width:'95%',
         height: 38,
         padding: 10,
         borderColor: '#ced4da', 
@@ -353,7 +355,19 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: 'center',
-        marginBottom:15,
+        marginBottom:10,
+        marginTop:10,
+        
+    },
+
+    loginButtons: {
+        width: "90%",
+        flex: 1,
+        flexDirection:'column',
+        justifyContent: "space-around",
+        alignItems: 'center',
+        minHeight:'20%',
+        marginBottom:20
     },
 
     googleBackground: {
@@ -376,8 +390,8 @@ export const styles = StyleSheet.create({
     tinyLogo: {
         width: 40,
         height: 40,
-        borderRadius: 100
-        
+        borderRadius: 100,
+        marginRight:10
     },
 
     tinyPhoto:{
@@ -400,7 +414,7 @@ export const styles = StyleSheet.create({
         width: '80%',
         height: 40,
         padding: 10,
-        borderColor: 'black', 
+        borderColor: '#ced4da', 
         borderWidth: 1,
         borderRadius: 7,
         backgroundColor:"white",

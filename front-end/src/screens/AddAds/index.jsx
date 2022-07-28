@@ -17,7 +17,7 @@ export default function AddAds({ navigation }) {
     const [value, setValue] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [celphone, setCelphone] = useState('');
-    const [ image, setImage ] = useState(null);
+    const [ image, setImage ] = useState();
 
     
     useEffect(() => {

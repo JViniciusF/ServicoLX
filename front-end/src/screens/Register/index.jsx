@@ -104,7 +104,7 @@ export default function Login({ navigation }) {
 	}
 
   return (
-    <View style={styles.body}>
+    <View style={[styles.body,{backgroundColor:"#1877f2"}]}>
 		{ isSigninInProgress && 
 			<View style={styles.loading}>
 				<ActivityIndicator size='large' color='red' />

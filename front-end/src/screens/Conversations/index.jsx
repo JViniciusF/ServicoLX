@@ -23,12 +23,12 @@ export default function Conversations({ navigation,routes}) {
         };
 
         _init()
-    },[navigation])
+    },[routes,navigation])
 
     useEffect(() => {
         async function getConversations(){
             try {
-                setLoading(true)
+                
                 let conversations = await getAllConversationsByUserService({userId:user._id})
                 setConversations(conversations);
                 setLoading(false)
@@ -37,6 +37,7 @@ export default function Conversations({ navigation,routes}) {
                 console.log(err);
             }
         };
+        setLoading(true)
         getConversations();
     },[user]);
 
@@ -51,16 +52,18 @@ export default function Conversations({ navigation,routes}) {
                     <ActivityIndicator size='large' color='red' />
                 </View>
             }
-            <FlatList 
-                data={conversations}
-                keyExtractor={item => item._id}
-                style={styles.flatListColumn}
-                renderItem={({item}) => 
-                    (
-                        <Conversation key = {item._id} conversation={item} currentUser={user} onPressCard={OpenMessenger} />
-                    )
-                }
-            />
+            {(conversations && conversations.length > 0) &&
+                <FlatList 
+                    data={conversations}
+                    keyExtractor={item => item._id}
+                    style={styles.flatListColumn}
+                    renderItem={({item}) => 
+                        (
+                            <Conversation key = {item._id} conversation={item} currentUser={user} onPressCard={OpenMessenger} />
+                        )
+                    }
+                />
+            }
 
         </View>
     );

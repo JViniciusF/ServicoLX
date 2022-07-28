@@ -28,7 +28,7 @@ export default function Conversation (props) {
     <TouchableHighlight onPress={() => props.onPressCard(secundUser)} style={styles.conversation}>
       <View style = {styles.card}>
         <Image style={styles.conversationImg} source={{uri: secundUser ? secundUser.avatarUrl : 'https://reactnative.dev/img/tiny_logo.png'}}/>
-        <Text style = {styles.conversationName}>{secundUser?.name}</Text>
+        <Text style = {styles.conversationName}>{secundUser?.name} {secundUser?.lastName}</Text>
       </View>
     </TouchableHighlight>
 

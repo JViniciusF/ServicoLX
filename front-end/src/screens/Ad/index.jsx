@@ -62,7 +62,7 @@ export default function Ad({ navigation, route }) {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Deseja contratar o Serviço?</Text>
+                        <Text style={styles.modalText}>Deseja avaliar o Serviço?</Text>
                         <View style={styles.modalBtns}>
                             <View style={styles.modalBtns2}>
                                 <TouchableHighlight
@@ -77,7 +77,7 @@ export default function Ad({ navigation, route }) {
                                 onPress={() => {
                                     hireService();
                                 }}>
-                                    <Text style={styles.textStyle}>Contratar</Text>
+                                    <Text style={styles.textStyle}>Avaliar</Text>
                                 </TouchableHighlight>
                             </View>
                         </View>

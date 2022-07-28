@@ -105,14 +105,12 @@ export default function Messenger({ navigation, route }) {
 
   useEffect(() => {
     socket.current.on("getMessage", (data) => {
-      setMessages([...messages, data.message]);
+      if (data.message){
+        setMessages([...messages, data.message]);
+
+      }
     });
   },);
-
-
-  const renderItem = ({ item }) => (
-    <Message message={item} own={item.sender === user?._id} />          
-  )
 
   return (
     <View style = {[styles.body,{backgroundColor:"white"}]}>
@@ -127,11 +125,11 @@ export default function Messenger({ navigation, route }) {
         </View>
         <KeyboardAvoidingView  behavior="height" style ={styles.flexContainer}>
           <View style ={styles.chatBox}>
-          {messages ? (
               <GiftedChat
                 messages={messages}
                 renderInputToolbar={() => null}
                 renderComposer={() => null}
+                renderAvata={()=>null}
                 minInputToolbarHeight={0}
                 inverted={false}
                 ref={scrollRef}
@@ -139,11 +137,6 @@ export default function Messenger({ navigation, route }) {
                     _id: user?._id,
                 }}
               />
-            ) : (
-              <Text style ={styles.noConversationText}>
-                Open a conversation to start a chat.  
-              </Text>
-            )}
           </View>
 
           <View style={styles.chatBoxBottom}>

@@ -158,7 +158,7 @@ export default function Login({ navigation }) {
 
 
 	return (
-    <View style={styles.body}>
+    <View style={[styles.body,{backgroundColor:"#1877f2"}]}>
 		{ isSigninInProgress && 
 			<View style={styles.loading}>
 				<ActivityIndicator size='large' color='red' />
@@ -166,7 +166,7 @@ export default function Login({ navigation }) {
 		}
 
 		<View style={styles.containerLogo}>
-			<Text title='Teste'>LOGO</Text>
+			<Text style = {[styles.titleWorkers,{fontSize:30,}]}>WORKER'S</Text>
 		</View>
 		<View style= {styles.loginOptions}>
 			<TextInput
@@ -181,10 +181,12 @@ export default function Login({ navigation }) {
 				style={styles.loginInput}
 				onChangeText={(text)=>{setPassword(text)}}
 			/>
-			<Button title = "Entrar" color="green" onPress={()=>{loginCall()}} disabled={isSigninInProgress}>
-            </Button>
-            <Button title = "Registrar" onPress={() => navigation.navigate('Register')}>
-            </Button>
+			<View style = {styles.loginButtons}>
+				<Button title = "Entrar"  onPress={()=>{loginCall()}} disabled={isSigninInProgress}>
+				</Button>
+				<Button title = "Registrar" color="green" onPress={() => navigation.navigate('Register')}>
+				</Button>
+			</View>
 		</View>
 		<View style={styles.loginOptions}>
 			<View style={styles.googleBackground}>
@@ -199,7 +201,7 @@ export default function Login({ navigation }) {
 				</View>
 			</View>
 			<View style={styles.disclaimer}>
-				<Text style={{fontSize: 12}} title="teste">ServiceLX - Todos os direitos reservados</Text>
+				<Text style={{fontSize: 12}} title="teste">WORKER'S - Todos os direitos reservados</Text>
 			</View>
 		</View>
     </View>
