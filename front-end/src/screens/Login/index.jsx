@@ -4,20 +4,69 @@ import * as Location from 'expo-location';
 import getEnvVars from '../../../environment';
 import * as ImagePicker from 'expo-image-picker';
 import { ActivityIndicator, Text, View, Button, Image, Alert, TouchableOpacity  } from 'react-native';
-import { styles } from './styles.js'
-import { registerUser }  from '../../service/accountService'
+import { styles } from '../../utils/styles.js'
+import { registerUser,loginUser, registerUserByGoogle, getGoogleAccountInfo }  from '../../service/accountService'
 import { storeData, retrieveData } from '../../service/storage'
 
-import * as Google from 'expo-google-app-auth';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 import * as AppAuth from 'expo-app-auth';
+import { TextInput } from 'react-native-gesture-handler';
 
-const { ANDROID_CLIENT_ID } = getEnvVars(); 
+WebBrowser.maybeCompleteAuthSession();
+
+const { ANDROID_CLIENT_ID,EXPO_CLIENT_ID } = getEnvVars(); 
 
 export default function Login({ navigation }) {
-	const [ isSigninInProgress, setIsSigninInProgress ] = useState(false);
+	const [isSigninInProgress, setIsSigninInProgress ] = useState(false);
 	const [location, setLocation] = useState(null);
-	const [ user, setUser ] = useState(null);
-		 
+	const [user,setUser ] = useState(null);
+	const [email,setEmail] = useState(null)
+	const [password,setPassword] = useState(null)
+
+	const [request, response, promptAsync] = Google.useAuthRequest({
+		expoClientId: EXPO_CLIENT_ID,
+		androidClientId:ANDROID_CLIENT_ID,
+		
+	});
+
+	async function getUserData(){
+		if(response?.type == "success"){
+			accessToken = response.authentication.accessToken;
+			if(accessToken){
+				setIsSigninInProgress(true)	
+				const userInfoResponse = await getGoogleAccountInfo(accessToken);
+				if (userInfoResponse){
+					let {address, coords} = location;
+					let account = await registerUserByGoogle({ user:userInfoResponse, address, coords })
+					if (account) {
+						let status = await storeData('@user', JSON.stringify(account))
+						if (status)
+							navigation.reset({index: 0, routes: [{name:'Root'}]});
+					} else {
+						Alert.alert(
+							"Falha no login",
+							"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
+							[
+								{ text: "OK"}
+							],
+							{ cancelable: false }
+						);
+					}
+					setIsSigninInProgress(false);
+				}
+			}
+				
+		}else {
+			setIsSigninInProgress(false)
+		}
+	}
+	
+	useEffect(()=>{
+		getUserData()
+	},[response])
+
+	
 	useEffect(() => {
 		async function _init() {
 			let value = await retrieveData('@user');
@@ -25,11 +74,11 @@ export default function Login({ navigation }) {
 				navigation.reset({index: 0, routes: [{name:'Root'}]});
 			}
 		};
-		_init();
+		
 		
 		async function requestMediaPermission(){
 			try {
-				let { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+				let { status } = await ImagePicker.requestCameraPermissionsAsync();
 				
 				if (status !== 'granted') {
 					Alert.alert(
@@ -49,7 +98,7 @@ export default function Login({ navigation }) {
 
 		async function requestLocationPermission() {
 			try {
-				let { status } = await Location.requestPermissionsAsync();
+				let { status } = await Location.requestForegroundPermissionsAsync();
 				
 				if (status !== 'granted') {
 					Alert.alert(
@@ -72,57 +121,44 @@ export default function Login({ navigation }) {
 				requestLocationPermission()
 			}
 		};
+		_init();
 		requestLocationPermission();
 		requestMediaPermission();
+        
+
 	}, []);
 
-	async function signInWithGoogleAsync() {
-		
+	
+	async function loginCall(){
 		try {
 			setIsSigninInProgress(true)
-
-			const result = await Google.logInAsync({
-				androidClientId: ANDROID_CLIENT_ID,
-			});
-	
-			if (result.type === 'success') {
-
-				let { user } = result;
-				let {address, coords} = location;
-
-				let account = await registerUser({ user, address, coords })
-
-				if (account) {
-
-					let status = await storeData('@user', JSON.stringify(account))
-					if (status)
-						navigation.reset({index: 0, routes: [{name:'Root'}]});
-
-				} else {
-					Alert.alert(
-						"Falha no login",
-						"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
-						[
-							{ text: "OK"}
-						],
-						{ cancelable: false }
-					);
-				}
-				
-				setIsSigninInProgress(false);
-
+			let user= { 'email': email, 'password': password};
+			let account = await loginUser(user);
+			if (account) {
+				let status = await storeData('@user', JSON.stringify(account))
+				if (status)
+					navigation.reset({index: 0, routes: [{name:'Root'}]});
 			} else {
-				// implementar toast bonitin https://docs.expo.io/versions/latest/react-native/toastandroid/
-				setIsSigninInProgress(false)
-				return { cancelled: true };
+				Alert.alert(
+					"Falha no login",
+					"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
+					[
+						{ text: "OK"}
+					],
+					{ cancelable: false }
+				);
 			}
+			setIsSigninInProgress(false);
+
 		} catch (e) {
 			return { error: true };
 		}
+		
 	}
 
-  return (
-    <View style={styles.container}>
+
+	return (
+    <View style={[styles.body,{backgroundColor:"#1877f2"}]}>
 		{ isSigninInProgress && 
 			<View style={styles.loading}>
 				<ActivityIndicator size='large' color='red' />
@@ -130,7 +166,27 @@ export default function Login({ navigation }) {
 		}
 
 		<View style={styles.containerLogo}>
-			<Text title='Teste'>LOGO</Text>
+			<Text style = {[styles.titleWorkers,{fontSize:30,}]}>WORKER'S</Text>
+		</View>
+		<View style= {styles.loginOptions}>
+			<TextInput
+				placeholder="Email"
+				style={styles.loginInput}
+				onChangeText={(text)=>{setEmail(text)}}
+			/>
+			<TextInput
+				secureTextEntry = {true}
+				minLength="6"
+				placeholder='Senha'
+				style={styles.loginInput}
+				onChangeText={(text)=>{setPassword(text)}}
+			/>
+			<View style = {styles.loginButtons}>
+				<Button title = "Entrar"  onPress={()=>{loginCall()}} disabled={isSigninInProgress}>
+				</Button>
+				<Button title = "Registrar" color="green" onPress={() => navigation.navigate('Register')}>
+				</Button>
+			</View>
 		</View>
 		<View style={styles.loginOptions}>
 			<View style={styles.googleBackground}>
@@ -141,11 +197,11 @@ export default function Login({ navigation }) {
 							uri:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/471px-Google_%22G%22_Logo.svg.png"
 						}}
 					></Image>
-					<Button style={styles.googleBtn} title='Sign in with google' onPress={() => { signInWithGoogleAsync() }}></Button>
+					<Button style={styles.googleBtn} title='Sign in with google' onPress={()=>{ promptAsync()}}></Button>
 				</View>
 			</View>
 			<View style={styles.disclaimer}>
-				<Text style={{fontSize: 12}} title="teste">ServiceLX - Todos os direitos reservados</Text>
+				<Text style={{fontSize: 12}} title="teste">WORKER'S - Todos os direitos reservados</Text>
 			</View>
 		</View>
     </View>

@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { FlatList, View, ActivityIndicator, Alert, Text } from 'react-native';
-import { styles } from './styles.js';
+import { styles } from '../../utils/styles.js' 
 import HeaderSearch from '../../components/HeaderSearch';
 import AdCard from '../../components/AdCard';
 import { retrieveData } from '../../service/storage';
@@ -49,8 +49,7 @@ export default function MyAds({ navigation, route }) {
     }
 
     return (
-        <View style={styles.container}>
-            <HeaderSearch searchByFilter={searchByFilter} />
+        <View style={styles.body}>
             { isLoading && 
                 <View style={styles.loading}>
                     <ActivityIndicator size='large' color='red' />
@@ -58,7 +57,7 @@ export default function MyAds({ navigation, route }) {
 		    }
             { (!isLoading && ads && ads.length === 0) ?
                 <Text style={styles.bodyText}>
-                    Não foram encontrados Serviços, tente usar palavras chaves.
+                    Você não ainda não possui nenhum anuncio !
                 </Text>
                 :
                 <></>

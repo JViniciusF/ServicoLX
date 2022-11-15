@@ -16,15 +16,18 @@ export const styles = StyleSheet.create({
         width: '80%',
         height: 40,
         padding: 10,
-        borderColor: 'gray', 
+        borderColor: '#000', 
         borderWidth: 1,
-        borderRadius: 7
+        borderRadius: 7,
+        backgroundColor:'white'
+        
     },
     headerFilter: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
+        marginTop:30
         
     },
     filterText: {
@@ -35,6 +38,7 @@ export const styles = StyleSheet.create({
         paddingRight: 10,
         paddingBottom: 5,
         paddingTop: 5,
+        backgroundColor:'white'
     },
     filterTextMajor: {
         borderColor: 'black',
@@ -55,5 +59,16 @@ export const styles = StyleSheet.create({
         paddingRight: 10,
         paddingBottom: 5,
         paddingTop: 5,
+    },
+
+    iconInput:{
+        backgroundColor:'white',
+        borderRadius:7,
+        borderWidth:1,
+        width:50,
+        height:40,
+        alignContent:'center',
+        alignItems:'center',
+        justifyContent:'center'
     }
 });

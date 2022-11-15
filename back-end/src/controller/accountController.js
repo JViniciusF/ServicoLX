@@ -1,26 +1,24 @@
-const { RegisterAccount, LoginAccount, SetNewLocation } = require('../Business/accountBusiness')
+const { RegisterAccount, LoginAccount, SetNewLocation, RegisterAccountByGoogle, LoginAccountByGoogle,GetAccountById } = require('../Business/accountBusiness')
 
-const LoginController = async (req, res) => {
+const LoginControllerByGoogle = async (req, res) => {
     let { 
         address,
         coords,
         user
     } = req.body;
-
     try {
-        const account = await RegisterAccount(address, coords, user);
+        const account = await RegisterAccountByGoogle(address, coords, user);
 
         if (account.error) {
             return res.status(500).json({"error": `${account.msg}`})
         }
-
         return res.json(account)
         
     } catch (error) {
         try {
 
             if (error.obj.name == 'MongoError' && error.obj.stack.includes('duplicate')) {
-                account = await LoginAccount(user.id);
+                account = await LoginAccountByGoogle(user.sub);
                 return res.json(account) 
             }
 
@@ -34,6 +32,45 @@ const LoginController = async (req, res) => {
         }
     }
 };
+
+const LoginController = async (req, res) => {
+    let user = req.body;
+    try {
+        const account = await LoginAccount(user);
+
+        if (account.error) {
+            return res.status(500).json({"error": `${account.msg}`})
+        }
+
+        return res.json(account)
+        
+    } catch (error) {
+        return res.status(500).json({"error": `${error.obj}`})
+    }
+};
+
+const RegisterController = async (req, res) => {
+    let { 
+        address,
+        coords,
+        user
+    } = req.body;
+    console.log(req.body);
+    try {
+        const account = await RegisterAccount(address, coords, user);
+
+        if (account.error) {
+            return res.status(500).json({"error": `${account.msg}`})
+        }
+
+        return res.json(account)
+        
+    } catch (error) {
+        return res.status(500).json({"error": `${error.obj}`})
+        
+    }
+};
+
 
 const SetLocationController = async (req, res) => {
     let { 
@@ -51,6 +88,15 @@ const SetLocationController = async (req, res) => {
     }
 }
 
+const GetAccountController = async(req,res)=>{
+    let{userId} = req.body
+    try {
+        const account = await GetAccountById(userId);
+        return res.json(account)
+    } catch (error) {
+        return res.status(500).json({"error": `${error.obj}`})
+    }
+} 
 
 
-module.exports = { LoginController, SetLocationController };
+module.exports = { LoginController, SetLocationController,LoginControllerByGoogle,RegisterController,GetAccountController};

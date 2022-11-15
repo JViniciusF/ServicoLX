@@ -8,8 +8,22 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         width: "100%",
         padding: 5,
-        borderRadius: 10,
-        borderWidth: 2
+        borderRadius: 7,
+        borderWidth: 0,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 10,
+        elevation: 5,
+        maxWidth:160,
+        minWidth:160,
+        maxHeight:185,
+        minHeight:185,
+        borderColor:'#ced4da',
+        borderWidth:1
     },
     loading: {
         position: "absolute",
@@ -23,14 +37,16 @@ export const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-        width: 120,
+        width: 130,
         height: 150,
-        borderRadius: 10,
-        borderWidth: 2
+        borderRadius: 7,
+        border: 1,
+        padding:5
+        
     },
     tinyLogo: {
         width: '100%',
         height: '100%', 
-        borderRadius: 7,
+        borderRadius: 10,
     }
 });

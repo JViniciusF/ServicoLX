@@ -9,9 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^8.2.0",
+    "expo-cli": "^4.12.10",
     "express": "^4.17.1",
-    "mongoose": "^5.10.9"
+    "mongoose": "^5.10.9",
+    "socket.io": "^4.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

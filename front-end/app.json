@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "servicoLX",
-    "slug": "servicoLX",
+    "name": "serviceLX",
+    "slug": "serviceLX",
+    "scheme": "redirect",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,12 +20,18 @@
     "ios": {
       "supportsTablet": true
     },
+    "android":{
+      "package":"com.zezinho1.serviceLX"
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "androidNavigationBar": {
       "barStyle": "dark-content",
       "backgroundColor": "#ffffff"
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/JViniciusF/ServicoLX",
+
   }
 }

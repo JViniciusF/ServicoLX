@@ -9,6 +9,10 @@ const AccountSchema = new mongoose.Schema({
         type: String, 
         unique:true
     },
+    password: {
+        type: String,
+        min: 6,
+    },
     address: [
         {
             street: String, // Rua
