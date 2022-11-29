@@ -127,14 +127,15 @@ export default function Messenger({ navigation, route }) {
           <View style ={styles.chatBox}>
               <GiftedChat
                 messages={messages}
-                renderInputToolbar={() => null}
+                //renderInputToolbar={() => null}
                 renderComposer={() => null}
-                renderAvata={()=>null}
-                minInputToolbarHeight={0}
+                renderAvatar={null}
+                //minInputToolbarHeight={0}
                 inverted={false}
                 ref={scrollRef}
                 user={{
-                    _id: user?._id,
+                  _id: user?._id,
+                  name: user?.name
                 }}
               />
           </View>

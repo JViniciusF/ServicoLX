@@ -50,36 +50,43 @@ export default function MyAds({ navigation, route }) {
 
     return (
         <View style={styles.body}>
-            { isLoading && 
-                <View style={styles.loading}>
-                    <ActivityIndicator size='large' color='red' />
+            <View style={styles.headerContainer}>
+                <View style={styles.headerPages}>
+                    <Text style = {styles.titlePages}>Meus Anúncios</Text>
                 </View>
-		    }
-            { (!isLoading && ads && ads.length === 0) ?
-                <Text style={styles.bodyText}>
-                    Você não ainda não possui nenhum anuncio !
-                </Text>
-                :
-                <></>
-            }
-            { (!isLoading && ads && ads.length > 0) &&
-                <FlatList
-                    style={styles.flatListColumn}
-                    data={ads}
-                    keyExtractor={item => `${item[0]._id}${Date.now()}`}
-                    renderItem={({ item }) => (
-                        <FlatList 
-                            style={styles.flatListRow}
-                            data={item}
-                            keyExtractor={item => item._id}
-                            renderItem={({ item }) => (
-                                        <AdCard key={item._id} item={item} onPressCard={onClickCard} ></AdCard>
-                                    )
-                            }
-                        />
-                    )}
-                />
-            }
+            </View>
+            <View style = {[styles.chatBox]}>
+                { isLoading && 
+                    <View style={styles.loading}>
+                        <ActivityIndicator size='large' color='red' />
+                    </View>
+                }
+                { (!isLoading && ads && ads.length === 0) ?
+                    <Text style={styles.bodyText}>
+                        Você não ainda não possui nenhum anuncio !
+                    </Text>
+                    :
+                    <></>
+                }
+                { (!isLoading && ads && ads.length > 0) &&
+                    <FlatList
+                        style={styles.flatListColumn}
+                        data={ads}
+                        keyExtractor={item => `${item[0]._id}${Date.now()}`}
+                        renderItem={({ item }) => (
+                            <FlatList 
+                                style={styles.flatListRow}
+                                data={item}
+                                keyExtractor={item => item._id}
+                                renderItem={({ item }) => (
+                                            <AdCard key={item._id} item={item} onPressCard={onClickCard} ></AdCard>
+                                        )
+                                }
+                            />
+                        )}
+                    />
+                }
+            </View>
         </View>
     )
 }

@@ -61,11 +61,25 @@ export const styles = StyleSheet.create({
         backgroundColor:"#1877f2",
     },
 
+    headerPages: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 15,
+        backgroundColor:"white",
+    },
+
     titleWorkers:{
         fontSize:25,
         color:'white',
         fontWeight:'bold',
         
+    },
+
+    titlePages:{
+        fontSize:20,
+        color:'black',
+        fontWeight:'bold',
     },
 
     back_btn: {

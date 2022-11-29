@@ -12,22 +12,19 @@ export default function Home({ navigation }) {
     const [ loading, setLoading ] = useState(false)
 
     useEffect(() => {
-        async function _init () {
+        async function _init() {
             setLoading(true)
-            
-            let res = await retrieveData('@user');
+        
+            const res = await retrieveData('@user');
             if (!res) {
                 navigation.navigate('Login');
             } else {
-                setAds(await getAllAdsPaginated())
+                const foundedAds = await getAllAdsPaginated()
+                setAds(foundedAds)
             }
-        
             setLoading(false)
         };
-               
         _init();
-        
-        
     }, [ navigation ])
 
     const searchByFilter = value => {

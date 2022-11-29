@@ -29,40 +29,40 @@ export default function Login({ navigation }) {
 		androidClientId:ANDROID_CLIENT_ID,
 		
 	});
-
-	async function getUserData(){
-		if(response?.type == "success"){
-			accessToken = response.authentication.accessToken;
-			if(accessToken){
-				setIsSigninInProgress(true)	
-				const userInfoResponse = await getGoogleAccountInfo(accessToken);
-				if (userInfoResponse){
-					let {address, coords} = location;
-					let account = await registerUserByGoogle({ user:userInfoResponse, address, coords })
-					if (account) {
-						let status = await storeData('@user', JSON.stringify(account))
-						if (status)
-							navigation.reset({index: 0, routes: [{name:'Root'}]});
-					} else {
-						Alert.alert(
-							"Falha no login",
-							"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
-							[
-								{ text: "OK"}
-							],
-							{ cancelable: false }
-						);
-					}
-					setIsSigninInProgress(false);
-				}
-			}
-				
-		}else {
-			setIsSigninInProgress(false)
-		}
-	}
 	
 	useEffect(()=>{
+		async function getUserData(){
+			if(response?.type == "success"){
+				accessToken = response.authentication.accessToken;
+				if(accessToken){
+					setIsSigninInProgress(true)	
+					const userInfoResponse = await getGoogleAccountInfo(accessToken);
+					if (userInfoResponse){
+						let {address, coords} = location;
+						let account = await registerUserByGoogle({ user:userInfoResponse, address, coords })
+						if (account) {
+							let status = await storeData('@user', JSON.stringify(account))
+							if (status)
+								navigation.reset({index: 0, routes: [{name:'Root'}]});
+						} else {
+							Alert.alert(
+								"Falha no login",
+								"O aplicativo utiliza suas credências da conta google para poder logar/se cadastrar, tenha certeza de estar conectado à internet, reinicie o aplicativo e tente novamente",
+								[
+									{ text: "OK"}
+								],
+								{ cancelable: false }
+							);
+						}
+						setIsSigninInProgress(false);
+					}
+				}
+					
+			}else {
+				setIsSigninInProgress(false)
+			}
+		}
+		
 		getUserData()
 	},[response])
 
@@ -112,10 +112,8 @@ export default function Login({ navigation }) {
 				}
 
 				let location = await Location.getCurrentPositionAsync({});
-
 				var { latitude, longitude } = location.coords;
 				location.address = await Location.reverseGeocodeAsync({'latitude': latitude, 'longitude': longitude});
-				
 				setLocation(location);
 			} catch (error) {
 				requestLocationPermission()
