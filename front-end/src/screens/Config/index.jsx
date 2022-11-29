@@ -119,7 +119,7 @@ export default function Config({ navigation }) {
 
                     <View style={styles.card}>
                         <View style = {styles.cardHeader}>
-                            <Text style={ styles.label }>Meus Dados</Text>
+                            <Text style={[styles.label,{fontSize:20}]}>Meus Dados</Text>
                         </View>
                         <View style = {styles.containerRow}>
 
@@ -140,7 +140,7 @@ export default function Config({ navigation }) {
                             :                 
                             <View style={styles.card}>
                                 <View style = {styles.cardHeader}>
-                                    <Text style={ styles.label }>Endereço</Text>
+                                    <Text style={[styles.label,{fontSize:20}]}>Endereço</Text>
                                 </View>
                                     <View style={styles.containerRow}>
                                         <View style={styles.containerLeft}>
