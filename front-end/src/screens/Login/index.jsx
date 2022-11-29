@@ -119,9 +119,9 @@ export default function Login({ navigation }) {
 				requestLocationPermission()
 			}
 		};
-		_init();
 		requestLocationPermission();
 		requestMediaPermission();
+		_init();
         
 
 	}, []);

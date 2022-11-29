@@ -30,45 +30,54 @@ Pensando desta forma, criou-se o ServiceLX, uma aplicação mobile que se concen
 
 Utilizamos a própria conta google do usuário para realizar o Login no aplicativo. Utilizando as ferramentas Expo conseguimos acesso as aplicações nativas do Android e assim conseguimos informações da conta do usuário como foto, e-mail e nome completo. Também utilizando as ferramentas Expo, podemos utilizar a geolocalização do usuário para definir seu endereço completo.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Login.jpeg" width="400"><img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/user1.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Login.jpg" width="400">
+
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Register.jpg" width="400">
 
 ### Home :house:
 
 Ao logar, o usuário já pode realizar a visualização dos últimos serviços disponibilizados por outros usuários.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Home.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Home.jpg" width="400">
 
 ### Pesquisar :mag:
 
 Quando pesquisar, o usuário poderá colocar palavras chaves e também pesquisar por filtro de preço, reputação ou quantidade de vezes que o serviço foi cotado.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Pesquisa.jpeg" width="400"><img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Pesquisa_filtro_pre%C3%A7o.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Pesquisa.jpg" width="400">
 
 
 ### Menu lateral :page_with_curl:
 
 O usuário poderá, ao arrastar da esquerda para a direita, ter mais opções para ver, criar e separar seus serviços favoritos.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Menu_lateral.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Menu_lateral.jpg" width="400">
 
 ### Categorias :books:
 
 Ao acessar as categorias, o usuário poderá filtrar os serviços por sua categoria cadastrada.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Categorias.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Categorias.jpg" width="400">
 
 ### Inserir Anúncio :inbox_tray:
 
 Utilizando a seção de "inserir anúncio" qualquer usuário poderá cadastrar seu serviço.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Cadastro.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Cadastro.jpg" width="400">
 
 ### Detalhes do Serviço :book:
 
 Ao clicar em qualquer serviço, seja proveniente de pesquisa, home ou categorias, é demonstrado os detalhes do serviço e opções de contratação do mesmo. Ao contratar, o usuário também pode realizar a avaliação do serviço prestado.
 
-<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Detalhes.jpeg" width="400"><img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Rating.jpeg" width="400">
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Detalhes.jpg" width="400">
 
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Rating.jpg" width="400">
+
+### Chat :speech_balloon:
+
+O usuário pode se comunicar com outros usuários dentro do app utilizando o chat.
+
+<img src="https://raw.githubusercontent.com/JViniciusF/ServicoLX/master/imagens/Chat.jpg" width="400">
 
 ## Requerimentos do projeto
 
